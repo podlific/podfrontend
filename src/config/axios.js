@@ -1,6 +1,6 @@
 import axios from "axios";
 const api = axios.create({
-  baseURL: "http://localhost:3500/",
+  baseURL: "https://podbackend.herokuapp.com/",
   withCredentials: true,
   headers: {
     "content-type": "application/json",
@@ -21,7 +21,7 @@ api.interceptors.response.use(
     ) {
       orginalResquest._isRetry = true;
       try {
-        await axios.get(`http://localhost:3500/api/refresh`, {
+        await axios.get(`https://podbackend.herokuapp.com//api/refresh`, {
           withCredentials: true,
         });
         return api.request(orginalResquest);

@@ -20,11 +20,16 @@ const CampaignWebPage = ({
   let { id } = useParams();
   let navigate = useNavigate();
   const usertype = useSelector((state) => state.activate.usertype);
+
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     if (usertype.usertype === "seller") {
       navigate("/login");
     }
+    if (usertype.usertype === "admin") {
+      navigate("/admindashboard");
+    }
+
     if (!Array.isArray(ListofPodcast)) {
       navigate("/login");
     }

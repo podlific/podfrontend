@@ -21,7 +21,7 @@ api.interceptors.response.use(
     ) {
       orginalResquest._isRetry = true;
       try {
-        await axios.get(`https://podbackend.herokuapp.com//api/refresh`, {
+        await axios.get(`https://podbackend.herokuapp.com/api/refresh`, {
           withCredentials: true,
         });
         return api.request(orginalResquest);

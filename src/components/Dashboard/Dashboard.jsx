@@ -16,11 +16,14 @@ const Dashboard = ({ contacts, setContacts, adminInfo, userInfo }) => {
   const navigate = useNavigate();
   const [showList, setShowList] = useState([]);
   const [ListofPodcast, setListofPodcast] = useState([]);
-
+  const currtype = useSelector((state) => state.activate.usertype);
   const user = useSelector((state) => state.activate.unique_id);
   useEffect(() => {
     if (user.unique_id === "" || user.unique_id === undefined) {
       navigate("/login");
+    }
+    if (currtype.usertype === "admin") {
+      navigate("../admindashboard");
     }
   }, []);
   useEffect(() => {

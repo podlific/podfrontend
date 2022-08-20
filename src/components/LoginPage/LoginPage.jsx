@@ -21,7 +21,7 @@ const LoginPage = ({ setUserInfo }) => {
   const handleChange = (event) => {
     setUser({ ...user, [event.target.name]: event.target.value });
   };
-  async function handleClickSumbit(e) {
+  const handleClickSumbit = async (e) => {
     e.preventDefault();
     try {
       let res = await api.post("/api/login", user);
@@ -44,7 +44,7 @@ const LoginPage = ({ setUserInfo }) => {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
   useEffect(() => {
     if (curruser.unique_id !== "" || curruser.unique_id !== undefined) {
       if (currtype.usertype === "buyer") {
@@ -63,7 +63,7 @@ const LoginPage = ({ setUserInfo }) => {
       <div className="flex flex-col basis-full md:basis-1/2">
         <div className="h-1/3 flex flex-col content-center  ">
           <img
-            className=" w-16 h-16 ml-7 mt-5 place-self-start overflow-y-hidden md:ml-10 md:mt-12 md:h-20 md:w-20 lg:ml-28"
+            className=" w-16 h-16 ml-7 mt-5 place-self-start overflow-y-hidden md:ml-10 md:mt-12 md:h-20 md:w-36 lg:ml-28"
             src="./logo.png"
             alt="login-logo"
           />
@@ -100,18 +100,18 @@ const LoginPage = ({ setUserInfo }) => {
           </div>
           <div className=" w-4/5 ml-7 md:ml-10 p-2 lg:w-3/5 flex justify-center lg:ml-28">
             <button
-              className="font-medium text-[#FFFFFF] bg-[#7800F073] hover:bg-[#7800F0] transition ease-in-out delay-100 rounded-[18px] w-3/5  md:rounded-[22px]  md:w-2/6 md:p-2  "
+              className="font-medium text-[#FFFFFF] bg-[#5F50A3] hover:bg-[#B198FF] transition ease-in-out delay-100 rounded-[18px] w-3/5  md:rounded-[22px]  md:w-2/6 md:p-2  "
               onClick={handleClickSumbit}
             >
               Log In
             </button>
           </div>
           <div className=" w-4/5 ml-7 md:ml-10 p-2 lg:w-3/5 flex flex-col justify-center text-center lg:ml-28">
-            <span className="text-[#7800F0] font-medium">
+            <span className="text-[#5F50A3] hover:text-[#B198FF] font-medium">
               Forgot Password ?
             </span>
             <div className=" flex justify-center ">
-              <div className=" w-32 :w-34 border-t border-[#7800F0]"></div>
+              <div className=" w-32 :w-34 border-t border-[#5F50A3]"></div>
             </div>
           </div>
         </div>
@@ -159,13 +159,6 @@ const LoginPage = ({ setUserInfo }) => {
             src="./loginImg2.png"
             alt="loginImg"
           />
-          <p className="absolute bottom-16 text-[10px] mx-3 md:bottom-20 md:mx-16 md:text-sm text-[#FFFFFF]  ">
-            Dummy text about podform. Quick Introductionary. is simply dummy
-            text of the printing and typesetting industry. Lorem Ipsum has been
-            the industry's standard dummy text ever since the 1500s, when an
-            unknown printer took a galley of type and scrambled it to make a
-            type specimen book. It has survived not only five centuries
-          </p>
         </div>
       </div>
     </div>

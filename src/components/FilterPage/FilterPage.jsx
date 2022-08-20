@@ -21,6 +21,7 @@ const FilterPage = ({
 }) => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.activate.unique_id);
+  const currtype = useSelector((state) => state.activate.usertype);
   useEffect(() => {
     if (user.unique_id === "" || user.unique_id === undefined) {
       navigate("/login");
@@ -44,6 +45,9 @@ const FilterPage = ({
   const [showTargetGroups, setShowTargetGroups] = useState(false);
   let tempUserPodcast = [];
   useEffect(() => {
+    if (currtype.usertype === "admin") {
+      navigate("../admindashboard");
+    }
     const init = async () => {
       let data1 = {
         searchItem: Search,

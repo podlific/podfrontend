@@ -94,6 +94,11 @@ const SellerPodcastAddPage = () => {
     navigate("../sellerfilterpage");
   };
   useEffect(() => {
+    if (usertype.usertype === "admin") {
+      navigate("/admindashboard");
+    }
+  }, []);
+  useEffect(() => {
     if (addedEpisode) {
       let newList = [...episodeList, addedEpisode];
       setEpisodeList(newList);

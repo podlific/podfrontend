@@ -15,10 +15,14 @@ import Loader from "../Loader/Loader";
 
 const SellerFilterPage = ({ userPodcast }) => {
   const navigate = useNavigate();
+  const currtype = useSelector((state) => state.activate.usertype);
   const user = useSelector((state) => state.activate.unique_id);
   useEffect(() => {
     if (user.unique_id === "" || user.unique_id === undefined) {
       navigate("/login");
+    }
+    if (currtype.usertype === "admin") {
+      navigate("../admindashboard");
     }
   }, [user.unique_id]);
   const [selectedTags, setSelectedTag] = useState([]);

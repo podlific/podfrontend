@@ -1,13 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FooterMobile from "../shared/Mobile/FooterMobile";
 import NavigationMobile from "../shared/Mobile/NavigationMobile";
 import FooterWebPage from "../shared/WebPage/FooterWebPage";
 import NavigationWebPage from "../shared/WebPage/NavigationWebPage";
-
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 const UserCampaignPage = ({ requestPodcast, setRequestPodcast }) => {
+  let navigate = useNavigate();
   const [showLine1, setShowLine1] = useState(true);
   const [showLine2, setShowLine2] = useState(false);
   const [currPodcast, setCurrPodcast] = useState({});
+  const currtype = useSelector((state) => state.activate.usertype);
+  useEffect(() => {
+    if (currtype.usertype === "admin") {
+      navigate("../admindashboard");
+    }
+  }, []);
   return (
     <div className="flex flex-col  h-screen">
       <div className="hidden md:block">

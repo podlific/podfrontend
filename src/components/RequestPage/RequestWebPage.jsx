@@ -70,6 +70,9 @@ const RequestWebPage = ({
     if (usertype.usertype === "seller") {
       navigate("/login");
     }
+    if (usertype.usertype === "admin") {
+      navigate("/admindashboard");
+    }
     if (
       user.unique_id === "" ||
       user.unique_id === undefined ||

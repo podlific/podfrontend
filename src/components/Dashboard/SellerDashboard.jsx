@@ -26,6 +26,9 @@ const SellerDashboard = ({
     if (user.unique_id === "" || user.unique_id === undefined) {
       navigate("/login");
     }
+    if (usertype.usertype === "admin") {
+      navigate("/admindashboard");
+    }
   }, []);
 
   const data = {

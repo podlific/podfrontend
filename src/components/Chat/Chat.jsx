@@ -31,7 +31,7 @@ const Chat = ({
   const [toMessageUser, setToMessageUser] = useState("");
   const [toMessageUserName, setToMessageUserName] = useState("");
   const [loading, setLoading] = useState(true);
-
+  const currtype = useSelector((state) => state.activate.usertype);
   //////////////////////////////////////////////////TIME FUNCTION BELOW////////////////////////////////////////////////////////////
 
   //////////////////////////////////////////////////TIME FUNCTION ABOVE///////////////////////////////////////////////////////////////////
@@ -142,6 +142,9 @@ const Chat = ({
   useEffect(() => {
     if (user.unique_id === "" || user.unique_id === undefined) {
       navigate("/login");
+    }
+    if (currtype.usertype === "admin") {
+      navigate("../admindashboard");
     }
   }, []);
   /// dummy data

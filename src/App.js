@@ -27,6 +27,7 @@ import SellerFilterPage from "./components/FilterPage/SellerFilterPage";
 import UserCampaignPage from "./components/UserCampaignPage/UserCampaignPage";
 import AdminDashboard from "./components/AdminPages/AdminDashboard";
 import UserInfo from "./components/shared/UserInfo/UserInfo";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   //////////////////////////////////////////////////SOCKET.IO IMPLEMENTATION BELOW////////////////////////////////////////////////////////////
@@ -175,133 +176,136 @@ function App() {
   return loading ? (
     <Loader message="" />
   ) : (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<SignUpPage />} />
-        <Route
-          path="/login"
-          element={<LoginPage setUserInfo={setUserInfo} />}
-        />
+    <div>
+      <Toaster position="top-center" reverseOrder={false} duration={3000} />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<SignUpPage />} />
+          <Route
+            path="/login"
+            element={<LoginPage setUserInfo={setUserInfo} />}
+          />
 
-        <Route
-          path="/chat"
-          element={
-            <Chat
-              socketRef={socketRef}
-              receivedMessages={receivedMessages}
-              setReceivedMessages={setReceivedMessages}
-              arrivedMessages={arrivedMessages}
-              setArrivedMessages={setArrivedMessages}
-              contacts={contacts}
-              setContacts={setContacts}
-              requestPodcast={requestPodcast}
-              setRequestPodcast={setRequestPodcast}
-              userPodcast={userPodcast}
-              setUserPodcast={setUserPodcast}
-            />
-          }
-        />
+          <Route
+            path="/chat"
+            element={
+              <Chat
+                socketRef={socketRef}
+                receivedMessages={receivedMessages}
+                setReceivedMessages={setReceivedMessages}
+                arrivedMessages={arrivedMessages}
+                setArrivedMessages={setArrivedMessages}
+                contacts={contacts}
+                setContacts={setContacts}
+                requestPodcast={requestPodcast}
+                setRequestPodcast={setRequestPodcast}
+                userPodcast={userPodcast}
+                setUserPodcast={setUserPodcast}
+              />
+            }
+          />
 
-        <Route
-          path="/requestcampaign"
-          element={
-            <RequestWebPage
-              socketRef={socketRef}
-              receivedMessages={receivedMessages}
-              setReceivedMessages={setReceivedMessages}
-              contacts={contacts}
-              setContacts={setContacts}
-              currPodcastInfo={currPodcastInfo}
-              setCurrentPodcastInfo={setCurrentPodcastInfo}
-              requestPodcast={requestPodcast}
-              setRequestPodcast={setRequestPodcast}
-            />
-          }
-        />
-        <Route path="/userinfo" element={<UserInfo userInfo={userInfo} />} />
-        <Route
-          path="/sellerdashboard"
-          element={
-            <SellerDashboard
-              contacts={contacts}
-              setContacts={setContacts}
-              userPodcast={userPodcast}
-              adminInfo={adminInfo}
-              userInfo={userInfo}
-            />
-          }
-        />
-        <Route
-          path="/sellerfilterpage"
-          element={<SellerFilterPage userPodcast={userPodcast} />}
-        />
-        <Route
-          path="/campaign/:id"
-          element={
-            <CampaignWebPage
-              ListofPodcast={ListofPodcast}
-              setListofPodcast={setListofPodcast}
-              currPodcastInfo={currPodcastInfo}
-              setCurrentPodcastInfo={setCurrentPodcastInfo}
-            />
-          }
-        />
-        <Route
-          path="/usercampaignpage"
-          element={
-            <UserCampaignPage
-              requestPodcast={requestPodcast}
-              setRequestPodcast={setRequestPodcast}
-            />
-          }
-        />
-        <Route
-          path="/buyerdashboard"
-          element={
-            <Dashboard
-              contacts={contacts}
-              setContacts={setContacts}
-              ListofPodcast={ListofPodcast}
-              adminInfo={adminInfo}
-              userInfo={userInfo}
-            />
-          }
-        />
-        <Route
-          path="/podcast"
-          element={
-            <FilterPage
-              ListofPodcast={ListofPodcast}
-              setListofPodcast={setListofPodcast}
-              currPodcastInfo={currPodcastInfo}
-              setCurrentPodcastInfo={setCurrentPodcastInfo}
-              setAdminInfo={setAdminInfo}
-              adminInfo={adminInfo}
-            />
-          }
-        />
-        <Route path="/addnewpodcast" element={<SellerPodcastAddPage />} />
-        <Route
-          path="/calendar"
-          element={
-            <SellerCalendar
-              requestPodcast={requestPodcast}
-              setRequestPodcast={setRequestPodcast}
-            />
-          }
-        />
-        <Route
-          path="/admindashboard"
-          element={
-            <AdminDashboard
-              requestPodcast={requestPodcast}
-              setRequestPodcast={setRequestPodcast}
-              userInfo={userInfo}
-            />
-          }
-        />
-      </Routes>
-    </BrowserRouter>
+          <Route
+            path="/requestcampaign"
+            element={
+              <RequestWebPage
+                socketRef={socketRef}
+                receivedMessages={receivedMessages}
+                setReceivedMessages={setReceivedMessages}
+                contacts={contacts}
+                setContacts={setContacts}
+                currPodcastInfo={currPodcastInfo}
+                setCurrentPodcastInfo={setCurrentPodcastInfo}
+                requestPodcast={requestPodcast}
+                setRequestPodcast={setRequestPodcast}
+              />
+            }
+          />
+          <Route path="/userinfo" element={<UserInfo userInfo={userInfo} />} />
+          <Route
+            path="/sellerdashboard"
+            element={
+              <SellerDashboard
+                contacts={contacts}
+                setContacts={setContacts}
+                userPodcast={userPodcast}
+                adminInfo={adminInfo}
+                userInfo={userInfo}
+              />
+            }
+          />
+          <Route
+            path="/sellerfilterpage"
+            element={<SellerFilterPage userPodcast={userPodcast} />}
+          />
+          <Route
+            path="/campaign/:id"
+            element={
+              <CampaignWebPage
+                ListofPodcast={ListofPodcast}
+                setListofPodcast={setListofPodcast}
+                currPodcastInfo={currPodcastInfo}
+                setCurrentPodcastInfo={setCurrentPodcastInfo}
+              />
+            }
+          />
+          <Route
+            path="/usercampaignpage"
+            element={
+              <UserCampaignPage
+                requestPodcast={requestPodcast}
+                setRequestPodcast={setRequestPodcast}
+              />
+            }
+          />
+          <Route
+            path="/buyerdashboard"
+            element={
+              <Dashboard
+                contacts={contacts}
+                setContacts={setContacts}
+                ListofPodcast={ListofPodcast}
+                adminInfo={adminInfo}
+                userInfo={userInfo}
+              />
+            }
+          />
+          <Route
+            path="/podcast"
+            element={
+              <FilterPage
+                ListofPodcast={ListofPodcast}
+                setListofPodcast={setListofPodcast}
+                currPodcastInfo={currPodcastInfo}
+                setCurrentPodcastInfo={setCurrentPodcastInfo}
+                setAdminInfo={setAdminInfo}
+                adminInfo={adminInfo}
+              />
+            }
+          />
+          <Route path="/addnewpodcast" element={<SellerPodcastAddPage />} />
+          <Route
+            path="/calendar"
+            element={
+              <SellerCalendar
+                requestPodcast={requestPodcast}
+                setRequestPodcast={setRequestPodcast}
+              />
+            }
+          />
+          <Route
+            path="/admindashboard"
+            element={
+              <AdminDashboard
+                requestPodcast={requestPodcast}
+                setRequestPodcast={setRequestPodcast}
+                userInfo={userInfo}
+              />
+            }
+          />
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
 }
 

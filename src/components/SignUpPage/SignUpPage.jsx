@@ -10,7 +10,7 @@ import {
 import { setAuth } from "../../store/authSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-
+import toast from "react-hot-toast";
 const SignUpPage = () => {
   const currtype = useSelector((state) => state.activate.usertype);
   const curruser = useSelector((state) => state.activate.unique_id);
@@ -31,25 +31,30 @@ const SignUpPage = () => {
   };
   async function handleClickSumbit(e) {
     e.preventDefault();
+    if (
+      user.username === "" ||
+      user.name === "" ||
+      user.usertype === "" ||
+      user.email === "" ||
+      user.phoneno === "" ||
+      user.companyname === "" ||
+      user.description === ""
+    ) {
+      toast.error("Add all fields");
+      return;
+    }
     try {
       let res = await api.post("/api/addnewuseronrequest", user);
-      // dispatch(setUserName({ username: res.data.user.username }));
-      // dispatch(setUniqueID({ unique_id: res.data.user._id }));
-      // dispatch(setUserType({ usertype: res.data.user.usertype }));
-      // dispatch(setAuth({ user: res.data.username }));
-
-      // if (res.data.user.usertype === "admin") {
-      //   navigate("../admindashboard", { replace: true });
-      // }
-      // if (res.data.user.usertype === "seller") {
-      //   navigate("../sellerdashboard", { replace: true });
-      // }
-      // if (res.data.user.usertype === "buyer") {
-      //   navigate("../buyerdashboard", { replace: true });
-      // }
-    } catch (error) {
-      console.log(error);
-    }
+      if (res.status === 200) {
+        toast(
+          "Wait for admin to accept you request and please keep checking your provided Email",
+          { duration: 10000 }
+        );
+        toast.success("Request sent sucessfully");
+      } else {
+        toast.error("Unable to send request");
+      }
+    } catch (error) {}
   }
   useEffect(() => {
     if (curruser.unique_id !== "" || curruser.unique_id !== undefined) {
@@ -66,7 +71,7 @@ const SignUpPage = () => {
   }, []);
   return (
     <div className="flex flex-row h-screen">
-      <div className="flex flex-col justify-center items-center h-full  w-1/2">
+      <div className="flex flex-col justify-center items-center h-full w-full md:w-1/2">
         {/* <div className="h-1/3 flex flex-col pl-10 pt-10 w-full  "></div> */}
         <div className=" flex flex-col justify-center w-3/4">
           <div className="flex flex-row">
@@ -174,7 +179,7 @@ const SignUpPage = () => {
           </div>
         </div>
       </div>
-      <div className="w-1/2 h-screen relative">
+      <div className="hidden md:block w-1/2 h-screen relative">
         <img src="./loginImg1.png" className="h-screen w-full" alt="login" />
         <img
           className="top-0 absolute h-screen w-full"

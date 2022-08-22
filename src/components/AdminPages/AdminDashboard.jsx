@@ -76,25 +76,46 @@ const AdminDashboard = ({ requestPodcast, userInfo }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.activate.unique_id);
   const usertype = useSelector((state) => state.activate.usertype);
-
+  useEffect(() => {
+    if (
+      usertype.usertype === "seller" ||
+      usertype.usertype === "buyer" ||
+      usertype.usertype === "" ||
+      usertype.usertype === undefined
+    ) {
+      navigate("../login");
+    }
+  }, []);
   useEffect(() => {
     const getInfo = async () => {
       let data = {
         uid: "#adminmodel123",
       };
-      let info = await api.post("/api/getadmininfo", data);
+      let info;
+      try {
+        info = await api.post("/api/getadmininfo", data);
+      } catch (err) {
+        console.log(err);
+        return;
+      }
+      let info1;
+      try {
+        info1 = await api.get("/api/getalluser");
+      } catch (err) {
+        console.log(err);
+        return;
+      }
       setRequest(info.data[0].requests);
       setBroadcastMessages(info.data[0].broadcastmessages);
       setTags(info.data[0].tags);
       setThemes(info.data[0].themes);
       setGroups(info.data[0].targetgroups);
-      let info1 = await api.get("/api/getalluser");
       setAllusers(info1.data);
     };
     if (usertype.usertype === "admin") {
       getInfo();
     } else {
-      navigate("/login", { replace: true });
+      navigate("../login");
     }
   }, []);
   useEffect(() => {

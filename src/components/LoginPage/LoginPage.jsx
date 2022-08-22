@@ -8,6 +8,8 @@ import {
   setUserType,
 } from "../../store/activateSlice";
 import { useDispatch } from "react-redux";
+import toast from "react-hot-toast";
+
 const LoginPage = ({ setUserInfo }) => {
   let navigate = useNavigate();
   const curruser = useSelector((state) => state.activate.unique_id);
@@ -25,11 +27,18 @@ const LoginPage = ({ setUserInfo }) => {
     e.preventDefault();
     try {
       let res = await api.post("/api/login", user);
-      dispatch(setUserName({ username: res.data.user?.username }));
-      dispatch(setUniqueID({ unique_id: res.data.user?.unique_id }));
-      dispatch(setUserType({ usertype: res.data.user?.usertype }));
+      if (res) {
+        toast.success("Login successful");
+      }
+      if (res.status === 400) {
+        toast.error("Unable to login, try again");
+        return;
+      }
+      dispatch(setUserName({ username: res.data.user.username }));
+      dispatch(setUniqueID({ unique_id: res.data.user.unique_id }));
+      dispatch(setUserType({ usertype: res.data.user.usertype }));
       setUserInfo(res.data.user);
-      console.log(res.data.user);
+
       if (res.data.user.usertype === "admin") {
         navigate("../admindashboard");
       }
@@ -43,6 +52,8 @@ const LoginPage = ({ setUserInfo }) => {
       // navigate("../buyerdashboard");
     } catch (error) {
       console.log(error);
+      toast.error("Unable to login, try again");
+      return;
     }
   };
   useEffect(() => {

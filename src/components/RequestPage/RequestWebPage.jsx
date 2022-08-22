@@ -8,6 +8,7 @@ import api from "../../config/axios";
 import NavigationMobile from "../shared/Mobile/NavigationMobile";
 import FooterMobile from "../shared/Mobile/FooterMobile";
 import Loader from "../Loader/Loader";
+import toast from "react-hot-toast";
 let todayDate = "";
 const RequestWebPage = ({
   socketRef,
@@ -85,6 +86,18 @@ const RequestWebPage = ({
     setLoading(false);
   }, []);
   const handleSendMessage = async (content, to, from) => {
+    if (
+      client === "" ||
+      product === "" ||
+      targetGroup === "" ||
+      addTargetGroup === "" ||
+      todayDate === "" ||
+      selectedTime === "" ||
+      description === ""
+    ) {
+      toast.error("Please fill all fields");
+      return;
+    }
     let check = 0;
     to = currPodcastInfo.sellerId; /// need to replace this with seller id only
     from = user.unique_id; /// user id
@@ -105,7 +118,14 @@ const RequestWebPage = ({
       confirmed: "false",
     };
     setRequestPodcast((oldArray) => [...oldArray, data]);
-    const requestapi = await api.post("/api/updatepodcastrequest", data);
+    let requestapi;
+    try {
+      requestapi = await api.post("/api/updatepodcastrequest", data);
+    } catch (err) {
+      toast.error("Unable to update request ,try again");
+      toast.error("Server Error , try again");
+      return;
+    }
     for (let i = 0; i < contacts.length; i++) {
       if (contacts[i].userId === to) {
         check = 1;
@@ -128,7 +148,13 @@ const RequestWebPage = ({
           new Date().toLocaleDateString(),
         request: "true",
       };
-      const mes = await api.post("/api/sendnewmessages", arr);
+      let mes;
+      try {
+        mes = await api.post("/api/sendnewmessages", arr);
+      } catch (err) {
+        toast.error("Unable to update request in messages");
+        return;
+      }
       if (mes) {
       }
       setReceivedMessages((oldArray) => [...oldArray, arr]);
@@ -147,6 +173,7 @@ const RequestWebPage = ({
         request: "true",
       });
       navigate("/login");
+      toast.success("Request updated");
     }
 
     if (check === 0) {
@@ -165,9 +192,14 @@ const RequestWebPage = ({
           new Date().toLocaleDateString(),
         request: "true",
       };
-      const mes = await api.post("/api/sendnewmessages", arr);
-      if (mes) {
+      let mes;
+      try {
+        mes = await api.post("/api/sendnewmessages", arr);
+      } catch (err) {
+        toast.error("Unable to update request in messages");
+        return;
       }
+
       setReceivedMessages((oldArray) => [...oldArray, arr]);
       let newContacts = {
         userId: currPodcastInfo.sellerId,
@@ -180,7 +212,13 @@ const RequestWebPage = ({
         newuser: currPodcastInfo.sellerId,
       };
       to = currPodcastInfo.sellerId;
-      const cont = await api.post("/api/updatecontacts", c);
+      let cont;
+      try {
+        cont = await api.post("/api/updatecontacts", c);
+      } catch (err) {
+        toast.error("Unable to update Request in chat , try again");
+        return;
+      }
       if (cont) {
       }
       socketRef.current.emit("new request message", {
@@ -198,6 +236,7 @@ const RequestWebPage = ({
         request: "true",
       });
       navigate("/login");
+      toast.success("Request updated");
     }
   };
 

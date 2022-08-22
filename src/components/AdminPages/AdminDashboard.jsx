@@ -16,6 +16,7 @@ import {
   setUniqueID,
   setUserType,
 } from "../../store/activateSlice";
+import toast from "react-hot-toast";
 const style = {
   position: "absolute",
   top: "50%",
@@ -95,16 +96,17 @@ const AdminDashboard = ({ requestPodcast, userInfo }) => {
       try {
         info = await api.post("/api/getadmininfo", data);
       } catch (err) {
-        console.log(err);
+        toast.error("Unable to load data");
         return;
       }
       let info1;
       try {
         info1 = await api.get("/api/getalluser");
       } catch (err) {
-        console.log(err);
+        toast.error("Unable to load data");
         return;
       }
+      toast.success("Data loaded successfully");
       setRequest(info.data[0].requests);
       setBroadcastMessages(info.data[0].broadcastmessages);
       setTags(info.data[0].tags);
@@ -142,7 +144,7 @@ const AdminDashboard = ({ requestPodcast, userInfo }) => {
       if (Element.usertype === "seller") {
         sellercount++;
         seller.push(Element);
-      } else if (Element.usertype === "buyer") {
+      } else {
         buyercount++;
         buyer.push(Element);
       }
@@ -194,7 +196,13 @@ const AdminDashboard = ({ requestPodcast, userInfo }) => {
       phoneno: user?.phoneno,
       companyname: user?.companyname,
     };
-    let info = await api.post("/api/createnewuseraccount", data);
+    let info;
+    try {
+      info = await api.post("/api/createnewuseraccount", data);
+    } catch (err) {
+      toast.error("Unable to update data");
+      return;
+    }
     if (info.status === 200) {
       let brr = [];
       request.forEach((Element) => {
@@ -214,6 +222,7 @@ const AdminDashboard = ({ requestPodcast, userInfo }) => {
         requests: [],
       };
       setAllusers((oldArray) => [...oldArray, data1]);
+      toast.success("User accepted successfully");
     }
   };
 
@@ -221,7 +230,13 @@ const AdminDashboard = ({ requestPodcast, userInfo }) => {
     let data = {
       username: user.username,
     };
-    let info = await api.post("/api/deleteuserrequest", data);
+    let info;
+    try {
+      info = await api.post("/api/deleteuserrequest", data);
+    } catch (err) {
+      toast.error("Unable to update data");
+      return;
+    }
     if (info.status === 200) {
       let brr = [];
       request.forEach((Element) => {
@@ -233,14 +248,25 @@ const AdminDashboard = ({ requestPodcast, userInfo }) => {
     }
   };
   const postBroadcastMessage = async () => {
+    if (broadcastText === "") {
+      toast.error("Fill all fields");
+      return;
+    }
     let data = {
       text: broadcastText,
     };
-    let info = await api.post("/api/postbroadcastmessage", data);
+    let info;
+    try {
+      info = await api.post("/api/postbroadcastmessage", data);
+    } catch (err) {
+      toast.error("Unable to update data , try again");
+      return;
+    }
     if (info.status === 200) {
       // setBroadcastMessages((oldArray) => [...oldArray, data]);
       setBroadcastMessages([...broadcastMessages, broadcastText]);
       setBroadcastText("");
+      toast.success("Data updated successfully");
     }
   };
   const changeHandler = (event) => {
@@ -250,26 +276,31 @@ const AdminDashboard = ({ requestPodcast, userInfo }) => {
       skipEmptyLines: true,
       complete: function (results) {
         setCsvData(results.data);
-        console.log(csvData);
+        toast.success("CSV file added successfully");
       },
     });
   };
   const uploadCSVdata = async () => {
     if (csvData === null) {
-      console.log("Please add CSV file");
+      toast.error("Please add CSV file to be uploaded");
       return;
     }
     let data = {
       csvData: csvData,
     };
-    let info = await api.post("/api/addcsvdata", data);
+    try {
+      let info = await api.post("/api/addcsvdata", data);
+      if (info) {
+        toast.success("CSV data uploaded successfully");
+      }
+    } catch (err) {
+      toast.success("Unable to update CSV data ,try again");
+      return;
+    }
     setAllusers((oldArray) => [...oldArray, csvData]);
     setCsvData([]);
     setCsvName(null);
     handleClose();
-    if (info.status === 200) {
-      console.log(info.data);
-    }
   };
   useEffect(() => {
     setArr(tags);
@@ -305,16 +336,22 @@ const AdminDashboard = ({ requestPodcast, userInfo }) => {
   };
 
   const updateTags = async () => {
+    if (tags.length === 0 && themes.length === 0 && groups.length === 0) {
+      toast.error("Please add some data");
+      return;
+    }
     let data = {
       tags: tags,
       themes: themes,
       targetgroups: groups,
     };
-    let info = await api.post("/api/updateadmintags", data);
-    if (info.status === 200) {
-      console.log("Tags Updated Sucee");
-    } else {
-      console.log("Tags not updated");
+    try {
+      let info = await api.post("/api/updateadmintags", data);
+      if (info) {
+        toast.success("Tags updated successfully");
+      }
+    } catch (err) {
+      toast.error("Unable to update Tags , try again");
     }
   };
   async function logoutUser() {
@@ -324,8 +361,10 @@ const AdminDashboard = ({ requestPodcast, userInfo }) => {
       dispatch(setUniqueID({ unique_id: "" }));
       dispatch(setUserType({ usertype: "" }));
       navigate("/login", { replace: true });
+      toast.success("User logged out successfully");
     } catch (err) {
-      console.log(err);
+      toast.error("Unable to logout , try again");
+      return;
     }
   }
   return (
@@ -597,7 +636,7 @@ const AdminDashboard = ({ requestPodcast, userInfo }) => {
           </div>
           <div className="flex flex-col h-full overflow-y-auto overflow-auto ">
             {showtype === "sellerRequest" && sellerRequest && (
-              <div className="flex flex-col w-full h-full gap-3">
+              <div className="flex flex-col w-full h-full gap-2">
                 {sellerRequest.map((ele, index) => {
                   return (
                     <div className="flex flex-col " key={index}>
@@ -653,7 +692,7 @@ const AdminDashboard = ({ requestPodcast, userInfo }) => {
               </div>
             )}
             {showtype === "buyerRequest" && buyerRequest && (
-              <div className="flex flex-col w-full h-full overflow-y-scroll">
+              <div className="flex flex-col w-full h-full overflow-y-scroll gap-2">
                 {buyerRequest.map((ele, index) => {
                   return (
                     <div className="flex flex-col " key={index}>
@@ -709,7 +748,7 @@ const AdminDashboard = ({ requestPodcast, userInfo }) => {
               </div>
             )}
             {showtype === "acceptedSeller" && acceptedSeller && (
-              <div className="flex flex-col w-full h-full overflow-y-scroll">
+              <div className="flex flex-col w-full h-full overflow-y-scroll gap-2">
                 {acceptedSeller.map((ele, index) => {
                   return (
                     <div className="flex flex-col " key={index}>
@@ -740,7 +779,7 @@ const AdminDashboard = ({ requestPodcast, userInfo }) => {
               </div>
             )}
             {showtype === "acceptedBuyer" && acceptedBuyer && (
-              <div className="flex flex-col w-full  h-full overflow-y-scroll">
+              <div className="flex flex-col w-full  h-full overflow-y-scroll gap-2">
                 {acceptedBuyer.map((ele, index) => {
                   return (
                     <div className="flex flex-col" key={index}>

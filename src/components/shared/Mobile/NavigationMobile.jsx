@@ -16,6 +16,7 @@ import {
 import { MdOutlineSpaceDashboard } from "react-icons/md";
 import { CgClose } from "react-icons/cg";
 import { MdOutlineForwardToInbox, MdOutlineMoveToInbox } from "react-icons/md";
+import toast from "react-hot-toast";
 const NavigationMobile = ({ socketRef, receivedMessages }) => {
   const [show, setShow] = useState(false);
   let navigate = useNavigate();
@@ -28,8 +29,19 @@ const NavigationMobile = ({ socketRef, receivedMessages }) => {
         message: receivedMessages,
         from: user.unique_id,
       };
-      const { res } = await api.post("/api/oldmessageupdate", senddata);
-      const { data } = await api.post("/api/logout");
+      try {
+        await api.post("/api/oldmessageupdate", senddata);
+      } catch (err) {
+        toast.error("Messages not updated , try again");
+        return;
+      }
+      try {
+        await api.post("/api/logout");
+      } catch (err) {
+        toast.error("Unable to logout , try again ");
+        return;
+      }
+      toast.success("Successfully logged out");
       dispatch(setUserName({ username: "" }));
       dispatch(setUniqueID({ unique_id: "" }));
       dispatch(setUserType({ usertype: "" }));

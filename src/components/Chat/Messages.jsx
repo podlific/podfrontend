@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import api from "../../config/axios";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
+import toast from "react-hot-toast";
 const style = {
   position: "absolute",
   top: "50%",
@@ -87,7 +88,12 @@ export const Messages = ({
         element.bookings.push({ date: todayDate, time: selectedTime });
       }
     });
-    let info = await api.post("/api/updaterequest", data);
+    try {
+      await api.post("/api/updaterequest", data);
+      toast.success("Offer sent Successfully");
+    } catch (err) {
+      toast.error("Unable to send Offer , try again");
+    }
   };
   const existingBooking = (curr) => {
     let arr = [];
@@ -158,7 +164,7 @@ export const Messages = ({
 
   const checkUnseen = () => {
     let arr = [];
-    receivedMessages.map((chat) => {
+    receivedMessages.forEach((chat) => {
       if (chat.from === toMessageUser && chat.seen === "false") {
         arr = [...arr, chat];
         setShow(true);
@@ -262,7 +268,7 @@ export const Messages = ({
     acceptFunction(chat);
     setArrMessages(receivedMessages);
     handleSendMessage(
-      `The Offer for ${chat.podcastname} has been accepted.`,
+      `The Offer for podcast has been accepted.`,
       toMessageUser,
       user.unique_id,
       "false",

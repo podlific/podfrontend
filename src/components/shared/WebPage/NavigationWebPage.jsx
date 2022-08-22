@@ -9,6 +9,7 @@ import {
   setUniqueID,
   setUserType,
 } from "../../../store/activateSlice";
+import toast from "react-hot-toast";
 const NavigationWebPage = ({ socketRef, receivedMessages }) => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
@@ -21,16 +22,26 @@ const NavigationWebPage = ({ socketRef, receivedMessages }) => {
         message: receivedMessages,
         from: user.unique_id,
       };
-      console.log(usertype.usertype);
       if (
         usertype.usertype !== "admin" &&
         usertype.usertype !== "" &&
         user.unique_id !== "" &&
         usertype.usertype !== undefined
       ) {
-        await api.post("/api/oldmessageupdate", senddata);
+        try {
+          await api.post("/api/oldmessageupdate", senddata);
+        } catch (err) {
+          toast.error("Messages not updated , try again");
+          return;
+        }
       }
-      await api.post("/api/logout");
+      try {
+        await api.post("/api/logout");
+      } catch (err) {
+        toast.error("Unable to logout , try again ");
+        return;
+      }
+      toast.success("Successfully logged out");
       dispatch(setUserName({ username: "" }));
       dispatch(setUniqueID({ unique_id: "" }));
       dispatch(setUserType({ usertype: "" }));

@@ -132,7 +132,6 @@ function App() {
       if (info) {
         setAdminInfo(info.data);
       }
-      console.log(info.data);
     };
     const Extractmessage = async () => {
       let data = {

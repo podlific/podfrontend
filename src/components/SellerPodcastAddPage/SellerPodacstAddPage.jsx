@@ -12,7 +12,7 @@ import api from "../../config/axios";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import NavigationMobile from "../shared/Mobile/NavigationMobile";
-
+import toast from "react-hot-toast";
 const SellerPodcastAddPage = () => {
   let navigate = useNavigate();
   const user = useSelector((state) => state.activate.unique_id);
@@ -34,7 +34,7 @@ const SellerPodcastAddPage = () => {
   const [themeVal, setThemeVal] = useState("");
   const [tagVal, setTagVal] = useState("");
   const [groupVal, setGroupVal] = useState("");
-  const [podcastThumbnail, setPodcastThumbnail] = useState();
+  const [podcastThumbnail, setPodcastThumbnail] = useState(null);
   const [podcastPreview, setPodcastPreview] = useState();
   const episodes = [
     {
@@ -86,11 +86,33 @@ const SellerPodcastAddPage = () => {
     releaseFrequency: releaseFrequency,
   };
   const handleSubmit = async () => {
-    let info = await api.post("http://localhost:3500/api/addnewpodcast", data, {
-      headers: {
-        "content-type": "multipart/form-data",
-      },
-    });
+    if (
+      podcastThumbnail === null ||
+      podcastName === "" ||
+      episodeName === "" ||
+      description === "" ||
+      tags.length === 0 ||
+      themes.length === 0 ||
+      groups.length === 0 ||
+      averageListener === "NA" ||
+      setAverageEpisodeLength === "NA" ||
+      averageLTR === "NA" ||
+      releaseFrequency === "NA"
+    ) {
+      toast.error("Fill all fields");
+      return;
+    }
+    try {
+      await api.post("/api/addnewpodcast", data, {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      });
+      toast("Please refesh to see updates");
+      toast.success("New podcast added successfully");
+    } catch (err) {
+      toast.error("Unable to add new podcast");
+    }
     navigate("../sellerfilterpage");
   };
   useEffect(() => {

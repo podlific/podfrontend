@@ -30,10 +30,7 @@ const LoginPage = ({ setUserInfo }) => {
       if (res) {
         toast.success("Login successful");
       }
-      if (res.status === 400) {
-        toast.error("Unable to login, try again");
-        return;
-      }
+
       dispatch(setUserName({ username: res.data.user.username }));
       dispatch(setUniqueID({ unique_id: res.data.user.unique_id }));
       dispatch(setUserType({ usertype: res.data.user.usertype }));

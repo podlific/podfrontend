@@ -10,9 +10,12 @@ export function useLoadingWithRefresh({ setUserInfo }) {
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await axios.get(`http://localhost:3500/api/refresh`, {
-          withCredentials: true,
-        });
+        const { data } = await axios.get(
+          `https://podbackend.herokuapp.com/api/refresh`,
+          {
+            withCredentials: true,
+          }
+        );
         dispatch(setUserName({ username: data.user.username }));
         dispatch(setUniqueID({ unique_id: data.user.unique_id }));
         dispatch(setUserType({ usertype: data.user.usertype }));

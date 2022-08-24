@@ -7,5 +7,5 @@ export const initSocket = async () => {
     timeout: 10000,
     transports: ["websocket"],
   };
-  return io("https://podbackend.herokuapp.com/", options);
+  return io(process.env.REACT_APP_BASE_URL, options);
 };

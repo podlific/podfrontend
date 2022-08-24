@@ -11,7 +11,7 @@ export function useLoadingWithRefresh({ setUserInfo }) {
     (async () => {
       try {
         const { data } = await axios.get(
-          `https://podbackend.herokuapp.com/api/refresh`,
+          `${process.env.REACT_APP_BASE_URL}api/refresh`,
           {
             withCredentials: true,
           }

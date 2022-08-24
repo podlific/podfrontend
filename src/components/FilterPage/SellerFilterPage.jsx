@@ -38,6 +38,10 @@ const SellerFilterPage = ({ userPodcast }) => {
   const [start2, setStart2] = useState(1);
   const [loading, setLoading] = useState(true);
   const [searchTag, setSearchTag] = useState("");
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [suggestionArray, setSuggestionArray] = useState([]);
+  const [suggestionToShow, setSuggestionToShow] = useState([]);
+  const [tempArr, setTempArr] = useState([]);
   let tempUserPodcast = [];
   const currPage = () => {
     let s = 0;
@@ -125,6 +129,7 @@ const SellerFilterPage = ({ userPodcast }) => {
   };
 
   useEffect(() => {
+    setTempArr(userPodcast);
     setListofPodcast([...userPodcast]);
     setListofPodcast2([...userPodcast]);
     let l = userPodcast.length;
@@ -147,7 +152,20 @@ const SellerFilterPage = ({ userPodcast }) => {
 
     setLoading(false);
   }, [userPodcast]);
-
+  useEffect(() => {
+    setSuggestionToShow(suggestionArray);
+  }, [suggestionArray]);
+  useEffect(() => {
+    let tempSuggestions = [];
+    tempArr.forEach((element) => {
+      let x = element.podcastName.toLowerCase();
+      x = x.search(searchTag.toLowerCase());
+      if (x !== -1) {
+        tempSuggestions = [...tempSuggestions, element];
+      }
+    });
+    setSuggestionArray(tempSuggestions);
+  }, [searchTag]);
   function hide(obj) {
     if (obj === "filter-1" && active) {
       let el = document.getElementById(obj);
@@ -190,6 +208,12 @@ const SellerFilterPage = ({ userPodcast }) => {
       // setSelectedTag((oldArray) => [...oldArray, data]);
       setSelectedTag(data);
     }
+  };
+  const myTimeout = () => {
+    setTimeout(() => {
+      setShowSuggestions(false);
+    }, 2000);
+    clearTimeout(myTimeout);
   };
 
   const tags = [
@@ -309,14 +333,41 @@ const SellerFilterPage = ({ userPodcast }) => {
       <div className="hidden h-[14.5%] md:block">
         <NavigationWebPage />
       </div>
-      <div className=" flex flex-row drop-shadow-lg md:pt-0 w-4/5 pl-3 pt-20  md:hidden ">
+      <div className=" flex flex-row drop-shadow-lg md:pt-0 w-4/5 pl-3 pt-20 z-10 relative md:hidden ">
         <input
           className=" w-full  rounded-lg rounded-r-none indent-5 outline-none border-none border-transparent focus:border-transparent focus:ring-0 placeholder:text-[#43176F] "
           type="text"
           value={searchTag}
           placeholder="Search"
           onChange={(e) => setSearchTag(e.target.value)}
+          onFocus={() => setShowSuggestions(true)}
+          onBlur={() => myTimeout()}
         />
+        <div
+          className={
+            showSuggestions === true
+              ? "top-[100%] w-full   min-h-4 absolute px-4 py-2 flex flex-col gap-2 bg-white rounded-b-lg"
+              : "hidden"
+          }
+        >
+          {suggestionToShow.length > 0 && searchTag.length > 0 ? (
+            suggestionToShow.map((item, index) => {
+              return (
+                <div
+                  className="cursor-pointer border-2 border-b-2 border-emerald-50 w-full"
+                  key={index}
+                  onClick={() => {
+                    setSearchTag(item.podcastName);
+                  }}
+                >
+                  {item.podcastName}
+                </div>
+              );
+            })
+          ) : (
+            <div className="opacity-[0.5] italic">Searching...</div>
+          )}
+        </div>
         <div
           className="p-2 pl-3 pr-3 bg-[#5F50A3] rounded-lg m-auto h-full  flex flex-col justify-center items-center -ml-3 cursor-pointer"
           onClick={() => {
@@ -433,14 +484,41 @@ const SellerFilterPage = ({ userPodcast }) => {
           <div className="flex flex-col   p-1 sm:p-5 md:p-0 md:w-[75%] md:h-[100]%">
             <div className="flex flex-row justify-between md:h-[10%] p-2">
               <div className=" hidden md:flex  md:flex-row   md:visible w-1/2 ">
-                <div className=" flex flex-row drop-shadow-lg md:pt-0    md:w-8/12 lg:w-7/12   ">
+                <div className=" flex flex-row drop-shadow-lg md:pt-0  z-10  relative md:w-8/12 lg:w-7/12   ">
                   <input
                     className=" w-full  rounded-lg rounded-r-none indent-5 outline-none border-none border-transparent focus:border-transparent focus:ring-0 placeholder:text-[#43176F] "
                     type="text"
                     value={searchTag}
                     placeholder="Search"
                     onChange={(e) => setSearchTag(e.target.value)}
+                    onFocus={() => setShowSuggestions(true)}
+                    onBlur={() => myTimeout()}
                   />
+                  <div
+                    className={
+                      showSuggestions === true
+                        ? "top-[100%] w-[96%] left-0 min-h-4 absolute px-4 py-2 flex flex-col gap-2 bg-white rounded-b-lg"
+                        : "hidden"
+                    }
+                  >
+                    {suggestionToShow.length > 0 && searchTag.length > 0 ? (
+                      suggestionToShow.map((item, index) => {
+                        return (
+                          <div
+                            className="cursor-pointer border-2 border-b-2 border-emerald-50 w-full"
+                            key={index}
+                            onClick={() => {
+                              setSearchTag(item.podcastName);
+                            }}
+                          >
+                            {item.podcastName}
+                          </div>
+                        );
+                      })
+                    ) : (
+                      <div className="opacity-[0.5] italic">Searching...</div>
+                    )}
+                  </div>
                   <div
                     className="p-2 pl-3 pr-3 bg-[#5F50A3] rounded-lg m-auto h-full  flex flex-col justify-center items-center -ml-3 cursor-pointer"
                     onClick={() => {

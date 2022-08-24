@@ -12,7 +12,7 @@ const PodcastWidget = ({ episodename, podcastname, tags, image }) => {
           src={`data:image/png;base64,${image}`}
           alt="img-cover"
         ></img>
-        <div className=" inline-block m-2">
+        <div className=" m-2">
           <div className="opacity-[90%]">{podcastname} </div>
           <div className="opacity-[90%]">{episodename}</div>
         </div>

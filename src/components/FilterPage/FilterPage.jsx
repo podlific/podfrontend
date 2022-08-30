@@ -300,7 +300,7 @@ const FilterPage = ({
   return (
     <div className="md:h-screen scrollbar-hide flex flex-col justify-between">
       <div className="w-full relative">
-        <div className=" fixed  z-10 w-full bg-white md:hidden">
+        <div className=" fixed block  z-10 w-full bg-white md:hidden">
           <NavigationMobile />
         </div>
       </div>

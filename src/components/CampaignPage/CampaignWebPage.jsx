@@ -26,6 +26,9 @@ const CampaignWebPage = ({
     if (usertype.usertype === "seller") {
       navigate("/login");
     }
+    if (ListofPodcast.length === 0) {
+      navigate("/buyerdashboard");
+    }
     if (usertype.usertype === "admin") {
       navigate("/admindashboard");
     }
@@ -33,12 +36,17 @@ const CampaignWebPage = ({
     if (!Array.isArray(ListofPodcast)) {
       navigate("/login");
     }
+    let check = 0;
     for (let i = 0; i < ListofPodcast.length; i++) {
       if (id === ListofPodcast[i]._id) {
         setCurrentPodcastInfo(ListofPodcast[i]);
+        check = 1;
         setLoading(false);
         break;
       }
+    }
+    if (check === 0) {
+      navigate("/buyerdashboard");
     }
   }, []);
 
@@ -211,7 +219,7 @@ const CampaignWebPage = ({
                 </div>
                 <div className="p-2 flex flex-wrap ">
                   {currPodcastInfo &&
-                    currPodcastInfo.groups.map((group, index) => {
+                    currPodcastInfo?.groups.map((group, index) => {
                       return (
                         <span
                           className="p-1 pl-2 m-1 pr-2  rounded-xl bg-[#34C759] text-white"
@@ -232,7 +240,7 @@ const CampaignWebPage = ({
                 </div>
                 <div className="p-2 flex flex-wrap ">
                   {currPodcastInfo &&
-                    currPodcastInfo.theme.map((t, index) => {
+                    currPodcastInfo?.theme.map((t, index) => {
                       return (
                         <span
                           className="p-1 pl-2 m-1 pr-2  rounded-xl bg-[#34C759] text-white"
@@ -253,7 +261,7 @@ const CampaignWebPage = ({
                 </div>
                 <div className="p-2 flex flex-wrap ">
                   {currPodcastInfo &&
-                    currPodcastInfo.tags.map((tag, index) => {
+                    currPodcastInfo?.tags.map((tag, index) => {
                       return (
                         <span
                           className="p-1 pl-2 m-1 pr-2  rounded-xl bg-[#34C759] text-white"

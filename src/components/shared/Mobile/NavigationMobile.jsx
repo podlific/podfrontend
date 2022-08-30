@@ -97,7 +97,7 @@ const NavigationMobile = ({ socketRef, receivedMessages }) => {
               <span className="pl-1">Browse Podcast</span>
             </div>
           </Link>
-          <Link to="/podcast">
+          <Link to="/usercampaignpage">
             <div className="pl-3 mb-4 flex flex-row items-center">
               <MdOutlineMoveToInbox />{" "}
               <span className="pl-1">My Campaigns</span>
@@ -111,6 +111,11 @@ const NavigationMobile = ({ socketRef, receivedMessages }) => {
           <Link to="/userinfo">
             <div className="pl-3 mb-4 flex flex-row items-center">
               <BiUser /> <span className="pl-1">User Info</span>
+            </div>
+          </Link>
+          <Link to="/calendar">
+            <div className="pl-3 mb-4 flex flex-row items-center">
+              <BiUser /> <span className="pl-1">Calendar</span>
             </div>
           </Link>
 

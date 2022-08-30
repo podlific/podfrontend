@@ -23,8 +23,15 @@ const LoginPage = ({ setUserInfo }) => {
   const handleChange = (event) => {
     setUser({ ...user, [event.target.name]: event.target.value });
   };
+  const handleClick = () => {
+    navigate("/");
+  };
+  const handleForgetPassword = () => {
+    navigate("/resetmail");
+  };
   const handleClickSumbit = async (e) => {
     e.preventDefault();
+    user.username = user.username.trim();
     try {
       let res = await api.post("/api/login", user);
       if (res) {
@@ -67,106 +74,67 @@ const LoginPage = ({ setUserInfo }) => {
     }
   }, []);
   return (
-    <div className="flex flex-row h-screen">
-      <div className="flex flex-col basis-full md:basis-1/2">
-        <div className="h-1/3 flex flex-col content-center  ">
-          <img
-            className=" w-16 h-16 ml-7 mt-5 place-self-start overflow-y-hidden md:ml-10 md:mt-12 md:h-20 md:w-36 lg:ml-28"
-            src="./logo.png"
-            alt="login-logo"
-          />
-        </div>
-        <div className="h-1/3 flex flex-col justify-center">
-          <div className=" w-4/5  ml-7 -mt-16 md:ml-10 p-3 sm:-mt-2 md:-mt-5  lg:mt-12   lg:w-4/6 lg:ml-28 ">
+    <div className="flex flex-col  items-center h-screen">
+      <div className="py-4 w-full pl-6 h-[15%] md:h-[16%]">
+        <img src="./logo.png" className="h-full" alt="logo" />
+      </div>
+      <div className="w-full flex flex-row justify-center h-full bg-[#e2dafa] rounded-tl-full md:rounded-br-full ">
+        <div className="w-5/6 md:w-6/12 lg:w-4/12 flex flex-col mt-16 md:mt-16 ">
+          <div className="text-2xl font-semibold p-1">Welcome back !</div>
+          <div className="text-sm font-normal p-1 text-[#8b8a8a]">
+            Welcome back! Please enter your details
+          </div>
+          <div className="flex flex-col py-1">
+            <h4 className="p-1 font-medium">Email</h4>
             <input
-              className="w-full"
-              type="text"
-              placeholder="Username"
+              className="w-full p-2 border-2 border-[#d7d6d6] outline-none rounded-lg"
+              type="email"
+              placeholder="Enter your email"
               name="username"
               onChange={(e) => handleChange(e)}
             />
-            <div className="">
-              <div className="w-full border-t border-gray-300"></div>
-            </div>
           </div>
-          <div className=" relative  w-4/5 ml-7 md:ml-10 p-3 lg:w-4/6 lg:ml-28">
+          <div className="flex flex-col py-1">
+            <h4 className="p-1 font-medium">Password</h4>
             <input
-              className="w-full"
+              className="w-full p-2 border-2 border-[#d7d6d6] outline-none rounded-lg"
               type="password"
               name="password"
-              placeholder="Password"
+              placeholder="Enter password"
               onChange={(e) => handleChange(e)}
             />
-            <div className="">
-              <div className="w-full border-t border-gray-300"></div>
-            </div>
-            <img
-              className="absolute top-5 right-3 h-3 w-5"
-              src="./Vector.png"
-              alt="icon1"
-            />
           </div>
-          <div className=" w-4/5 ml-7 md:ml-10 p-2 lg:w-3/5 flex justify-center lg:ml-28">
+          <div className="flex flex-row justify-end text-sm font-medium text-[#5F50A3] py-1">
             <button
-              className="font-medium text-[#FFFFFF] bg-[#5F50A3] hover:bg-[#B198FF] transition ease-in-out delay-100 rounded-[18px] w-3/5  md:rounded-[22px]  md:w-2/6 md:p-2  "
-              onClick={handleClickSumbit}
+              className="pl-1 text-[#5F50A3] font-semibold"
+              onClick={() => {
+                handleForgetPassword();
+              }}
             >
-              Log In
+              Forgot password
             </button>
           </div>
-          <div className=" w-4/5 ml-7 md:ml-10 p-2 lg:w-3/5 flex flex-col justify-center text-center lg:ml-28">
-            <span className="text-[#5F50A3] hover:text-[#B198FF] font-medium">
-              Forgot Password ?
-            </span>
-            <div className=" flex justify-center ">
-              <div className=" w-32 :w-34 border-t border-[#5F50A3]"></div>
-            </div>
+          <div className="w-full py-3">
+            <button
+              className="w-full p-2 bg-[#5F50A3] hover:bg-[#B198FF] transition ease-in-out delay-100 rounded-lg  font-medium text-white"
+              onClick={(e) => {
+                handleClickSumbit(e);
+              }}
+            >
+              Sign in
+            </button>
           </div>
-        </div>
-        <div className="h-1/3 flex flex-row overflow-hidden text-[#00000045] font-semibold">
-          <div className=" basis-3/6 md:basis-1/3 flex justify-center">
-            <div className="w-full h-full flex flex-col justify-center items-center ">
-              <div className="w flex flex-col justify-center  text-left">
-                <span className="mb-2 text-   md:mb-4 ">About Us</span>
-                <span className="mb-2 text-  md:mb-4 ">Contact</span>
-                <span className="mb-0 text-sm  md:mb-0 ">Privacy Policy</span>
-              </div>
-            </div>
+          <div className="flex flex-row justify-center text-[#8b8a8a]">
+            Don't have an account?{" "}
+            <button
+              className="pl-1 text-[#5F50A3] font-semibold"
+              onClick={() => {
+                handleClick();
+              }}
+            >
+              Sign up
+            </button>
           </div>
-          <div className=" basis-2/6 md:basis-1/3 flex justify-center">
-            <div className="w-full h-full flex flex-col justify-center items-center">
-              <div className="w flex flex-col justify-center  text-left">
-                <span className=" mb-2 mt-4  text-sm md:mb-4 md:mt-0">
-                  Request Access
-                </span>
-                <span className=" mb-2 text-sm md:mb-4">Other Links</span>
-                <span className=" mb-0 text-sm md:mb-0">Other Links</span>
-              </div>
-            </div>
-          </div>
-          <div className=" basis-1/6 md:basis-1/3 flex justify-center">
-            <div className="w-full h-full flex flex-col justify-center items-center">
-              <div className="w flex flex-col justify-center  text-left">
-                <span className="mb-20 mt-5 text-sm md:mb-20 md:mt-2 ">
-                  T&C
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="hidden basis-1/3 md:basis-1/2 md:block ">
-        <div className="h-screen w-full relative ">
-          <img
-            className="h-screen w-full"
-            src="./loginImg1.png"
-            alt="loginImg"
-          />
-          <img
-            className="h-screen w-full absolute top-0"
-            src="./loginImg2.png"
-            alt="loginImg"
-          />
         </div>
       </div>
     </div>

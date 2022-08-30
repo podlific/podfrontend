@@ -74,11 +74,42 @@ const UserCampaignPage = ({ requestPodcast, setRequestPodcast }) => {
                         <div className="flex flex-col justify-center">
                           {request.podcastname}
                         </div>
-                        <div className="flex flex-col justify-center">
+
+                        <div
+                          className={
+                            currtype.usertype === "seller"
+                              ? "flex flex-col justify-center"
+                              : "hidden"
+                          }
+                        >
                           Buyer Name
                         </div>
-                        <div className="flex flex-col justify-center">
-                          {request.buyername}
+                        <div
+                          className={
+                            currtype.usertype === "seller"
+                              ? "flex flex-col justify-center"
+                              : "hidden"
+                          }
+                        >
+                          {request?.buyerusername}
+                        </div>
+                        <div
+                          className={
+                            currtype.usertype === "buyer"
+                              ? "flex flex-col justify-center"
+                              : "hidden"
+                          }
+                        >
+                          Seller Name
+                        </div>
+                        <div
+                          className={
+                            currtype.usertype === "buyer"
+                              ? "flex flex-col justify-center"
+                              : "hidden"
+                          }
+                        >
+                          {request?.sellerusername}
                         </div>
                         <div className="hidden md:flex flex-col justify-center">
                           Preferred Date & Time
@@ -104,11 +135,41 @@ const UserCampaignPage = ({ requestPodcast, setRequestPodcast }) => {
                         <div className="flex flex-col justify-center">
                           {request.podcastname}
                         </div>
-                        <div className="flex flex-col justify-center">
+                        <div
+                          className={
+                            currtype.usertype === "seller"
+                              ? "flex flex-col justify-center"
+                              : "hidden"
+                          }
+                        >
                           Buyer Name
                         </div>
-                        <div className="flex flex-col justify-center">
-                          {request.buyername}
+                        <div
+                          className={
+                            currtype.usertype === "seller"
+                              ? "flex flex-col justify-center"
+                              : "hidden"
+                          }
+                        >
+                          {request?.buyerusername}
+                        </div>
+                        <div
+                          className={
+                            currtype.usertype === "buyer"
+                              ? "flex flex-col justify-center"
+                              : "hidden"
+                          }
+                        >
+                          Seller Name
+                        </div>
+                        <div
+                          className={
+                            currtype.usertype === "buyer"
+                              ? "flex flex-col justify-center"
+                              : "hidden"
+                          }
+                        >
+                          {request?.sellerusername}
                         </div>
                         <div className="hidden md:flex flex-col justify-center">
                           Preferred Date & Time
@@ -135,9 +196,41 @@ const UserCampaignPage = ({ requestPodcast, setRequestPodcast }) => {
                   <div className="flex flex-col justify-center">
                     {currPodcast.podcastname}
                   </div>
-                  <div className="flex flex-col justify-center">Buyer Name</div>
-                  <div className="flex flex-col justify-center">
-                    {currPodcast.buyername}
+                  <div
+                    className={
+                      currtype.usertype === "seller"
+                        ? "flex flex-col justify-center"
+                        : "hidden"
+                    }
+                  >
+                    Buyer Name
+                  </div>
+                  <div
+                    className={
+                      currtype.usertype === "seller"
+                        ? "flex flex-col justify-center"
+                        : "hidden"
+                    }
+                  >
+                    {currPodcast?.buyerusername}
+                  </div>
+                  <div
+                    className={
+                      currtype.usertype === "buyer"
+                        ? "flex flex-col justify-center"
+                        : "hidden"
+                    }
+                  >
+                    Seller Name
+                  </div>
+                  <div
+                    className={
+                      currtype.usertype === "buyer"
+                        ? "flex flex-col justify-center"
+                        : "hidden"
+                    }
+                  >
+                    {currPodcast?.sellerusername}
                   </div>
                   <div className="hidden md:flex flex-col justify-center">
                     Fixed Date & Time

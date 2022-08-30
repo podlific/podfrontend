@@ -644,7 +644,7 @@ const AdminDashboard = ({ requestPodcast, userInfo }) => {
                         <div className="w-1/6 flex flex-row justify-center ">
                           <span>{ele?.name}</span>
                         </div>
-                        <div className="w-1/6 flex flex-row justify-center ">
+                        <div className="w-1/6  flex-row justify-center hidden ">
                           <span>{ele?.username}</span>
                         </div>
                         <div className="w-1/6 flex flex-row justify-center">
@@ -700,7 +700,7 @@ const AdminDashboard = ({ requestPodcast, userInfo }) => {
                         <div className="w-1/6 flex flex-row justify-center ">
                           <span>{ele?.name}</span>
                         </div>
-                        <div className="w-1/6 flex flex-row justify-center ">
+                        <div className="w-1/6  flex-row justify-center hidden">
                           <span>{ele?.username}</span>
                         </div>
                         <div className="w-1/6 flex flex-row justify-center">
@@ -756,7 +756,7 @@ const AdminDashboard = ({ requestPodcast, userInfo }) => {
                         <div className="w-1/6 flex flex-row justify-center ">
                           <span>{ele?.name}</span>
                         </div>
-                        <div className="w-1/6 flex flex-row justify-center ">
+                        <div className="w-1/6  flex-row justify-center  hidden">
                           <span>{ele?.username}</span>
                         </div>
                         <div className="w-1/6 flex flex-row justify-center">
@@ -787,7 +787,7 @@ const AdminDashboard = ({ requestPodcast, userInfo }) => {
                         <div className="w-1/6 flex flex-row justify-center ">
                           <span>{ele?.name}</span>
                         </div>
-                        <div className="w-1/6 flex flex-row justify-center ">
+                        <div className="w-1/6  flex-row justify-center hidden ">
                           <span>{ele?.username}</span>
                         </div>
                         <div className="w-1/6 flex flex-row justify-center">

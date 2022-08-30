@@ -12,10 +12,18 @@ import {
   MdOutlineSpaceDashboard,
 } from "react-icons/md";
 import NavigationMobile from "../shared/Mobile/NavigationMobile";
-const Dashboard = ({ contacts, setContacts, adminInfo, userInfo }) => {
+const Dashboard = ({
+  contacts,
+  setContacts,
+  adminInfo,
+  userInfo,
+  ListofPodcast,
+  setListofPodcast,
+  overAllPodcastList,
+  setOverAllPodcastList,
+}) => {
   const navigate = useNavigate();
-  const [showList, setShowList] = useState([]);
-  const [ListofPodcast, setListofPodcast] = useState([]);
+  const [showList, setShowList] = useState(ListofPodcast);
   const currtype = useSelector((state) => state.activate.usertype);
   const user = useSelector((state) => state.activate.unique_id);
   useEffect(() => {
@@ -35,9 +43,15 @@ const Dashboard = ({ contacts, setContacts, adminInfo, userInfo }) => {
         .post("/api/getpodcastfromsearch", data1)
         .then((res) => {
           setShowList(res.data);
+          setOverAllPodcastList(res.data);
         });
     };
-    init();
+    if (ListofPodcast.length === 0) {
+      init();
+    }
+    if (overAllPodcastList.length > showList.length) {
+      setShowList(overAllPodcastList);
+    }
   }, []);
 
   useEffect(() => {
@@ -56,7 +70,11 @@ const Dashboard = ({ contacts, setContacts, adminInfo, userInfo }) => {
       }
     }
 
-    if (user.unique_id !== "" || user.unique_id !== undefined) {
+    if (
+      user.unique_id !== "" &&
+      user.unique_id !== undefined &&
+      contacts.length === 0
+    ) {
       getcontacts();
     }
   }, []);
@@ -86,7 +104,7 @@ const Dashboard = ({ contacts, setContacts, adminInfo, userInfo }) => {
               />
             </div>
 
-            <div className="pb-2 w-5/6 border-b border-zinc-400/80 flex justify-center  font-black  tracking-wide">
+            <div className="pb-2 w-5/6 border-b border-zinc-400/80 flex flex-row text-center justify-center  font-black  tracking-wide">
               {userInfo?.name}
             </div>
 

@@ -28,6 +28,8 @@ import UserCampaignPage from "./components/UserCampaignPage/UserCampaignPage";
 import AdminDashboard from "./components/AdminPages/AdminDashboard";
 import UserInfo from "./components/shared/UserInfo/UserInfo";
 import { Toaster } from "react-hot-toast";
+import PasswordReset from "./components/PasswordReset/PasswordReset";
+import PasswordMail from "./components/PasswordReset/PasswordMail";
 
 function App() {
   //////////////////////////////////////////////////SOCKET.IO IMPLEMENTATION BELOW////////////////////////////////////////////////////////////
@@ -36,7 +38,8 @@ function App() {
   const [receivedMessages, setReceivedMessages] = useState([]);
   const [arrivedMessages, setArrivedMessages] = useState([]);
   const [contacts, setContacts] = useState([]);
-  const [ListofPodcast, setListofPodcast] = useState(null);
+  const [ListofPodcast, setListofPodcast] = useState([]);
+  const [overAllPodcastList, setOverAllPodcastList] = useState([]);
   const [currPodcastInfo, setCurrentPodcastInfo] = useState([]);
   const [requestPodcast, setRequestPodcast] = useState([]);
   const [userPodcast, setUserPodcast] = useState([]);
@@ -121,9 +124,7 @@ function App() {
         }
       );
     };
-    // setInterval(() => {
-    //   // init();
-    // }, 20000);
+
     const ExtractAdminInfo = async () => {
       let data = {
         uid: "#adminmodel123",
@@ -217,6 +218,7 @@ function App() {
                 setCurrentPodcastInfo={setCurrentPodcastInfo}
                 requestPodcast={requestPodcast}
                 setRequestPodcast={setRequestPodcast}
+                userInfo={userInfo}
               />
             }
           />
@@ -248,6 +250,7 @@ function App() {
               />
             }
           />
+          <Route path="/resetpassword/:id" element={<PasswordReset />} />
           <Route
             path="/usercampaignpage"
             element={
@@ -266,6 +269,9 @@ function App() {
                 ListofPodcast={ListofPodcast}
                 adminInfo={adminInfo}
                 userInfo={userInfo}
+                setListofPodcast={setListofPodcast}
+                overAllPodcastList={overAllPodcastList}
+                setOverAllPodcastList={setOverAllPodcastList}
               />
             }
           />
@@ -279,10 +285,15 @@ function App() {
                 setCurrentPodcastInfo={setCurrentPodcastInfo}
                 setAdminInfo={setAdminInfo}
                 adminInfo={adminInfo}
+                overAllPodcastList={overAllPodcastList}
+                setOverAllPodcastList={setOverAllPodcastList}
               />
             }
           />
-          <Route path="/addnewpodcast" element={<SellerPodcastAddPage />} />
+          <Route
+            path="/addnewpodcast"
+            element={<SellerPodcastAddPage userInfo={userInfo} />}
+          />
           <Route
             path="/calendar"
             element={
@@ -302,6 +313,7 @@ function App() {
               />
             }
           />
+          <Route path="/resetmail" element={<PasswordMail />} />
         </Routes>
       </BrowserRouter>
     </div>

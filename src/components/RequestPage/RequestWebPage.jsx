@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import FooterWebPage from "../shared/WebPage/FooterWebPage";
 import NavigationWebPage from "../shared/WebPage/NavigationWebPage";
-import FadeMenu from "../shared/DropDown/DropDown";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import api from "../../config/axios";
@@ -19,6 +18,7 @@ const RequestWebPage = ({
   setCurrentPodcastInfo,
   requestPodcast,
   setRequestPodcast,
+  userInfo,
 }) => {
   const today = new Date();
   const yyyy = today.getFullYear();
@@ -27,7 +27,6 @@ const RequestWebPage = ({
 
   if (dd < 10) dd = "0" + dd;
   if (mm < 10) mm = "0" + mm;
-
   const formattedToday = yyyy + "-" + mm + "-" + dd;
   const user = useSelector((state) => state.activate.unique_id);
   const username = useSelector((state) => state.activate.username);
@@ -107,9 +106,11 @@ const RequestWebPage = ({
       date: todayDate,
       time: selectedTime,
       sellername: currPodcastInfo.sellerUserName,
+      sellerusername: currPodcastInfo.sellername,
       sellerid: currPodcastInfo.sellerId,
       buyerid: user.unique_id,
       buyername: username.username,
+      buyerusername: userInfo.name,
       client: client,
       product: product,
       targetgroup: targetGroup,

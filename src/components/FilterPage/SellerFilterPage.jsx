@@ -6,7 +6,7 @@ import FooterWebPage from "../shared/WebPage/FooterWebPage";
 import NavigationWebPage from "../shared/WebPage/NavigationWebPage";
 import PodcastWidget from "../shared/WebPage/PodcastWidget";
 import "react-multi-carousel/lib/styles.css";
-import api from "../../config/axios";
+// import api from "../../config/axios";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { BiSearch } from "react-icons/bi";
@@ -156,6 +156,10 @@ const SellerFilterPage = ({ userPodcast }) => {
     setSuggestionToShow(suggestionArray);
   }, [suggestionArray]);
   useEffect(() => {
+    if (searchTag === "") {
+      ListofPodcast(userPodcast);
+      ListofPodcast2(userPodcast);
+    }
     let tempSuggestions = [];
     tempArr.forEach((element) => {
       let x = element.podcastName.toLowerCase();

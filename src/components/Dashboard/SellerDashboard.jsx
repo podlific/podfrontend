@@ -172,19 +172,3 @@ const SellerDashboard = ({
 };
 
 export default SellerDashboard;
-
-// {/* <div className="flex flex-row w-full pl-7 pr-7 ">
-//   <div className="w-1/2 p-2 ">
-//     <Calendar />
-//   </div>
-//   <div className="w-1/2 flex flex-col items-start p-2  h-72  ">
-//     <div className="flex flex-col bg-[#D9D9D9] w-10/12 items-center p-2 overflow-y-scroll scrollbar-hide rounded-sm">
-//       <DropDown id={"obj1"} />
-//       <DropDown id={"obj2"} />
-//       <DropDown id={"obj3"} />
-//       <DropDown id={"obj4"} />
-//       <DropDown id={"obj5"} />
-//       <DropDown id={"obj6"} />
-//     </div>
-//   </div>
-// </div> */}

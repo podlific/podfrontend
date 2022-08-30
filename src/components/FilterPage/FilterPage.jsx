@@ -18,6 +18,8 @@ const FilterPage = ({
   setCurrentPodcastInfo,
   setAdminInfo,
   adminInfo,
+  overAllPodcastList,
+  setOverAllPodcastList,
 }) => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.activate.unique_id);
@@ -37,7 +39,7 @@ const FilterPage = ({
   const [arr, setArr] = useState(ListofPodcast);
   const [arr2, setArr2] = useState(ListofPodcast);
   const [start2, setStart2] = useState(1);
-  const [tempArr, setTempArr] = useState([]);
+  const [tempArr, setTempArr] = useState(ListofPodcast);
   const [searchTag, setSearchTag] = useState("");
   const [tags, setTags] = useState([]);
   const [targetGroups, setTargetGroups] = useState([]);
@@ -58,12 +60,15 @@ const FilterPage = ({
       const info = await api
         .post("/api/getpodcastfromsearch", data1)
         .then((res) => {
+          setOverAllPodcastList(res.data);
           setListofPodcast(res.data);
           setTempArr(res.data);
           onHandleClick();
         });
     };
-    init();
+    if (ListofPodcast.length === 0) {
+      init();
+    }
   }, []);
   function currPage() {
     let s = 0;
@@ -162,6 +167,9 @@ const FilterPage = ({
     setSuggestionToShow(suggestionArray);
   }, [suggestionArray]);
   useEffect(() => {
+    if (searchTag === "") {
+      setListofPodcast(overAllPodcastList);
+    }
     let tempSuggestions = [];
     tempArr.forEach((element) => {
       let x = element.podcastName.toLowerCase();
@@ -176,7 +184,7 @@ const FilterPage = ({
   const myTimeout = () => {
     setTimeout(() => {
       setShowSuggestions(false);
-    }, 2000);
+    }, 1500);
     clearTimeout(myTimeout);
   };
   function hide(obj) {
@@ -305,10 +313,13 @@ const FilterPage = ({
           type="text"
           value={searchTag}
           placeholder="Search"
-          onChange={(e) => setSearchTag(e.target.value)}
+          onChange={(e) => {
+            setSearchTag(e.target.value);
+          }}
           onFocus={() => setShowSuggestions(true)}
           onBlur={() => myTimeout()}
         />
+
         <div
           className={
             showSuggestions === true
@@ -324,7 +335,7 @@ const FilterPage = ({
                   key={index}
                   onClick={() => {
                     setSearchTag(item.podcastName);
-                    console.log(item.podcastName);
+                    // console.log(item.podcastName);
                   }}
                 >
                   {item.podcastName}
@@ -483,11 +494,11 @@ const FilterPage = ({
                       suggestionToShow.map((item, index) => {
                         return (
                           <div
-                            className="cursor-pointer border-2 border-b-2 border-emerald-50 w-full"
+                            className="cursor-pointer  w-full"
                             key={index}
                             onClick={() => {
                               setSearchTag(item.podcastName);
-                              console.log(item.podcastName);
+                              // console.log(item.podcastName);
                             }}
                           >
                             {item.podcastName}

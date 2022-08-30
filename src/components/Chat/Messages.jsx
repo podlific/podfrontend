@@ -36,6 +36,7 @@ export const Messages = ({
   setRequestPodcast,
   userPodcast,
   setUserPodcast,
+  showUserName,
 }) => {
   const handleDate = (date) => {
     console.log(date);
@@ -285,12 +286,12 @@ export const Messages = ({
         <div className=" h-full flex flex-row w-full justify-between">
           <div className="h-full w-full flex flex-row">
             <div className=" ml-3 flex flex-col   overflow-clip justify-center items-center rounded-full ">
-              <div className=" w-12 h-12  rounded-full flex flex-col items-center justify-center bg-[#5F50A3] text-lg font-bold text-white">
-                {toMessageUserName[0]}
+              <div className=" w-12 h-12  rounded-full flex flex-col items-center justify-center bg-[#5F50A3] text-lg font-bold text-white capitalize">
+                {showUserName[0]}
               </div>
             </div>
             <div className="flex flex-col justify-center items-center pl-4 text-[#303030] font-semibold">
-              {toMessageUserName}
+              {showUserName}
             </div>
           </div>
           <div

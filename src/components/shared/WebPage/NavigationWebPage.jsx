@@ -122,7 +122,7 @@ const NavigationWebPage = ({ socketRef, receivedMessages }) => {
             </div>
           </Link>
           <div
-            className="flex flex-col justify-center md:p-4 md:pl-4 md:h-3"
+            className="flex flex-col justify-center md:p-4 md:pl-4 md:h-3 cursor-pointer"
             onClick={() => logoutUser()}
           >
             Logout

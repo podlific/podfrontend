@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import NavigationMobile from "../shared/Mobile/NavigationMobile";
 import toast from "react-hot-toast";
-const SellerPodcastAddPage = () => {
+const SellerPodcastAddPage = ({ userInfo }) => {
   let navigate = useNavigate();
   const user = useSelector((state) => state.activate.unique_id);
   const usertype = useSelector((state) => state.activate.usertype);
@@ -73,6 +73,7 @@ const SellerPodcastAddPage = () => {
     image: podcastThumbnail,
     sellerId: user.unique_id,
     sellerUserName: userName.username,
+    sellername: userInfo.name,
     episodeName: episodeName,
     podcastName: podcastName,
     tags: JSON.stringify(tags),

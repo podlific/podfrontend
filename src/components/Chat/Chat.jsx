@@ -31,6 +31,7 @@ const Chat = ({
   const [toMessageUser, setToMessageUser] = useState("");
   const [toMessageUserName, setToMessageUserName] = useState("");
   const [loading, setLoading] = useState(true);
+  const [showUserName, setShowUserName] = useState("");
   const currtype = useSelector((state) => state.activate.usertype);
   //////////////////////////////////////////////////TIME FUNCTION BELOW////////////////////////////////////////////////////////////
 
@@ -135,6 +136,7 @@ const Chat = ({
   const handleClick = (curruser) => {
     setToMessageUser(curruser.userId);
     setToMessageUserName(curruser.userName);
+    setShowUserName(curruser.name);
   };
   receivedMessages.sort(function (x, y) {
     return x.date - y.date;
@@ -194,13 +196,13 @@ const Chat = ({
                       >
                         <div className=" md:w-1/5  flex flex-col   overflow-clip justify-center items-center  ">
                           <div className="  w-12 h-12  md:rounded-full flex flex-col items-center justify-center bg-[#5F50A3] text-lg font-bold text-white">
-                            {curruser.userName[0]}
+                            {curruser.name[0]}
                           </div>
                         </div>
                         <div className="w-3/4 flex flex-col justify-center ml-3">
                           <div className="flex flex-row justify-between">
                             <span className="font-semibold capitalize">
-                              {curruser.userName}
+                              {curruser.name}
                             </span>
                             <span className="hidden text-xs md:flex flex-col justify-center">
                               {curruser.userType}
@@ -238,6 +240,7 @@ const Chat = ({
                   setRequestPodcast={setRequestPodcast}
                   userPodcast={userPodcast}
                   setUserPodcast={setUserPodcast}
+                  showUserName={showUserName}
                 />
               )}
             </div>

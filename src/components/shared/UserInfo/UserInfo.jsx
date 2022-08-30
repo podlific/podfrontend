@@ -5,7 +5,7 @@ import FooterWebPage from "../WebPage/FooterWebPage";
 import NavigationWebPage from "../WebPage/NavigationWebPage";
 
 const UserInfo = ({ userInfo }) => {
-  console.log(userInfo);
+  // console.log(userInfo);
   return (
     <div className="h-screen flex flex-col justify-between">
       <div className="hidden md:block ">
@@ -16,14 +16,6 @@ const UserInfo = ({ userInfo }) => {
       </div>
       <div className="h-full flex flex-col items-center ">
         <div className="w-3/6 ml-40 flex flex-col gap-5 mt-5 text-[18px]">
-          <div className="flex flex-row w-full justify-between ">
-            <div className="w-1/2 h-[50px] m-auto flex flex-col justify-center font-semibold  ">
-              Username
-            </div>
-            <div className="w-1/2 h-[50px] m-auto flex flex-col justify-center ">
-              {userInfo?.username}
-            </div>
-          </div>
           <div className="flex flex-row w-full justify-between">
             <div className="w-1/2 h-[50px] m-auto flex flex-col justify-center font-semibold ">
               Name

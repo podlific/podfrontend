@@ -93,7 +93,7 @@ const CampaignWebPage = ({
       <div className="m-4 flex flex-col md:flex md:flex-row md:h-[80%] md:m-0 overflow-y-scroll scrollbar-hide">
         <div className="  md:flex md:flex-col w-[100%]">
           <div className="h-1/4 flex flex-row  md:flex md:flex-row  md:h-[86%]  justify-center   w-[100%] ">
-            <div className="flex flex-row justify-center  md:h-full md:w-[95%] lg:w-[75%] xl:w-[70%]  relative  rounded-b-3xl rounded-t-3xl  shadow-md shadow-zinc-900  ">
+            <div className="flex flex-row justify-center w-[100%]  md:h-full  md:w-[95%] lg:w-[75%] xl:w-[70%]  relative  rounded-b-3xl rounded-t-3xl  shadow-md shadow-zinc-900  ">
               <img
                 className=" md:h-full w-[100%] rounded-b-3xl  "
                 src={`data:image/png;base64,${currPodcastInfo?.image}`}

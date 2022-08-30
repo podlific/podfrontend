@@ -300,14 +300,14 @@ const FilterPage = ({
   return (
     <div className="md:h-screen scrollbar-hide flex flex-col justify-between">
       <div className="w-full relative">
-        <div className=" fixed block  z-10 w-full bg-white md:hidden">
+        <div className=" z-10 bg-white md:hidden">
           <NavigationMobile />
         </div>
       </div>
       <div className="hidden h-[14.5%] md:block">
         <NavigationWebPage />
       </div>
-      <div className=" flex flex-row drop-shadow-lg md:pt-0 w-4/5 pl-3 pt-20 z-10 relative md:hidden ">
+      <div className=" flex flex-row drop-shadow-lg md:pt-0 w-4/5 pl-3 pt-4 z-1 relative md:hidden ">
         <input
           className=" w-full  rounded-lg rounded-r-none indent-5 outline-none border-none border-transparent focus:border-transparent focus:ring-0 placeholder:text-[#43176F] "
           type="text"

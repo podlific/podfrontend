@@ -5,13 +5,15 @@ import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 const PasswordReset = () => {
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmedPassword, setConfirmedPassword] = useState("");
+  let [newPassword, setNewPassword] = useState("");
+  let [confirmedPassword, setConfirmedPassword] = useState("");
   const [changeColor, setChangeColor] = useState(false);
   const [active, setActive] = useState(false);
   let { id } = useParams();
   const navigate = useNavigate();
   const handleSubmit = async () => {
+    newPassword = newPassword.trim();
+    confirmedPassword = confirmedPassword.trim();
     if (newPassword.length < 8 || confirmedPassword.length < 8) {
       setChangeColor(true);
       return;
@@ -28,7 +30,6 @@ const PasswordReset = () => {
         password: confirmedPassword,
       };
       let info = await api.post("/api/setnewpassword", data);
-      // console.log(info);
       if (info.status === 200) {
         toast.success(info.data.message);
       } else {
@@ -36,7 +37,6 @@ const PasswordReset = () => {
       }
       navigate("/login");
     } catch (err) {
-      // console.log(err);
       toast.error(err.response.data.message);
       return;
     }

@@ -107,11 +107,11 @@ const CampaignWebPage = ({
                 src={`data:image/png;base64,${currPodcastInfo?.image}`}
                 alt="logo-1"
               />
-              <img
+              {/* <img
                 className="h-1/2 hidden md:block md:h-full w-[100%] absolute rounded-b-3xl  bottom-0"
                 src="../Rectangle657.png"
                 alt="img"
-              />
+              /> */}
             </div>
           </div>
           <div className="flex flex-col md:flex-row justify-center">

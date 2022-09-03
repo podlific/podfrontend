@@ -15,7 +15,6 @@ const LoginPage = ({ setUserInfo }) => {
   const curruser = useSelector((state) => state.activate.unique_id);
   const currtype = useSelector((state) => state.activate.usertype);
   const dispatch = useDispatch();
-  const [data, setData] = useState({});
   const [user, setUser] = useState({
     username: "",
     password: "",
@@ -32,6 +31,7 @@ const LoginPage = ({ setUserInfo }) => {
   const handleClickSumbit = async (e) => {
     e.preventDefault();
     user.username = user.username.trim();
+    user.password = user.password.trim();
     try {
       let res = await api.post("/api/login", user);
       if (res) {

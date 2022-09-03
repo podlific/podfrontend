@@ -30,7 +30,7 @@ import UserInfo from "./components/shared/UserInfo/UserInfo";
 import { Toaster } from "react-hot-toast";
 import PasswordReset from "./components/PasswordReset/PasswordReset";
 import PasswordMail from "./components/PasswordReset/PasswordMail";
-
+import "react-day-picker/dist/style.css";
 function App() {
   //////////////////////////////////////////////////SOCKET.IO IMPLEMENTATION BELOW////////////////////////////////////////////////////////////
   const user = useSelector((state) => state.activate.unique_id);

@@ -15,6 +15,7 @@ const UserCampaignPage = ({ requestPodcast, setRequestPodcast }) => {
     if (currtype.usertype === "admin") {
       navigate("../admindashboard");
     }
+    console.log(requestPodcast);
   }, []);
   return (
     <div className="flex flex-col  h-screen">

@@ -24,31 +24,29 @@ const NavigationMobile = ({ socketRef, receivedMessages }) => {
   const user = useSelector((state) => state.activate.unique_id);
 
   async function logoutUser() {
+    const senddata = {
+      message: receivedMessages,
+      from: user.unique_id,
+    };
     try {
-      const senddata = {
-        message: receivedMessages,
-        from: user.unique_id,
-      };
-      try {
-        await api.post("/api/oldmessageupdate", senddata);
-      } catch (err) {
-        toast.error("Messages not updated , try again");
-        return;
-      }
-      try {
-        await api.post("/api/logout");
-      } catch (err) {
-        toast.error("Unable to logout , try again ");
-        return;
-      }
-      toast.success("Successfully logged out");
-      dispatch(setUserName({ username: "" }));
-      dispatch(setUniqueID({ unique_id: "" }));
-      dispatch(setUserType({ usertype: "" }));
-      // navigate.go(0);
-      navigate("/login", { replace: true });
-      socketRef.current.on("disconnecting");
-    } catch (err) {}
+      await api.post("/api/oldmessageupdate", senddata);
+    } catch (err) {
+      toast.error("Messages not updated , try again");
+      return;
+    }
+    try {
+      await api.post("/api/logout");
+    } catch (err) {
+      toast.error("Unable to logout , try again ");
+      return;
+    }
+    toast.success("Successfully logged out");
+    dispatch(setUserName({ username: "" }));
+    dispatch(setUniqueID({ unique_id: "" }));
+    dispatch(setUserType({ usertype: "" }));
+    // navigate.go(0);
+    navigate("/login", { replace: true });
+    socketRef.current.on("disconnecting");
   }
   return (
     <div className="  flex flex-row justify-between p-3 shadow-md shadow-zinc-500/75 relative">

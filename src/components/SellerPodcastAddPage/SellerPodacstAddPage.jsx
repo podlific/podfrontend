@@ -36,6 +36,7 @@ const SellerPodcastAddPage = ({ userInfo }) => {
   const [groupVal, setGroupVal] = useState("");
   const [podcastThumbnail, setPodcastThumbnail] = useState(null);
   const [podcastPreview, setPodcastPreview] = useState();
+  const [showImage, setShowImage] = useState(false);
   const episodes = [
     {
       id: 1,
@@ -130,8 +131,19 @@ const SellerPodcastAddPage = ({ userInfo }) => {
 
   useEffect(() => {
     if (podcastThumbnail) {
-      const objectUrl = URL.createObjectURL(podcastThumbnail);
-      setPodcastPreview(objectUrl);
+      let objectUrl;
+      const size = (podcastThumbnail.size / 1024 / 1024).toFixed(2);
+      // console.log(size);
+
+      if (size > 1) {
+        toast.error("The image size must be less than 1Mb");
+        setShowImage(false);
+        return;
+      } else {
+        const objectUrl = URL.createObjectURL(podcastThumbnail);
+        setShowImage(true);
+        setPodcastPreview(objectUrl);
+      }
       // free memory when ever this component is unmounted
       return () => URL.revokeObjectURL(objectUrl);
     }
@@ -191,7 +203,7 @@ const SellerPodcastAddPage = ({ userInfo }) => {
             </div>
           </div>
           <div className=" flex flex-col md:justify-end  ">
-            {podcastThumbnail ? (
+            {podcastThumbnail && showImage ? (
               <div className=" h-[200px] md:h-[250px] md:w-[350px] xl:w-[500px]  flex flex-col items-center justify-center  border-2 border-[#D6E4EC] rounded-lg relative ">
                 <img
                   className="object-cover h-full w-full"
@@ -452,12 +464,12 @@ const SellerPodcastAddPage = ({ userInfo }) => {
             </div>
           </div>
           <div className="flex flex-row items-end ">
-            <span
+            <button
               className="px-5 p-1 rounded-2xl  bg-[#B198FF] text-white font-semibold"
               onClick={() => handleSubmit()}
             >
               Submit
-            </span>
+            </button>
           </div>
         </div>
       </div>

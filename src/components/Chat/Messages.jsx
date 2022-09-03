@@ -4,20 +4,35 @@ import api from "../../config/axios";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import toast from "react-hot-toast";
-const style = {
+import { DayPicker } from "react-day-picker";
+const style1 = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
-  height: 200,
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
   color: "black",
   p: 4,
 };
+const css = `
+  .my-selected:not([disabled]) { 
+    font-weight: bold; 
+    border: 2px solid currentColor;
+  }
+  .my-selected:hover:not([disabled]) { 
+    border-color: blue;
+    color: blue;
+  }
+  .my-today { 
+    font-weight: bold;
+    font-size: 140%; 
+    color: red;
+  }
+`;
 let todayDate = "";
+const pastMonth = new Date(2020, 10, 15);
 let podname = "";
 export const Messages = ({
   handleSendMessage,
@@ -38,10 +53,6 @@ export const Messages = ({
   setUserPodcast,
   showUserName,
 }) => {
-  const handleDate = (date) => {
-    console.log(date);
-  };
-  const mySet = new Set();
   const today = new Date();
   const yyyy = today.getFullYear();
   let mm = today.getMonth() + 1; // Months start at 0!
@@ -50,100 +61,63 @@ export const Messages = ({
   if (dd < 10) dd = "0" + dd;
   if (mm < 10) mm = "0" + mm;
 
-  const formattedToday = yyyy + "-" + mm + "-" + dd;
   const usertype = useSelector((state) => state.activate.usertype);
   const [unseen, setUnseen] = useState([]);
   const [show, setShow] = useState(false);
   const [ModalState, setModalState] = useState(false);
   const [open, setOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(formattedToday);
   const [selectedPodcast, setSelectedPodcast] = useState("");
-  const [selectedTime, setSelectedTime] = useState("");
   const [currentBooking, setCurrentBooking] = useState("");
   const [arrMessages, setArrMessages] = useState(receivedMessages);
-  const [currentDate, setCurrentDate] = useState("");
-  const [availableTime, setAvailableTime] = useState([
-    "09:00 am",
-    "10:00 am",
-    "11:00 am",
-    "12:00 pm",
-    "01:00 pm",
-    "02:00 pm",
-    "03:00 pm",
-    "04:00 pm",
-    "05:00 pm",
-    "06:00 pm",
-  ]);
-  const [name, setname] = useState("");
+  const [disabledDays, setDisabledDays] = useState([]);
+
+  let newDate = "",
+    newTime = "";
   const updateRequest = async () => {
+    if (newDate === "" || newTime === "") {
+      toast.error("Select the starting and ending date");
+      return;
+    }
     let data = {
       podcastid: selectedPodcast,
       buyerid: toMessageUser,
       sellerid: user.unique_id,
-      date: todayDate,
-      time: selectedTime,
+      date: newDate,
+      time: newTime,
     };
     // toast
     userPodcast.forEach((element) => {
       if (element._id === selectedPodcast) {
-        element.bookings.push({ date: todayDate, time: selectedTime });
+        element.bookings.push({ date: newDate, time: newTime });
       }
     });
     try {
-      await api.post("/api/updaterequest", data);
-      toast.success("Offer sent Successfully");
+      await api.post("/api/updaterequest", data).then(() => {
+        toast.success("Offer sent Successfully");
+      });
     } catch (err) {
       toast.error("Unable to send Offer , try again");
     }
   };
+  useEffect(() => {
+    setDisabledDays(currentBooking);
+  }, [currentBooking]);
   const existingBooking = (curr) => {
     let arr = [];
     userPodcast.forEach((element) => {
       if (element._id === curr) {
-        arr = element.bookings;
+        element.bookings.forEach((ele) => {
+          let datefrom = ele.date.split("/");
+          let dateto = ele.time.split("/");
+          arr.push({
+            from: new Date(datefrom[2], datefrom[1] - 1, datefrom[0]),
+            to: new Date(dateto[2], dateto[1] - 1, dateto[0]),
+          });
+        });
       }
     });
-    setCurrentBooking(arr);
-  };
-  const checkCommon = (currDate) => {
-    currentBooking.forEach((element) => {
-      if (element.date === currDate) {
-        mySet.add(element.time);
-      }
-    });
-    let arr = [
-      "09:00 am",
-      "10:00 am",
-      "11:00 am",
-      "12:00 pm",
-      "01:00 pm",
-      "02:00 pm",
-      "03:00 pm",
-      "04:00 pm",
-      "05:00 pm",
-      "06:00 pm",
-    ];
-    let brr = [];
-    arr.forEach((element) => {
-      if (!mySet.has(element)) {
-        brr.push(element);
-      }
-    });
-    setAvailableTime(brr);
-  };
-  const changeDateFormat = (inputDate) => {
-    // expects Y-m-d
-    var splitDate = inputDate.split("-");
-    if (splitDate.count === 0) {
-      return null;
-    }
 
-    var year = splitDate[0];
-    var month = splitDate[1];
-    var day = splitDate[2];
-    todayDate = day + "-" + month + "-" + year;
-    console.log(todayDate);
-    checkCommon(todayDate);
+    setCurrentBooking(arr);
   };
 
   const handleChangeState = async () => {
@@ -211,6 +185,7 @@ export const Messages = ({
       podcastid: chat.podcastid,
       date: chat.selectedDate,
       time: chat.SelectedTime,
+      userid: user.unique_id,
     };
     let info = await api.post("/api/removetimefrompodcast", data);
     receivedMessages.forEach((element) => {
@@ -232,7 +207,6 @@ export const Messages = ({
       "",
       ""
     );
-    acceptFunction(chat);
     setArrMessages(receivedMessages);
 
     updateNewMessage();
@@ -280,6 +254,27 @@ export const Messages = ({
     updateNewMessage();
     // window.location.reload();
   };
+  const [days, setDays] = useState([]);
+  useEffect(() => {
+    if (days.length === 1) {
+      newDate = days[0].toLocaleDateString().split("/");
+      newDate = newDate[1] + "/" + newDate[0] + "/" + newDate[2];
+    } else if (days.length > 1) {
+      newDate = days[0].toLocaleDateString().split("/");
+      newDate = newDate[1] + "/" + newDate[0] + "/" + newDate[2];
+      newTime = days[1].toLocaleDateString().split("/");
+      newTime = newTime[1] + "/" + newTime[0] + "/" + newTime[2];
+    }
+  }, [days]);
+  // console.log(days);
+
+  const footer =
+    days && days.length > 0 ? (
+      <p>You selected {days.length} day(s).</p>
+    ) : (
+      <p>Please pick two dates </p>
+    );
+
   return (
     <div className="h-full flex flex-col justify-between ">
       <div className="h-[11%] flex flex-col">
@@ -316,10 +311,10 @@ export const Messages = ({
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-          <Box sx={style}>
+          <Box sx={style1}>
             <div className="flex flex-col justify-evenly h-full">
               <div>Create Offer to Buyer</div>
-              <div className="flex flex-row justify-between">
+              <div className="flex flex-col md:flex-row justify-between">
                 <select
                   name="opt1"
                   id="opt1"
@@ -330,7 +325,8 @@ export const Messages = ({
                 >
                   {requestPodcast &&
                     requestPodcast.map((request, index) => {
-                      return request.buyerid === toMessageUser ? (
+                      return request.buyerid === toMessageUser &&
+                        request.confirmed !== "true" ? (
                         <option
                           value={request.podcastid}
                           // podname={request.podcastname}
@@ -344,45 +340,29 @@ export const Messages = ({
                       );
                     })}
                 </select>
-                <input
-                  type="date"
-                  value={currentDate}
-                  onChange={(e) => {
-                    setCurrentDate(e.target.value);
-                    todayDate = e.target.value;
-                    changeDateFormat(e.target.value);
-                  }}
+
+                <DayPicker
+                  mode="multiple"
+                  max={2}
+                  selected={days}
+                  onSelect={setDays}
+                  footer={footer}
+                  disabled={disabledDays}
                 />
-                <select
-                  name="opt2"
-                  id="opt2"
-                  onClick={(e) => {
-                    setSelectedTime(e.target.value);
-                  }}
-                >
-                  {availableTime &&
-                    availableTime.map((request, index) => {
-                      return (
-                        <option value={request} key={index}>
-                          {request}
-                        </option>
-                      );
-                    })}
-                </select>
               </div>
               <div className="flex flex-row justify-end">
-                <span
+                <button
                   className=" p-1 rounded-2xl bg-[#5F50A3] text-white px-2"
                   onClick={() => {
                     updateRequest();
                     handleSendMessage(
-                      `This is ths offer Date ${todayDate} at Time ${selectedTime} for your requested podcast `,
+                      `This is ths offer from ${newDate} to ${newTime} for your requested podcast `,
                       toMessageUser,
                       user.unique_id,
                       "offerfromseller",
                       selectedPodcast,
-                      todayDate,
-                      selectedTime
+                      newDate,
+                      newTime
                     );
                     handleChangeState();
                     setModalState(false);
@@ -390,7 +370,7 @@ export const Messages = ({
                   }}
                 >
                   Submit
-                </span>
+                </button>
               </div>
             </div>
           </Box>

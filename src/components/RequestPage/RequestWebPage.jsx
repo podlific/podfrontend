@@ -49,7 +49,7 @@ const RequestWebPage = ({
     "05:00 pm",
     "06:00 pm",
   ]);
-  const [selectedDate, setSelectedDate] = useState(formattedToday);
+  // const [selectedDate, setSelectedDate] = useState(formattedToday);
   const [selectedTime, setSelectedTime] = useState("");
   const [currentDate, setCurrentDate] = useState(formattedToday);
   const usertype = useSelector((state) => state.activate.usertype);
@@ -255,9 +255,10 @@ const RequestWebPage = ({
       <div className="m-4 md:m-0 md:flex flex-row md:h-full  md:w-[100%] ">
         <div className=" md:w-[45%] flex flex-col items-center ">
           <div className=" flex flex-row  md:mt-5 h-1/3 md:w-2/3  rounded-3xl relative shadow-md shadow-zinc-900 ">
+            {/* src={`data:image/png;base64,${currPodcastInfo.image}`} */}
             <img
               className=" w-[100%]  rounded-3xl  "
-              src={`data:image/png;base64,${currPodcastInfo.image}`}
+              src={`${currPodcastInfo.image}`}
               alt="logo-1"
             />
             <img

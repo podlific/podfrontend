@@ -31,6 +31,7 @@ import { Toaster } from "react-hot-toast";
 import PasswordReset from "./components/PasswordReset/PasswordReset";
 import PasswordMail from "./components/PasswordReset/PasswordMail";
 import "react-day-picker/dist/style.css";
+import AdminDash from "./components/AdminPages/AdminDash";
 function App() {
   //////////////////////////////////////////////////SOCKET.IO IMPLEMENTATION BELOW////////////////////////////////////////////////////////////
   const user = useSelector((state) => state.activate.unique_id);
@@ -303,7 +304,7 @@ function App() {
               />
             }
           />
-          <Route
+          {/* <Route
             path="/admindashboard"
             element={
               <AdminDashboard
@@ -312,7 +313,8 @@ function App() {
                 userInfo={userInfo}
               />
             }
-          />
+          /> */}
+          <Route path="/admindashboard" element={<AdminDash />} />
           <Route path="/resetmail" element={<PasswordMail />} />
         </Routes>
       </BrowserRouter>

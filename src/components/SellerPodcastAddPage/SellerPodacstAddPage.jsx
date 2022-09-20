@@ -2,23 +2,23 @@ import React, { useEffect, useState } from "react";
 import FooterWebPage from "../shared/WebPage/FooterWebPage";
 import FooterMobile from "../shared/Mobile/FooterMobile";
 import NavigationWebPage from "../shared/WebPage/NavigationWebPage";
+import NavigationMobile from "../shared/Mobile/NavigationMobile";
 import { useSelector } from "react-redux";
 import { MdGroups } from "react-icons/md";
 import { HiPhotograph } from "react-icons/hi";
 import { AiFillPlusSquare, AiFillCloseCircle } from "react-icons/ai";
 import { ImPriceTags } from "react-icons/im";
 import { BsUpload } from "react-icons/bs";
-import api from "../../config/axios";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import NavigationMobile from "../shared/Mobile/NavigationMobile";
+import api from "../../config/axios";
 import toast from "react-hot-toast";
+import storage from "../../firebaseConfig";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 const SellerPodcastAddPage = ({ userInfo }) => {
   let navigate = useNavigate();
   const user = useSelector((state) => state.activate.unique_id);
   const usertype = useSelector((state) => state.activate.usertype);
   const userName = useSelector((state) => state.activate.username);
-
   const [averageListener, setAverageListener] = useState("NA");
   const [averageEpisodeLength, setAverageEpisodeLength] = useState("NA");
   const [averageLTR, setAverageLTR] = useState("NA");
@@ -37,6 +37,7 @@ const SellerPodcastAddPage = ({ userInfo }) => {
   const [podcastThumbnail, setPodcastThumbnail] = useState(null);
   const [podcastPreview, setPodcastPreview] = useState();
   const [showImage, setShowImage] = useState(false);
+  const [link, setLink] = useState("");
   const episodes = [
     {
       id: 1,
@@ -71,7 +72,7 @@ const SellerPodcastAddPage = ({ userInfo }) => {
   ];
 
   const data = {
-    image: podcastThumbnail,
+    image: link,
     sellerId: user.unique_id,
     sellerUserName: userName.username,
     sellername: userInfo.name,
@@ -104,18 +105,39 @@ const SellerPodcastAddPage = ({ userInfo }) => {
       toast.error("Fill all fields");
       return;
     }
-    try {
-      await api.post("/api/addnewpodcast", data, {
-        headers: {
-          "content-type": "multipart/form-data",
-        },
-      });
-      toast("Please refesh to see updates");
-      toast.success("New podcast added successfully");
-    } catch (err) {
-      toast.error("Unable to add new podcast");
-    }
-    navigate("../sellerfilterpage");
+    const storageRef = ref(storage, `/files/${podcastThumbnail.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, podcastThumbnail);
+    await uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const percent = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+
+        // update progress
+        // setPercent(percent);
+      },
+      (err) => console.log(err),
+      () => {
+        // download url
+        getDownloadURL(uploadTask.snapshot.ref).then(async (url) => {
+          data.image = url;
+          try {
+            await api.post("/api/addnewpodcast", data, {
+              headers: {
+                "content-type": "multipart/form-data",
+              },
+            });
+            toast("Please refesh to see updates");
+            toast.success("New podcast added successfully");
+            navigate("../sellerfilterpage");
+          } catch (err) {
+            toast.error("Unable to add new podcast");
+            navigate("../sellerfilterpage");
+          }
+        });
+      }
+    );
   };
   useEffect(() => {
     if (usertype.usertype === "admin") {

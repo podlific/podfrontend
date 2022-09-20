@@ -3,9 +3,9 @@ import FooterMobile from "../shared/Mobile/FooterMobile";
 import FooterWebPage from "../shared/WebPage/FooterWebPage";
 import NavigationWebPage from "../shared/WebPage/NavigationWebPage";
 import { useParams, useNavigate } from "react-router-dom";
-import Box from "@mui/material/Box";
-import Slider from "@mui/material/Slider";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+// import Box from "@mui/material/Box";
+// import Slider from "@mui/material/Slider";
+// import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useSelector } from "react-redux";
 import { MdGroups } from "react-icons/md";
 import { HiPhotograph } from "react-icons/hi";
@@ -102,9 +102,10 @@ const CampaignWebPage = ({
         <div className="  md:flex md:flex-col w-[100%]">
           <div className="h-1/4 flex flex-row  md:flex md:flex-row  md:h-[86%]  justify-center   w-[100%] ">
             <div className="flex flex-row justify-center w-[100%]  md:h-full  md:w-[95%] lg:w-[75%] xl:w-[70%]  relative  rounded-b-3xl rounded-t-3xl  shadow-md shadow-zinc-900  ">
+              {/* src={`data:image/png;base64,${currPodcastInfo?.image}`} */}
               <img
                 className=" md:h-full w-[100%] rounded-b-3xl  "
-                src={`data:image/png;base64,${currPodcastInfo?.image}`}
+                src={`${currPodcastInfo.image}`}
                 alt="logo-1"
               />
               {/* <img
@@ -134,12 +135,12 @@ const CampaignWebPage = ({
                 </div>
               </div>
               <div className="flex flex-row p-2 md:p-3">
-                <div
+                <button
                   className="flex whitespace-nowrap md:flex-row rounded-full bg-[#9B3FF7] p-2   md:p-2 lg:p-3 text-xs md:text-base font-medium text-white"
                   onClick={() => handleClick()}
                 >
                   Request for Campaign
-                </div>
+                </button>
               </div>
             </div>
           </div>

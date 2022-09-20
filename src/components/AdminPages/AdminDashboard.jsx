@@ -8,8 +8,7 @@ import Box from "@mui/material/Box";
 import { RiFileUploadFill, RiCloseCircleFill } from "react-icons/ri";
 import { AiFillPlusSquare } from "react-icons/ai";
 import Papa from "papaparse";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
   setUserName,
@@ -93,26 +92,44 @@ const AdminDashboard = ({ requestPodcast, userInfo }) => {
         uid: "#adminmodel123",
       };
       let info;
-      try {
-        info = await api.post("/api/getadmininfo", data);
-      } catch (err) {
-        toast.error("Unable to load data");
-        return;
-      }
-      let info1;
-      try {
-        info1 = await api.get("/api/getalluser");
-      } catch (err) {
-        toast.error("Unable to load data");
-        return;
-      }
-      toast.success("Data loaded successfully");
-      setRequest(info.data[0].requests);
-      setBroadcastMessages(info.data[0].broadcastmessages);
-      setTags(info.data[0].tags);
-      setThemes(info.data[0].themes);
-      setGroups(info.data[0].targetgroups);
-      setAllusers(info1.data);
+
+      info = api
+        .post("/api/getadmininfo", data)
+        .then((res) => {
+          setRequest(res.data[0].requests);
+          setBroadcastMessages(res.data[0].broadcastmessages);
+          setTags(res.data[0].tags);
+          setThemes(res.data[0].themes);
+          setGroups(res.data[0].targetgroups);
+          toast.success("Admin info loaded successfully");
+        })
+        .catch((err) => {
+          toast.error("Unable to load data");
+        });
+
+      let info1 = api
+        .get("/api/getalluser")
+        .then((res) => {
+          setAllusers(res.data);
+          toast.success("User data loaded sucessfully");
+        })
+        .catch(() => {
+          toast.error("Unable to load users data");
+        });
+      let data1 = {
+        searchItem: "",
+      };
+      let info2 = api
+        .post("/api/getpodcastfromsearch", data1)
+        .then((res) => {
+          setShowPodcast(res.data);
+          toast.success("Podcast data loaded succesfully");
+        })
+        .catch((err) => {
+          toast.error("Unable to fetch podcast ");
+        });
+
+      Promise.all([info, info1, info2]);
     };
     if (usertype.usertype === "admin") {
       getInfo();
@@ -120,19 +137,7 @@ const AdminDashboard = ({ requestPodcast, userInfo }) => {
       navigate("../login");
     }
   }, []);
-  useEffect(() => {
-    const init = async () => {
-      let data1 = {
-        searchItem: "",
-      };
-      const info = await api
-        .post("/api/getpodcastfromsearch", data1)
-        .then((res) => {
-          setShowPodcast(res.data);
-        });
-    };
-    init();
-  }, []);
+
   useEffect(() => {
     let len = allusers.length;
     setTotalusers(len);
@@ -270,6 +275,7 @@ const AdminDashboard = ({ requestPodcast, userInfo }) => {
     }
   };
   const changeHandler = (event) => {
+    // console.log("working");
     setCsvName(event.target.files[0].name);
     Papa.parse(event.target.files[0], {
       header: true,
@@ -288,6 +294,7 @@ const AdminDashboard = ({ requestPodcast, userInfo }) => {
     let data = {
       csvData: csvData,
     };
+    
     try {
       let info = await api.post("/api/addcsvdata", data);
       if (info) {

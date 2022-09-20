@@ -7,9 +7,10 @@ const PodcastWidgetMobile = ({ episodename, podcastname, tags, image }) => {
        border-2 hover:border-solid hover:border-[#0063ff] shadow-md rounded-2xl"
     >
       <div className=" flex flex-row items-center ">
+        {/* src={`data:image/png;base64,${image}`} */}
         <img
           className="h-16 w-16 p-2 rounded-2xl "
-          src={`data:image/png;base64,${image}`}
+          src={`${image}`}
           alt="img-cover"
         ></img>
         <div className="text-sm">

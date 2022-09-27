@@ -123,6 +123,7 @@ export const PieChart = () => {
   );
 };
 export const BarGraph = (userweekDaysData, userweekDaysLabel, showLabel) => {
+  // console.log(userweekDaysData,'ion')
   let data = {
     labels: userweekDaysLabel,
     datasets: [

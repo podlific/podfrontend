@@ -15,13 +15,33 @@ const addNewUserTag = async (tagname, podcastID) => {
   }
   let data = {
     tagname: tagname,
-    podcastID: podcastID,
+    podcastid: podcastID,
   };
   try {
     // console.log(data, "tagtest");
     let info = await api.post("/api/addnewtagbyuser", data);
     if (info) {
       toast.success(" data Added successfully");
+    }
+  } catch (err) {
+    toast.error("Unable to Add,try again");
+    return;
+  }
+};
+const addupdatedtag = async (tagname, podcastID) => {
+  if (tagname === null || tagname.length === 0) {
+    toast.error("Please add something ");
+    return;
+  }
+  let data = {
+    tagname: tagname,
+    podcastid: podcastID,
+  };
+  try {
+    // console.log(data, "tagtest");
+    let info = await api.post("/api/addmodifiedtag", data);
+    if (info) {
+      toast.success(" data deleted successfully");
     }
   } catch (err) {
     toast.error("Unable to Add,try again");
@@ -35,7 +55,7 @@ const deleteNewUserTag = async (tagname, podcastID) => {
   }
   let data = {
     tagname: tagname,
-    podcastID: podcastID,
+    podcastid: podcastID,
   };
   try {
     // console.log(data, "tagtest");
@@ -50,6 +70,7 @@ const deleteNewUserTag = async (tagname, podcastID) => {
 };
 export default function UserTag({ b }) {
   const [tagsArray, setTagArray] = useState(b);
+  const [checkchange, setCheckChange] = useState(false);
   // console.log(b);
   // const [showModal, setShow] = useState(false);
 
@@ -93,7 +114,7 @@ export default function UserTag({ b }) {
                   defaultValue={item.tag}
                   onChange={(e) => {
                     let tempArray = tagsArray;
-                    console.log(tempArray, tagsArray);
+                    // console.log(tempArray, tagsArray);
                     tempArray[ind]["tag"] = e.target.value;
                     setTagArray(tempArray);
                   }}
@@ -108,7 +129,6 @@ export default function UserTag({ b }) {
                       tagsArray[ind]["tag"],
                       tagsArray[ind]["podcastID"]
                     );
-                    // console.log(tagsArray[ind]["tag"], "input");
                   }}
                 >
                   <p className="m-1">Add</p>

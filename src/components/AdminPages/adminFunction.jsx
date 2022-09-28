@@ -375,6 +375,7 @@ export const BarGraphFunctions = (
       }
     }
   }
+  // console.log(createdDatesofUser, "createdDateofUser");
   let currDate = new Date();
   let first = currDate.getDate();
   for (let i = 0; i < 7; i++) {
@@ -384,9 +385,11 @@ export const BarGraphFunctions = (
     currPodcastdaystoshow.push(convertDate(currday1));
     currweekdaystoshow.push(currday.split(" ")[0]);
   }
+  // console.log(currweekdaystoshow, "currweekdaystoshow");
   setUserWeekDaysLabel(currweekdaystoshow.reverse());
   let weekData = new Map();
   let podcastWeekData = new Map();
+
   for (let i = 0; i < createdDatesofUser.length; i++) {
     if (!weekData.has(createdDatesofUser[i])) {
       weekData.set(createdDatesofUser[i], 1);
@@ -404,23 +407,9 @@ export const BarGraphFunctions = (
     }
   }
 
-  // for (let i = 0; i < 12; i++) {
-  //   let months = [
-  //     "01",
-  //     "02",
-  //     "03",
-  //     "04",
-  //     "05",
-  //     "06",
-  //     "07",
-  //     "08",
-  //     "09",
-  //     "10",
-  //     "11",
-  //     "12",
-  //   ];
-  //   monthData.set(months[i], 0);
-  // }
+  for (let [key, value] of weekData) {
+    // console.log(key, value);
+  }
 
   let toshowdata = [];
   let toshowPodcastData = [];
@@ -436,6 +425,7 @@ export const BarGraphFunctions = (
       toshowPodcastData.push(0);
     }
   }
+  // console.log(toshowdata, "toshowdata");
   setUserWeekDaysData(toshowdata.reverse());
   setPodcastWeekDaysData(toshowPodcastData.reverse());
 };

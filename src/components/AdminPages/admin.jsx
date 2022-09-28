@@ -723,7 +723,7 @@ export const TagView = ({ adminTags, requestedTags }) => {
   // useEffect(() => {
   //   setSortingOrder([...arr]);
   // }, [arr]);
-  console.log(arr);
+  // console.log(arr);
   return (
     <div className="h-[89%] flex flex-row">
       <div className="flex flex-col w-3/4">

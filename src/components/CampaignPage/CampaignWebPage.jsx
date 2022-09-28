@@ -63,41 +63,6 @@ const CampaignWebPage = ({
         <NavigationWebPage />
       </div>
 
-      {/* Mobile Design  */}
-      {/* <div className="flex flex-col p-3  md:hidden">
-        <div className=" flex flex-row  h-2/3  rounded-2xl relative shadow-md shadow-zinc-900 ">
-          <img
-            className=" w-[100%]  rounded-3xl  "
-            src="../img-cover1.png"
-            alt="logo-1"
-          />
-          <img
-            className="w-[100%] absolute rounded-2xl  bottom-0"
-            src="../Rectangle657.png"
-            alt="img"
-          />
-        </div>
-        <div className="flex flex-row mr-2">
-          <div className="p-3">
-            <img className="" src="../Facebook.png" alt="log" />
-          </div>
-          <div className="p-3">
-            <img className="" src="../Twitter.png" alt="log" />
-          </div>
-          <div className="p-3">
-            <img className="" src="../Instagram.png" alt="log" />
-          </div>
-          <div className="p-3">
-            <img className="" src="../Youtube.png" alt="log" />
-          </div>
-          <div className="p-3">
-            <img className="" src="../Slack.png" alt="log" />
-          </div>
-        </div>
-      </div> */}
-
-      {/* Web Design  */}
-
       <div className="m-4 flex flex-col md:flex md:flex-row md:h-[80%] md:m-0 overflow-y-scroll scrollbar-hide">
         <div className="  md:flex md:flex-col w-[100%]">
           <div className="h-1/4 flex flex-row  md:flex md:flex-row  md:h-[86%]  justify-center   w-[100%] ">

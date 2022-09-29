@@ -36,7 +36,7 @@ export const getInfo = async (
       setGroups(res.data[0].targetgroups);
       setAdminTags(res.data[0].admintags);
       setRequestedTags(res.data[0].requestedtags);
-      // toast.success("Admin info loaded successfully");
+      toast.success("Admin info loaded successfully");
       // console.log(res.data[0],"resitags")
     })
     .catch((err) => {
@@ -65,17 +65,17 @@ export const getInfo = async (
       toast.error("Unable to fetch podcast ");
     });
 
-  let info3 = api
-    .get("/api/gettagdataforadmin")
-    .then((res) => {
-      setTagData(res.data);
-      // console.log(res.data,"resdata")
-      toast.success("Tag data loaded successfully");
-    })
-    .catch((err) => {
-      toast.error("Unable to get tag data");
-    });
-  await Promise.all([info, info1, info2, info3]).then(() => {
+  // let info3 = api
+  //   .get("/api/gettagdataforadmin")
+  //   .then((res) => {
+  //     setTagData(res.data);
+  //     // console.log(res.data,"resdata")
+  //     toast.success("Tag data loaded successfully");
+  //   })
+  //   .catch((err) => {
+  //     toast.error("Unable to get tag data");
+  //   });
+  await Promise.all([info, info1, info2]).then(() => {
     setShowType("overview");
     setLoading(false);
   });

@@ -239,7 +239,12 @@ function App() {
           />
           <Route
             path="/sellerfilterpage"
-            element={<SellerFilterPage userPodcast={userPodcast} />}
+            element={
+              <SellerFilterPage
+                userPodcast={userPodcast}
+                adminInfo={adminInfo}
+              />
+            }
           />
           <Route
             path="/campaign/:id"

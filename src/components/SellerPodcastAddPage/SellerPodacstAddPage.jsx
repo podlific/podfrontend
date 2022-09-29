@@ -171,11 +171,13 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
   }, [podcastThumbnail]);
   useEffect(() => {
     let adminTag = [];
-    for (let i = 0; i < adminInfo.tags.length; i++) {
-      adminTag.push(adminInfo.tags[i].tagname);
+    if (adminInfo !== null) {
+      for (let i = 0; i < adminInfo.tags.length; i++) {
+        adminTag.push(adminInfo.tags[i].tagname);
+      }
+      // setTags(adminTags);
+      setAdminTags(adminTag);
     }
-    // setTags(adminTags);
-    setAdminTags(adminTag);
   }, [adminInfo]);
   useEffect(() => {
     if (searchTag === "") {

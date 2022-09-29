@@ -570,11 +570,11 @@ export const Overview = ({
       </div>
 
       <div className="min-h-[200px]">
-        <div className="w-full bg-[#F0F0F0] rounded-xl">
+        <div className="w-full h-full bg-[#F0F0F0] rounded-xl">
           <div className="flex flex-row pl-4 text-lg font-semibold">
             Trending Tags
           </div>
-          <div className="w-full h-[95%] py-2 pr-8">
+          <div className="w-full h-[90%] py-2 pr-8">
             <PieChart tags={tags} />
           </div>
         </div>
@@ -663,7 +663,7 @@ function singlePodcast(item) {
           <div className="p-5 pb-0 h-1/2 flex flex-row">
             <img
               src={item.image}
-              className="rounded-xl object-fit  "
+              className="rounded-xl object-fit  h-[200px] object-fit w-full"
               alt="images"
             />
           </div>

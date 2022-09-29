@@ -85,7 +85,6 @@ export const PieChart = ({ tags }) => {
     maxValueTags.push(tags[i].tagcount);
     maxValueTagsName.push(tags[i].tagname);
   }
-  console.log(tags);
   let data = {
     labels: maxValueTagsName,
     datasets: [

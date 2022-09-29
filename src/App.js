@@ -42,7 +42,7 @@ function App() {
   const [ListofPodcast, setListofPodcast] = useState([]);
   const [overAllPodcastList, setOverAllPodcastList] = useState([]);
   const [currPodcastInfo, setCurrentPodcastInfo] = useState([]);
-  const [requestPodcast, setRequestPodcast] = useState([]);
+  const [requestPodcast, setRequestPodcast] = useState([]); //request tag if 0 not confirm
   const [userPodcast, setUserPodcast] = useState([]);
   const [userInfo, setUserInfo] = useState();
   const [adminInfo, setAdminInfo] = useState(null);
@@ -131,7 +131,7 @@ function App() {
         uid: "#adminmodel123",
       };
       let info = await api.post("/api/sendinfoforuser", data);
-      // console.log("admininfo", info.data);
+      console.log("admininfo", info.data);
       if (info) {
         setAdminInfo(info.data);
       }

@@ -41,6 +41,7 @@ const SellerCalendar = ({ requestPodcast, setRequestPodcast }) => {
   const [displayArray, setDisplayArray] = useState([]);
   const [markedEvents, setMarkedEvents] = useState([]);
   const [currDate, setCurrDate] = useState("TODAY'S BOOKING");
+   console.log(requestPodcast,"reqpod")
 
   function changeDateFormat(inputDate) {
     var splitDate = inputDate.split("-");
@@ -70,6 +71,36 @@ const SellerCalendar = ({ requestPodcast, setRequestPodcast }) => {
     }
     setDisplayArray(brr);
   };
+  const configureDate=(e)=>{
+    let d=e.split('/');
+    let day;
+    let mon;
+    let year;
+    for (let i=0;i<d.length;i++)
+    {
+        if(d[i].length%2!=0){
+          d[i]='0'+d[i];
+        }
+    }
+   
+        let temp=d[d.length-1]
+        d[d.length-1]=d[0]
+        d[0]=temp;
+    
+    
+    return d.join('-')
+  }
+  const formateDate=(d)=>{
+    console.log(d,"formate");
+    let month = ''+(d.getMonth()+1) ;
+       let day =''+  d.getDate();
+       let  year = '' + d.getFullYear();
+        if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+      return [year, month, day].join('-');
+  }
   const currentBooking = requestPodcast;
   useEffect(() => {
     requestPodcast.forEach((element) => {});
@@ -78,9 +109,14 @@ const SellerCalendar = ({ requestPodcast, setRequestPodcast }) => {
     let arr = [];
     for (let i = 0; i < requestPodcast.length; i++) {
       let startDay = splitTime(requestPodcast[i].date);
-      let endDay = splitTime(requestPodcast[i].time);
-      endDay = addOneDayToDate(endDay);
-      endDay = convertDate(endDay);
+      let endDay=new Date(configureDate(requestPodcast[i].time))
+          // console.log("dates",requestPodcast[i].time,"che")
+          endDay.setDate(endDay.getDate() + 1)
+          endDay=formateDate(endDay);
+    // endDay='2022-09-25'
+      // endDay = addOneDayToDate(endDay);
+      // endDay = convertDate(endDay);
+    // console.log("dates",startDay,endDay)
       if (requestPodcast[i].confirmed === "true") {
         arr.push({
           start: startDay,
@@ -107,11 +143,13 @@ const SellerCalendar = ({ requestPodcast, setRequestPodcast }) => {
       <div className="block md:hidden">
         <NavigationMobile />
       </div>
-      <div className="mt-3 md:mt-0 px-3 h-full w-full flex-row flex md:flex-row justify-center md:px-10 overflow-scroll">
+      <div className="grid grid-cols-4 ">
+      <div className="col-span-3 mt-3 md:mt-0 px-3  h-full w-full flex-row flex md:flex-row justify-center md:px-10 overflow-scroll">
         {/* md:w-2/3 flex md:flex-start */}
         <div className=" md:w-[70%] flex-center " id="news">
           <StyleWrapper>
             <FullCalendar
+            
               plugins={[dayGridPlugin, interactionPlugin]}
               initialView="dayGridMonth"
               themeSystem="bootstrap5"
@@ -125,6 +163,7 @@ const SellerCalendar = ({ requestPodcast, setRequestPodcast }) => {
               aspectRatio={1}
             />
           </StyleWrapper>
+          
         </div>
         <div className=" w-full md:w-1/3  flex-col justify-start hidden">
           <div className=" mb-5  md:mb-0 w-full flex flex-row justify-center pt-16 h-full">
@@ -153,6 +192,49 @@ const SellerCalendar = ({ requestPodcast, setRequestPodcast }) => {
             </div>
           </div>
         </div>
+      </div>
+      <div className="grid col-span-1 mr-3 mt-3 overflow-scroll">
+        <div>
+          <div className="w-full border-2 rounded-t-lg border-purple-600 text-center bg-purple-600 h-fit">
+            <h>UpComming</h>
+          </div>
+          <div className=" grid grid-cols-2  text-center ">
+            <div className="border-2 border-gray-500">UserName </div>
+            <div className="border-r-2 border-t-2 border-b-2 border-gray-500">Date</div>
+          </div>
+
+          { requestPodcast.map((item,ind)=>{
+            return(
+          <div key = {ind} className=" grid grid-cols-2 text-center ">
+
+
+            <div className="border-r-2 border-l-2 border-b-2 border-gray-500">{item['buyerusername']}</div>
+            <div className="border-r-2  border-b-2 border-gray-500">{item['date']}</div>
+          </div>
+            )})
+          }
+        </div>
+        <div>
+          <div className="w-full border-2 rounded-t-lg border-purple-600 text-center bg-purple-600 h-fit">
+            <h>Past</h>
+          </div>
+          <div className=" grid grid-cols-2  text-center ">
+            <div className="border-2 border-gray-500">UserName </div>
+            <div className="border-r-2 border-t-2 border-b-2 border-gray-500">Date</div>
+          </div>
+
+          { requestPodcast.map((item,ind)=>{
+            return(
+          <div key = {ind} className=" grid grid-cols-2 text-center ">
+
+
+            <div className="border-r-2 border-l-2 border-b-2 border-gray-500">{item['buyerusername']}</div>
+            <div className="border-r-2  border-b-2 border-gray-500">{item['date']}</div>
+          </div>
+            )})
+          }
+        </div>
+      </div>
       </div>
       <div>
         <FooterWebPage />

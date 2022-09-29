@@ -20,7 +20,7 @@ import {
   UpdateList,
   logoutUser,
   BarGraphFunctions,
-  addNewtag
+  addNewtag,
 } from "./adminFunction";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
@@ -346,6 +346,7 @@ const AdminDash = ({ requestPodcast, userInfo }) => {
             userweekDaysLabel={userweekDaysLabel}
             podcastweekDaysData={podcastweekDaysData}
             showPodcast={showPodcast}
+            tags={adminTags}
           />
         )}
         {showtype === "podcasts" && <PodcastView showPodcast={showPodcast} />}

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Doughnut, Bar, Pie } from "react-chartjs-2";
 import { Chart as ChartJS } from "chart.js/auto";
 import { BiMessageAlt } from "react-icons/bi";
+import { min } from "date-fns";
 // import { faker } from '@faker-js/faker';
 export const ChartArea = ({ percentage1, percentage2 }) => {
   if (isNaN(percentage1)) {
@@ -74,13 +75,23 @@ export const HorizontalLine = ({ percentage }) => {
     </div>
   );
 };
-export const PieChart = () => {
+export const PieChart = ({ tags }) => {
+  tags.sort((a, b) => {
+    return a.tagcount - b.tagcount;
+  });
+  let maxValueTags = [];
+  let maxValueTagsName = [];
+  for (let i = tags.length - 1; i >= Math.max(tags.length - 6, 0); i--) {
+    maxValueTags.push(tags[i].tagcount);
+    maxValueTagsName.push(tags[i].tagname);
+  }
+  console.log(tags);
   let data = {
-    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+    labels: maxValueTagsName,
     datasets: [
       {
         label: "# of Votes",
-        data: [12, 19, 3, 5, 2, 3],
+        data: maxValueTags,
         backgroundColor: [
           "#5E3FBE",
           "#886BD8",

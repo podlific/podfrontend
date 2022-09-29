@@ -59,7 +59,7 @@ const NavigationWebPage = ({ socketRef, receivedMessages }) => {
     }
   }
   return (
-    <div className="flex flex-row justify-between font-medium text-white mt-3 pl-10 ">
+    <div className="flex flex-row justify-between font-medium text-white mt-3 pl-10 w-full ">
       <div className=" w-[20%]  pt-4 flex flex-row justify-start ">
         <div className="w-full flex flex-row justify-center pr-8 lg:pr-16 xl:pr-32">
           <Link

@@ -36,7 +36,8 @@ export const getInfo = async (
       setGroups(res.data[0].targetgroups);
       setAdminTags(res.data[0].admintags);
       setRequestedTags(res.data[0].requestedtags);
-      toast.success("Admin info loaded successfully");
+      // toast.success("Admin info loaded successfully");
+      // console.log(res.data[0],"resitags")
     })
     .catch((err) => {
       toast.error("Unable to load data");
@@ -46,7 +47,7 @@ export const getInfo = async (
     .get("/api/getalluser")
     .then((res) => {
       setAllusers(res.data);
-      toast.success("User data loaded sucessfully");
+      // toast.success("User data loaded sucessfully");
     })
     .catch(() => {
       toast.error("Unable to load users data");
@@ -68,6 +69,7 @@ export const getInfo = async (
     .get("/api/gettagdataforadmin")
     .then((res) => {
       setTagData(res.data);
+      // console.log(res.data,"resdata")
       toast.success("Tag data loaded successfully");
     })
     .catch((err) => {
@@ -77,6 +79,25 @@ export const getInfo = async (
     setShowType("overview");
     setLoading(false);
   });
+};
+export const addNewtag = async (tagname) => {
+  if (tagname === null || tagname.length === 0) {
+    toast.error("Please add something ");
+    return;
+  }
+  let data = {
+    tagname: tagname,
+  };
+  try {
+    // console.log(data, "tagtest");
+    let info = await api.post("/api/addnewtagbyadmin", data);
+    if (info) {
+      toast.success(" data Added successfully");
+    }
+  } catch (err) {
+    toast.error("Unable to Add,try again");
+    return;
+  }
 };
 
 export const UpdateList = async (
@@ -362,7 +383,7 @@ export const BarGraphFunctions = (
   let currPodcastdaystoshow = [];
   let currweekdaystoshow = [];
   if (allusers) {
-    for (let i = 0; i < allusers.length; i++) {
+    for (let i = 1; i < allusers.length; i++) {
       if (allusers[i].createdAt !== undefined) {
         createdDatesofUser.push(allusers[i].createdAt.slice(0, 10));
       }
@@ -413,6 +434,7 @@ export const BarGraphFunctions = (
 
   let toshowdata = [];
   let toshowPodcastData = [];
+  let demoarr = [2, 3, 5, 1, 7, 2, 8];
   for (let i = 0; i < 7; i++) {
     if (weekData.has(currdaystoshow[i])) {
       toshowdata.push(weekData.get(currdaystoshow[i]));

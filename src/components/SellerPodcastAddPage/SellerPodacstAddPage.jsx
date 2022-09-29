@@ -14,7 +14,8 @@ import api from "../../config/axios";
 import toast from "react-hot-toast";
 import storage from "../../firebaseConfig";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-const SellerPodcastAddPage = ({ userInfo }) => {
+import { myTimeout } from "./addPodcastFunctions";
+const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
   let navigate = useNavigate();
   const user = useSelector((state) => state.activate.unique_id);
   const usertype = useSelector((state) => state.activate.usertype);
@@ -38,6 +39,10 @@ const SellerPodcastAddPage = ({ userInfo }) => {
   const [podcastPreview, setPodcastPreview] = useState();
   const [showImage, setShowImage] = useState(false);
   const [link, setLink] = useState("");
+  const [showTagSuggestions, setShowTagSuggestions] = useState(false);
+  const [searchTag, setSearchTag] = useState("");
+  const [tagSuggestionArray, setTagSuggestionArray] = useState([]);
+  const [adminTags, setAdminTags] = useState([]);
   const episodes = [
     {
       id: 1,
@@ -78,10 +83,8 @@ const SellerPodcastAddPage = ({ userInfo }) => {
     sellername: userInfo.name,
     episodeName: episodeName,
     podcastName: podcastName,
-    tags: JSON.stringify(tags),
-    theme: JSON.stringify(themes),
-    groups: JSON.stringify(groups),
-    episodes: JSON.stringify(episodes),
+    tags: tags,
+    requestedtags: groups,
     description: description,
     averageListener: averageListener,
     averageEpisodeLength: averageEpisodeLength,
@@ -93,14 +96,11 @@ const SellerPodcastAddPage = ({ userInfo }) => {
       podcastThumbnail === null ||
       podcastName === "" ||
       episodeName === "" ||
-      description === "" ||
-      tags.length === 0 ||
-      themes.length === 0 ||
-      groups.length === 0 ||
-      averageListener === "NA" ||
-      setAverageEpisodeLength === "NA" ||
-      averageLTR === "NA" ||
-      releaseFrequency === "NA"
+      description === ""
+      // averageListener === "NA" ||
+      // setAverageEpisodeLength === "NA" ||
+      // averageLTR === "NA" ||
+      // releaseFrequency === "NA"
     ) {
       toast.error("Fill all fields");
       return;
@@ -120,14 +120,13 @@ const SellerPodcastAddPage = ({ userInfo }) => {
       (err) => console.log(err),
       () => {
         // download url
+        //  headers: {
+        //         "content-type": "multipart/form-data",
+        //       },
         getDownloadURL(uploadTask.snapshot.ref).then(async (url) => {
           data.image = url;
           try {
-            await api.post("/api/addnewpodcast", data, {
-              headers: {
-                "content-type": "multipart/form-data",
-              },
-            });
+            await api.post("/api/addnewpodcastbyuser", data);
             toast("Please refesh to see updates");
             toast.success("New podcast added successfully");
             navigate("../sellerfilterpage");
@@ -170,7 +169,28 @@ const SellerPodcastAddPage = ({ userInfo }) => {
       return () => URL.revokeObjectURL(objectUrl);
     }
   }, [podcastThumbnail]);
-
+  useEffect(() => {
+    let adminTag = [];
+    for (let i = 0; i < adminInfo.tags.length; i++) {
+      adminTag.push(adminInfo.tags[i].tagname);
+    }
+    // setTags(adminTags);
+    setAdminTags(adminTag);
+  }, [adminInfo]);
+  useEffect(() => {
+    if (searchTag === "") {
+      setTagSuggestionArray(adminTags);
+    }
+    let tempSuggestions = [];
+    adminTags.forEach((element) => {
+      let x = element.toLowerCase();
+      x = x.search(searchTag.toLowerCase());
+      if (x !== -1) {
+        tempSuggestions = [...tempSuggestions, element];
+      }
+    });
+    setTagSuggestionArray(tempSuggestions);
+  }, [searchTag]);
   return (
     <div className="h-screen flex flex-col justify-between">
       <div className="hidden md:block">
@@ -259,7 +279,7 @@ const SellerPodcastAddPage = ({ userInfo }) => {
           </div>
         </div>
         <div className=" flex flex-col md:flex-row  justify-between py-4">
-          <div className=" w-full md:w-1/2 h-full flex flex-col justify-between items-start ">
+          <div className="hidden w-full md:w-1/2 h-full flex flex-col justify-between items-start ">
             <div className="w-full h-full lg:w-[90%] flex flex-row flex-wrap">
               <div className="w-full h-full p-2 shadow-md shadow-zinc-400 rounded-lg">
                 <div className="flex flex-row p-2 items-center">
@@ -302,20 +322,23 @@ const SellerPodcastAddPage = ({ userInfo }) => {
             </div>
           </div>
 
-          <div className=" w-full md:w-1/2 flex flex-col items-center justify-between">
+          <div className=" w-full md:w-1/2 flex flex-col ">
             <div className=" w-full h-full lg:w-[80%] flex flex-row flex-wrap">
               <div className="w-full h-full p-2 shadow-md shadow-zinc-400 rounded-lg">
                 <div className="flex  flex-row p-2 items-center">
                   <ImPriceTags size={22} />
                   <span className="ml-2 font-semibold text-[#343C44]">
-                    Related Tags
+                    Tags
                   </span>
                 </div>
                 <div className="p-2 flex flex-wrap ">
                   {tags &&
                     tags.map((tag, index) => {
                       return (
-                        <span className="p-1 pl-2 m-1 pr-2 rounded-xl bg-[#B198FF] text-white">
+                        <span
+                          className="p-1 pl-2 m-1 pr-2 rounded-xl bg-[#B198FF] text-white"
+                          key={index}
+                        >
                           {tag}
                         </span>
                       );
@@ -324,9 +347,51 @@ const SellerPodcastAddPage = ({ userInfo }) => {
               </div>
             </div>
             <div className="w-full  pt-2 flex flex-row items-center md:justify-center">
+              <div className="overflow-hidden">
+                <input
+                  className=""
+                  value={searchTag}
+                  placeholder="Type here"
+                  onChange={(e) => {
+                    setSearchTag(e.target.value);
+                  }}
+                  onFocus={() => {
+                    setShowTagSuggestions(true);
+                    setSearchTag("");
+                  }}
+                  // onBlur={() => myTimeout(setShowTagSuggestions)}
+                />
+                <button
+                  onClick={() => {
+                    setShowTagSuggestions(false);
+                  }}
+                >
+                  X
+                </button>
+                <div
+                  className={
+                    showTagSuggestions === true ? "overflow-hidden" : "hidden"
+                  }
+                >
+                  {tagSuggestionArray &&
+                    tagSuggestionArray.map((item, index) => {
+                      return (
+                        <div
+                          onClick={() => {
+                            setTagVal(item);
+                            // setShowTagSuggestions(false);
+                          }}
+                          key={index}
+                        >
+                          {item}
+                        </div>
+                      );
+                    })}
+                </div>
+              </div>
               <div className="pt-1">
                 <input
-                  className="rounded-md bg-[#FBFBFB] border-[1px] border-[#D6E4EC] pl-3 p-1"
+                  className="rounded-md bg-[#FBFBFB] border-[1px] border-[#D6E4EC]  p-1"
                   placeholder="Type Theme tag"
                   value={tagVal}
                   onChange={(e) => setTagVal(e.target.value)}
@@ -350,7 +415,7 @@ const SellerPodcastAddPage = ({ userInfo }) => {
                 <div className="flex flex-row p-2 items-center">
                   <MdGroups size={22} />
                   <span className="ml-2 font-semibold text-[#343C44]">
-                    Target Groups
+                    Custom Tags
                   </span>
                 </div>
                 <div className="p-2 flex flex-wrap ">

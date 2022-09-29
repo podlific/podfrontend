@@ -131,6 +131,7 @@ function App() {
         uid: "#adminmodel123",
       };
       let info = await api.post("/api/sendinfoforuser", data);
+      // console.log("admininfo", info.data);
       if (info) {
         setAdminInfo(info.data);
       }
@@ -293,7 +294,9 @@ function App() {
           />
           <Route
             path="/addnewpodcast"
-            element={<SellerPodcastAddPage userInfo={userInfo} />}
+            element={
+              <SellerPodcastAddPage userInfo={userInfo} adminInfo={adminInfo} />
+            }
           />
           <Route
             path="/calendar"

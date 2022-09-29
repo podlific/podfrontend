@@ -20,6 +20,7 @@ import {
   UpdateList,
   logoutUser,
   BarGraphFunctions,
+  addNewtag
 } from "./adminFunction";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
@@ -271,7 +272,7 @@ const AdminDash = ({ requestPodcast, userInfo }) => {
         <div className="h-[11%] flex flex-col justify-end items-end pb-2 pr-7 border-b-black border-b-[1px] ">
           <div className="flex flex-row gap-x-2">
             <div className="h-[25px] w-[25px] flex flex-col items-center justify-center">
-              <img src="./adminicons/username.png" alt="uername" />
+              <img src="./adminicons/username.png" alt="username" />
             </div>
             <div>
               <h5 className="font-medium">Username</h5>

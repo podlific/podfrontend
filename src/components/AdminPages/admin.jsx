@@ -3,7 +3,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { BsCart4, BsClock } from "react-icons/bs";
 import { MdOutlineLibraryBooks } from "react-icons/md";
 import { IoIosPricetags } from "react-icons/io";
-import Progressbar from "./Progressbar";
+import Progressbar from './Progressbar';
 import PopularTags from "./PopularTags";
 import { Modal, Button } from "react-bootstrap";
 import {
@@ -13,8 +13,6 @@ import {
   changeHandler,
   uploadCSVdata,
   addNewtag,
-  TagSearchFunction,
-  UserSearchFunction,
 } from "./adminFunction";
 import {
   BarGraph,
@@ -23,11 +21,10 @@ import {
   HorizontalLine,
   PieChart,
 } from "./ChartFunction";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState ,useRef} from "react";
 import toast from "react-hot-toast";
 import { el } from "date-fns/locale";
 import UserTag from "./UserTag";
-import { element } from "prop-types";
 const theme = createTheme({
   palette: {
     primary: {
@@ -56,8 +53,6 @@ export const Request = ({
   sellerRequest,
   setSellerRequest,
   buyerRequest,
-  setBuyerRequest,
-  setAllRequest,
   request,
   setRequest,
   setAllusers,
@@ -67,48 +62,8 @@ export const Request = ({
   setShow,
   setModalState,
   handleClick,
-  setTotalpendingrequests,
 }) => {
-  // let arr = showtype === "sellerRequest" ? sellerRequest : buyerRequest;
-  const [arr, setArr] = useState([]);
-  const [searchUser, setSearchUser] = useState("");
-  useEffect(() => {
-    if (showtype === "sellerRequest") {
-      setArr(sellerRequest);
-    } else {
-      setArr(buyerRequest);
-    }
-  }, [showtype]);
-  useEffect(() => {
-    if (showtype === "sellerRequest" && searchUser === "") {
-      setArr(sellerRequest);
-    } else if (showtype === "buyerRequest" && searchUser === "") {
-      setArr(buyerRequest);
-    } else if (showtype === "sellerRequest" && searchUser !== "") {
-      UserSearchFunction(sellerRequest, setArr, searchUser);
-    } else if (showtype === "buyerRequest" && searchUser !== "") {
-      UserSearchFunction(buyerRequest, setArr, searchUser);
-    }
-  }, [searchUser, showtype, sellerRequest, buyerRequest]);
-
-  useEffect(() => {
-    let len = request.length;
-    let seller = [];
-    let buyer = [];
-    let all = [];
-    request.forEach((Element) => {
-      if (Element.usertype === "seller") {
-        seller.push(Element);
-      } else {
-        buyer.push(Element);
-      }
-      all.push(Element);
-    });
-    setBuyerRequest(buyer);
-    setSellerRequest(seller);
-    setAllRequest(all);
-    setTotalpendingrequests(len);
-  }, [request]);
+  let arr = showtype === "sellerRequest" ? sellerRequest : buyerRequest;
 
   return (
     <div className="h-full flex flex-col ">
@@ -136,10 +91,6 @@ export const Request = ({
             <input
               className="bg-[#F2F4F5] w-full  "
               placeholder="Search here"
-              value={searchUser}
-              onChange={(e) => {
-                setSearchUser(e.target.value);
-              }}
             />
           </div>
         </div>
@@ -286,27 +237,7 @@ export const Accepted = ({
   acceptedSeller,
   acceptedBuyer,
 }) => {
-  // let arr = showtype === "acceptedSeller" ? acceptedSeller : acceptedBuyer;
-  const [arr, setArr] = useState([]);
-  const [searchUser, setSearchUser] = useState("");
-  useEffect(() => {
-    if (showtype === "acceptedSeller") {
-      setArr(acceptedSeller);
-    } else {
-      setArr(acceptedBuyer);
-    }
-  }, [showtype]);
-  useEffect(() => {
-    if (showtype === "acceptedSeller" && searchUser === "") {
-      setArr(acceptedSeller);
-    } else if (showtype === "acceptedBuyer" && searchUser === "") {
-      setArr(acceptedBuyer);
-    } else if (showtype === "acceptedSeller" && searchUser !== "") {
-      UserSearchFunction(acceptedSeller, setArr, searchUser);
-    } else if (showtype === "acceptedBuyer" && searchUser !== "") {
-      UserSearchFunction(acceptedBuyer, setArr, searchUser);
-    }
-  }, [searchUser, showtype]);
+  let arr = showtype === "acceptedSeller" ? acceptedSeller : acceptedBuyer;
 
   return (
     <div className="h-full flex flex-col ">
@@ -328,10 +259,6 @@ export const Accepted = ({
             <input
               className="bg-[#F2F4F5] w-full  "
               placeholder="Search here"
-              value={searchUser}
-              onChange={(e) => {
-                setSearchUser(e.target.value);
-              }}
             />
           </div>
         </div>
@@ -527,7 +454,6 @@ export const Overview = ({
   userweekDaysLabel,
   podcastweekDaysData,
   showPodcast,
-  tags,
 }) => {
   const [percentage1, setPercentage1] = useState(0);
   const [percentage2, setPercentage2] = useState(0);
@@ -561,113 +487,121 @@ export const Overview = ({
     sellerRequest,
     buyerRequest,
   ]);
+  function compare(a, b) {
+    let booking1 = a.bookings.length;
+    let booking2 = b.bookings.length;
 
+    let comparison = 0;
+    if (booking1 > booking2) {
+      comparison = 1;
+    } else {
+      comparison = -1;
+    }
+    return comparison;
+  }
   return (
     <div className="grid grid-cols-3 grid-rows-3 gap-2 h-[90%] pl-2 pt-2  mr-4 ">
       <div className="min-h-[200px]">
-        <div className="h-full ">
-          <div className=" flex flex-col  h-full bg-[#F0F0F0] rounded-xl">
-            <div className="flex flex-row pl-4 text-lg font-semibold">
-              Total Users
-            </div>
-            <div className="flex flex-row h-full">
-              <div className="w-1/2 h-[99%] relative">
-                <ChartArea
-                  percentage1={percentage1}
-                  percentage2={percentage2}
-                />
-                <div className="absolute top-[45%] left-[48%] font-medium text-[22px]">
-                  {totalusers}
-                </div>
-              </div>
-              <div className="w-1/2 flex flex-col ">
-                <div className="w-full h-1/2 flex flex-col justify-start ">
-                  <div className="h-1/2 flex flex-col justify-start ">
-                    Buyer
-                  </div>
-                  <div className="h-1/2 flex flex-col justify-start">
-                    <HorizontalLine percentage={percentage1 * 100} />
-                  </div>
-                </div>
-                <div className="w-full h-1/2 flex flex-col justify-start ">
-                  <div className="h-1/2 ">Seller</div>
-                  <div className="h-1/2 flex flex-col justify-start">
-                    <HorizontalLine percentage={percentage2 * 100} />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="h-full bg-[#F0F0F0] rounded-xl min-h-[200px]">
-        <div className="flex flex-col  h-full">
+      <div className="h-full ">
+        <div className=" flex flex-col  h-full bg-[#F0F0F0] rounded-xl">
           <div className="flex flex-row pl-4 text-lg font-semibold">
-            Pending Request
+            Total Users
           </div>
           <div className="flex flex-row h-full">
             <div className="w-1/2 h-[99%] relative">
-              <ChartArea percentage1={percentage3} percentage2={percentage4} />
+              <ChartArea percentage1={percentage1} percentage2={percentage2} />
               <div className="absolute top-[45%] left-[48%] font-medium text-[22px]">
-                {allRequest}
+                {totalusers}
               </div>
             </div>
             <div className="w-1/2 flex flex-col ">
               <div className="w-full h-1/2 flex flex-col justify-start ">
                 <div className="h-1/2 flex flex-col justify-start ">Buyer</div>
                 <div className="h-1/2 flex flex-col justify-start">
-                  <HorizontalLine percentage={percentage3 * 100} />
+                  <HorizontalLine percentage={percentage1 * 100} />
                 </div>
               </div>
               <div className="w-full h-1/2 flex flex-col justify-start ">
                 <div className="h-1/2 ">Seller</div>
-                <div className="h-1/2 flex flex-col justify-start py-2 pr-8">
-                  <HorizontalLine percentage={percentage4 * 100} />
+                <div className="h-1/2 flex flex-col justify-start">
+                  <HorizontalLine percentage={percentage2 * 100} />
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      <div className="min-h-[200px]">
-        <div className="w-full h-full bg-[#F0F0F0] rounded-xl">
-          <div className="flex flex-row pl-4 text-lg font-semibold">
-            Trending Tags
-          </div>
-          <div className="w-full h-[90%] py-2 pr-8">
-            <PieChart tags={tags} />
+      </div>
+     
+        <div className="h-full bg-[#F0F0F0] rounded-xl min-h-[200px]">
+          <div className="flex flex-col  h-full">
+            <div className="flex flex-row pl-4 text-lg font-semibold">
+              Pending Request
+            </div>
+            <div className="flex flex-row h-full">
+              <div className="w-1/2 h-[99%] relative">
+                <ChartArea percentage1={percentage3} percentage2={percentage4} />
+                <div className="absolute top-[45%] left-[48%] font-medium text-[22px]">
+                  {allRequest}
+                </div>
+              </div>
+              <div className="w-1/2 flex flex-col ">
+                <div className="w-full h-1/2 flex flex-col justify-start ">
+                  <div className="h-1/2 flex flex-col justify-start ">Buyer</div>
+                  <div className="h-1/2 flex flex-col justify-start">
+                    <HorizontalLine percentage={percentage3 * 100} />
+                  </div>
+                </div>
+                <div className="w-full h-1/2 flex flex-col justify-start ">
+                  <div className="h-1/2 ">Seller</div>
+                  <div className="h-1/2 flex flex-col justify-start py-2 pr-8">
+                    <HorizontalLine percentage={percentage4 * 100} />
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+     
+        <div className="min-h-[200px]">
+          <div className="w-full bg-[#F0F0F0] rounded-xl">
+            <div className="flex flex-row pl-4 text-lg font-semibold">
+              Trending Tags
+            </div>
+            <div className="w-full h-[95%] py-2 pr-8">
+              <PieChart />
+            </div>
+          </div>
+        
       </div>
-      <div className="grid grid-cols-2 gap-3 col-span-3 mt-5 mb-5">
-        <div className="flex flex-col h-[99%]">
-          <div className="pl-4 font-semibold">Total Users</div>
-          <div className="w-full h-[99%] px-2">
-            {/* <BarGraph
+        <div className="grid grid-cols-2 gap-3 col-span-3 mt-5 mb-5">
+          <div className="flex flex-col h-[99%]">
+            <div className="pl-4 font-semibold">Total Users</div>
+            <div className="w-full h-[99%] px-2">
+              {/* <BarGraph
               userweekDaysData={userweekDaysData}
               userweekDaysLabel={userweekDaysLabel}
               showLabel={"Number of user per day"}
             /> */}
-            {BarGraph(
-              userweekDaysData,
-              userweekDaysLabel,
-              "Number of user per day"
-            )}
+              {BarGraph(
+                userweekDaysData,
+                userweekDaysLabel,
+                "Number of user per day"
+              )}
+            </div>
+          </div>
+          <div className="flex flex-col h-[99%]">
+            <div className="pl-4 font-semibold">Total Podcast</div>
+            <div className="w-full h-[99%] flex flex-row justify-end pl-4">
+              {BarGraph(
+                
+                podcastweekDaysData,
+                userweekDaysLabel,
+                "Number of podcast per day"
+              )}
+            </div>
           </div>
         </div>
-        <div className="flex flex-col h-[99%]">
-          <div className="pl-4 font-semibold">Total Podcast</div>
-          <div className="w-full h-[99%] flex flex-row justify-end pl-4">
-            {BarGraph(
-              podcastweekDaysData,
-              userweekDaysLabel,
-              "Number of podcast per day"
-            )}
-          </div>
-        </div>
-      </div>
       <div className="col-span-3 h-full flex flex-col py-2  rounded-xl px-2 bg-[#F0F0F0] mt-[10px] ">
         <div className="pr-7   pl-4 font-semibold">Top Five Podcast</div>
         <div className="grid grid-cols-6 pr-7 pl-2 font-semibold ">
@@ -681,10 +615,8 @@ export const Overview = ({
         <div className="bg-[#F0F0F0] rounded-xl mt-2 ">
           {showPodcast &&
             showPodcast
-              .sort((a, b) => {
-                return a.bookings.length - b.bookings.length;
-              })
-              .filter((item, index) => index > showPodcast.length - 6)
+              .sort(compare)
+              .filter((item, index) => index < 5)
               .map((Element, index) => {
                 return (
                   <div className="" key={index}>
@@ -725,7 +657,7 @@ function singlePodcast(item) {
           <div className="p-5 pb-0 h-1/2 flex flex-row">
             <img
               src={item.image}
-              className="rounded-xl object-fit  h-[200px] object-fit w-full"
+              className="rounded-xl object-fit  "
               alt="images"
             />
           </div>
@@ -774,227 +706,123 @@ function singlePodcast(item) {
 }
 
 export const PodcastView = ({ showPodcast }) => {
-  const [searchPodcast, setSearchPodcast] = useState("");
-  const [tempArr, setTempArr] = useState([]);
-  useEffect(() => {
-    if (searchPodcast === "") {
-      setTempArr(showPodcast);
-    } else {
-      let arr = [];
-      showPodcast.forEach((element) => {
-        let podcastname = element.podcastName.toLowerCase();
-        podcastname = podcastname.search(searchPodcast.toLowerCase());
-        if (podcastname !== -1) {
-          arr.push(element);
-        }
-      });
-      setTempArr(arr);
-    }
-  }, [searchPodcast, showPodcast]);
   return (
     <div className="h-[89%] overflow-scroll">
-      <div>
-        <input
-          className="mx-2"
-          type="text"
-          value={searchPodcast}
-          placeholder="Search here"
-          onChange={(e) => {
-            setSearchPodcast(e.target.value);
-          }}
-        />
-      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 mt-1 mx-2">
-        {tempArr &&
-          tempArr.map((ele, index) => {
+        {showPodcast &&
+          showPodcast.map((ele, index) => {
             return singlePodcast(ele);
           })}
       </div>
     </div>
   );
 };
-export const TagView = ({
-  adminTags,
-  reqestedTags,
-  setAdminTags,
-  setRequestedTags,
-}) => {
+export const TagView = ({ adminTags, reqestedTags }) => {
   // console.log(adminTags);
-  const [showinput, setShowinput] = useState("false");
+  const [showinput,setShowinput]=useState("false")
   const [showTypeofTag, setShowTypeofTag] = useState("admin");
   const [sortingOrder, setSortingOrder] = useState([]);
-  const [arr, setArr] = useState([]);
-  const [searchTag, setSearchTag] = useState("");
-  useEffect(() => {
-    if (searchTag === "") {
-      TagSearchFunction(adminTags, setArr);
-    } else {
-      let tempArr = [];
-      adminTags.forEach((element) => {
-        let tagname = element.tagname.toLowerCase();
-        tagname = tagname.search(searchTag.toLowerCase());
-        if (tagname !== -1) {
-          tempArr.push(element);
-        }
-      });
-      TagSearchFunction(tempArr, setArr);
-    }
-  }, [searchTag, adminTags]);
+  let arr = [];
+  // useEffect(()=>{
+    
+  // })
+  for (let i = 0; i < 26; i++) {
+    let data = { currChar: "", currArr: [] };
+    let c = String.fromCharCode(97 + i);
+    adminTags.forEach((element) => {
+      if (element.tagname[0].toLowerCase() === c) {
+        data.currArr.push({ ...element });
+        data.currChar = c;
+      }
+    });
+    if (data.currChar !== "") arr = [...arr, data];
+  }
+  // useEffect(() => {
+  //   setSortingOrder([...arr]);
+  // }, [arr]);
+  // console.log(arr);
+   const [showModal, setShow] = useState(false);
 
-  useEffect(() => {
-    TagSearchFunction(adminTags, setArr);
-  }, [adminTags]);
-
-  const [showModal, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
 
   const handleShow = () => setShow(true);
-  const inputRef = useRef(null);
+   const inputRef = useRef(null);
+  //  function updateArr(c)
+  //  {
+  //   console.log(c,"hellp")
+    
+  //  }
 
   return (
     <div className="h-[89%] flex flex-row ml-[1%]">
       <div className="flex flex-col w-3/4">
         <div className="flex flex-col ">
-          <div className="w-full underline underline-offset-8 decoration-1 font-bold">
-            Tags
-          </div>
-          <div
-            className="w-full flex flex-row mb-5"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <button
-              onClick={handleShow}
-              className="border-0 rounded-2xl bg-[#5F50A3]"
-            >
-              <p className="ml-7 mr-7 mb-1.5 mt-1 text-white">Add Tag</p>
-            </button>
-
-            <div>
-              <Modal
-                className="absolute inset-0 text-center w-[30%] h-[30%] ml-[34%] mt-[15%]  bg-gray-300 min-h-[200px] rounded-xl"
-                show={showModal}
-                onHide={handleClose}
-              >
-                <Modal.Header closeButton>
-                  <Modal.Title className="mt-3 font-bold">Add Tags</Modal.Title>
-                </Modal.Header>
-                <Modal.Body className="h-[15%] mb-10">
-                  <input
-                    ref={inputRef}
-                    className="rounded-xl text-center w-[80%]  "
-                  />
-                </Modal.Body>
-                <Modal.Footer>
-                  <Button
-                    variant="secondary"
-                    className="bg-red-600 text-white font-semibold rounded-xl mr-4"
-                    onClick={handleClose}
-                  >
-                    <div className="m-2 ml-5 mr-5">Close</div>
-                  </Button>
-                  <Button
-                    variant="secondary"
-                    className="bg-green-600 text-white font-semibold rounded-xl"
-                    onClick={() => {
-                      addNewtag(inputRef.current.value);
-                      adminTags.push({
-                        tagname: inputRef.current.value,
-                        tagcount: 3,
-                      });
-                    }}
-                  >
-                    <div className="m-2 ml-5 mr-5">Submit</div>
-                  </Button>
-                </Modal.Footer>
+          <div className="w-full underline underline-offset-8 decoration-1 font-bold" >Tags</div>
+          <div className="w-full flex flex-row mb-5" style = {{display:"flex",alignItems:"center",justifyContent:"center"}}>
+            <button  onClick={handleShow} className="border-0 rounded-2xl bg-[#5F50A3]"><p className="ml-7 mr-7 mb-1.5 mt-1 text-white">Add Tag</p></button>
+            <div >
+             
+              <Modal className="absolute inset-0 text-center w-[30%] h-[30%] ml-[34%] mt-[15%]  bg-gray-300 min-h-[200px] rounded-xl" show={showModal} onHide={handleClose}>
+                  <Modal.Header closeButton>
+                    <Modal.Title className="mt-3 font-bold">Add Tags</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body className="h-[15%] mb-10"><input ref={inputRef} className="rounded-xl text-center w-[80%]  "/></Modal.Body>
+                  <Modal.Footer>
+                    <Button variant="secondary" className="bg-red-600 text-white font-semibold rounded-xl mr-4" onClick={handleClose}><div className="m-2 ml-5 mr-5">Close</div></Button>
+                    <Button variant="secondary" className="bg-green-600 text-white font-semibold rounded-xl" onClick={()=>{addNewtag(inputRef.current.value);adminTags.push({tagname:inputRef.current.value,tagcount:3})
+   
+    }}><div className="m-2 ml-5 mr-5">Submit</div></Button>
+                  </Modal.Footer>
               </Modal>
             </div>
-            <div
-              className="ml-2 mr-2  flex flex-row border-1 rounded-2xl bg-[#F2F4F5]"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <p className="ml-2">Seller</p>
-              <div className="border-5">
-                <ThemeProvider theme={theme}>
-                  <Switch
-                    // checked={showtype === "sellerRequest" ? true : false}
-                    checked={showTypeofTag === "admin" ? true : false}
-                    onChange={() => {
-                      showTypeofTag === "admin"
-                        ? setShowTypeofTag("request")
-                        : setShowTypeofTag("admin");
-                    }}
-                    inputProps={{ "aria-label": "controlled" }}
-                  />
-                </ThemeProvider>
-              </div>
-              <p className="mr-2">Admin</p>
+            <div className="ml-2 mr-2  flex flex-row border-1 rounded-2xl bg-[#F2F4F5]" style = {{display:"flex",alignItems:"center",justifyContent:"center"}}>
+            <p className='ml-2'>Seller</p>
+            <div className="border-5">
+              
+              <ThemeProvider theme={theme}>
+                <Switch
+                  // checked={showtype === "sellerRequest" ? true : false}
+                  checked={showTypeofTag === "admin" ? true : false}
+                  onChange={() => {
+                    showTypeofTag === "admin"
+                      ? setShowTypeofTag("request")
+                      : setShowTypeofTag("admin");
+                  }}
+                  inputProps={{ "aria-label": "controlled" }}
+                />
+              </ThemeProvider>
+              
             </div>
-            <button
-              className="border-0 rounded-2xl bg-[#5F50A3]"
-              onClick={() => setShowTypeofTag("request")}
-            >
-              <p className="ml-7 mr-7 mb-1.5 mt-1 text-white">Requests</p>
-            </button>
+            <p className="mr-2">Admin</p>
+            </div>
+            <button className="border-0 rounded-2xl bg-[#5F50A3]" onClick={()=>setShowTypeofTag("request")}><p className="ml-7 mr-7 mb-1.5 mt-1 text-white">Requests</p></button>
+
+           
           </div>
-          <div
-            className="w-full flex flex-row mb-5 rounded-2xl"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <input
-              className="h-5 rounded-2xl bg-red-100"
-              value={searchTag}
-              placeholder="Type here"
-              onChange={(e) => {
-                setSearchTag(e.target.value);
-              }}
-            />
+          <div className="w-full flex flex-row mb-5 rounded-2xl" style = {{display:"flex",alignItems:"center",justifyContent:"center"}}>
+            <input className="h-5 rounded-2xl bg-red-100"/>
+            
           </div>
+          
         </div>
-        <div
-          className="flex flex-col w-full  "
-          style={{ overflowY: "scroll", overflowX: "hidden" }}
-        >
+        <div className="flex flex-col w-full  " style={{overflowY: 'scroll',overflowX:'hidden'}} >
           {arr &&
             arr.map((element, index) => {
               return (
-                <div
-                  className="flex flex-row w-full mt-2"
-                  style={{ borderTopWidth: "1px" }}
-                  key={index}
-                >
+                <div className="flex flex-row w-full mt-2" style = {{borderTopWidth:"1px"}} key={index}>
                   <div className="flex flex-row w-full mt-2">
-                    <div className="font-bold mr-[1%] text-2xl">
-                      {element.currChar.toUpperCase()}
-                    </div>
+                    <div className="font-bold mr-[1%] text-2xl">{element.currChar.toUpperCase()}</div>
                     <div className="flex flex-col w-full">
                       {element.currArr &&
                         element.currArr.map((element2, index) => {
                           return (
-                            <div
-                              className="flex flex-row  w-full    "
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                              }}
-                            >
-                              <Progressbar
-                                progress={element2?.tagcount}
-                                tagname={element2?.tagname}
-                              />
+                            <div className="flex flex-row  w-full    " style = {{display:"flex",justifyContent:"space-between"}}>
+                              
+                              
+                              <Progressbar  progress={element2?.tagcount} tagname={element2?.tagname}  />
                               <div className="mr-10">{element2?.tagcount}</div>
+                              
                             </div>
                           );
                         })}
@@ -1003,19 +831,12 @@ export const TagView = ({
                 </div>
               );
             })}
-          {<popularTags />}
+            {<popularTags/>}
         </div>
       </div>
       <div className="flex flex-row w-1/4 relative">
-        {showTypeofTag === "admin" ? (
-          <PopularTags a={adminTags} />
-        ) : (
-          <UserTag
-            b={reqestedTags}
-            setAdminTags={setAdminTags}
-            setRequestedTags={setRequestedTags}
-          />
-        )}
+        {showTypeofTag === "admin" ? <PopularTags a={adminTags}/> :<UserTag b={reqestedTags}/>}
+        
       </div>
     </div>
   );

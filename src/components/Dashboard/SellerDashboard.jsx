@@ -12,7 +12,6 @@ import {
   MdOutlineSpaceDashboard,
 } from "react-icons/md";
 import NavigationMobile from "../shared/Mobile/NavigationMobile";
-import NavigationWebPage from "../shared/WebPage/NavigationWebPage";
 const SellerDashboard = ({
   contacts,
   setContacts,
@@ -50,17 +49,21 @@ const SellerDashboard = ({
     }
   }, []);
   return (
-    <div className="h-screen flex flex-col w-full   ">
+    <div className="h-screen flex flex-col justify-between  ">
       <div className="w-full relative">
         <div className=" fixed  z-10 w-full bg-white md:hidden">
           <NavigationMobile />
         </div>
       </div>
-      <div className="hidden md:flex flex-row w-full">
-        <NavigationWebPage />
-      </div>
-      <div className="  h-full md:flex flex-row justify-between w-full ">
-        <div className="w-[25%] flex flex-col items-center  justify-center -ml-4">
+      <div className="  h-full md:flex flex-row  overflow-auto ">
+        <div className="w-1/4 flex flex-col items-center">
+          <div className=" hidden h-1/4 w-2/3 md:flex flex-col justify-center">
+            <img
+              className="w-full h-10 ml-0 mt-0 place-self-start overflow-y-hidden md:ml-0 md:mt-0 md:h-20 md:w-full lg:ml-0  lg:w-full"
+              src="./logo.png"
+              alt="logo"
+            />
+          </div>
           <div className=" hidden md:h-3/6 lg:h-2/6 w-2/3  md:flex flex-col justify-center items-center rounded-xl bg-gradient-to-b from-gray-200/100 to-gray-50  shadow-lg">
             <div className=" flex flex-row justify-center p-2 ">
               <img
@@ -103,7 +106,7 @@ const SellerDashboard = ({
           </div>
         </div>
 
-        <div className="md:w-[75%]  items-end  flex flex-col md:justify-center  ">
+        <div className="md:w-3/4  items-center  flex flex-col md:justify-evenly  ">
           <div className=" px-4 mt-16 md:mt-0 py-2  flex flex-col justify-around pt-3 md:pb-1 md:pl-7 md:pr-7 w-full ">
             <div className="  flex flex-row  rounded-2xl bg-[#5F50A3] text-[#FFFFFF]  ">
               <div className=" ml-2 mt-2 w-full  flex flex-col">

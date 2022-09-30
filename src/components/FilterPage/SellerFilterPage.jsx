@@ -12,10 +12,8 @@ import { useNavigate } from "react-router-dom";
 import { BiSearch } from "react-icons/bi";
 import { BsArrowRightCircleFill, BsArrowLeftCircleFill } from "react-icons/bs";
 import Loader from "../Loader/Loader";
-import { TagSortingFucntion } from "./FilterPageFunctions";
-let tagsSet = new Set();
 
-const SellerFilterPage = ({ userPodcast, adminInfo }) => {
+const SellerFilterPage = ({ userPodcast }) => {
   const navigate = useNavigate();
   const currtype = useSelector((state) => state.activate.usertype);
   const user = useSelector((state) => state.activate.unique_id);
@@ -30,7 +28,7 @@ const SellerFilterPage = ({ userPodcast, adminInfo }) => {
   const [selectedTags, setSelectedTag] = useState([]);
   const [active, setActive] = useState(false);
   const [theme, setTheme] = useState(false);
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
   const [showThemes, setShowThemes] = useState(false);
   const [ListofPodcast, setListofPodcast] = useState([...userPodcast]);
   const [ListofPodcast2, setListofPodcast2] = useState([...userPodcast]);
@@ -44,7 +42,6 @@ const SellerFilterPage = ({ userPodcast, adminInfo }) => {
   const [suggestionArray, setSuggestionArray] = useState([]);
   const [suggestionToShow, setSuggestionToShow] = useState([]);
   const [tempArr, setTempArr] = useState([]);
-  const [tags, setTags] = useState([]);
   let tempUserPodcast = [];
   const currPage = () => {
     let s = 0;
@@ -62,9 +59,38 @@ const SellerFilterPage = ({ userPodcast, adminInfo }) => {
     for (let i = s; i < e; i++) {
       brr.push(ListofPodcast[i]);
     }
-    setArr(brr);
+    setArr2(brr);
   };
-
+  // useEffect(() => {
+  //   const init = async () => {
+  //     console.log(Search);
+  //     let data1 = {
+  //       searchItem: Search,
+  //     };
+  //     const info = await api.post("/api/getpodcastfromsearch", data1);
+  //     console.log(info.data);
+  //     setListofPodcast(info.data);
+  //     setStart(1);
+  //     currPage();
+  //   };
+  //   init();
+  // }, [Search]);
+  // useEffect(() => {
+  //   let tags = {
+  //     tags: selectedTags,
+  //   };
+  //   const tagsSearch = async () => {
+  //     let data1 = await api
+  //       .post("/api/getpodcastfromtags", tags)
+  //       .then((res) => {
+  //         console.log(res.data[0]);
+  //         setListofPodcast(res.data[0]);
+  //         setStart(1);
+  //         currPage();
+  //       });
+  //   };
+  //   tagsSearch();
+  // }, [selectedTags]);
   useEffect(() => {
     const init = () => {
       setStart(1);
@@ -72,15 +98,6 @@ const SellerFilterPage = ({ userPodcast, adminInfo }) => {
     };
     init();
   }, [ListofPodcast, ListofPodcast2]);
-  useEffect(() => {
-    let adminTags = [];
-    if (adminInfo !== null) {
-      for (let i = 0; i < adminInfo.tags.length; i++) {
-        adminTags.push(adminInfo.tags[i].tagname);
-      }
-      setTags(adminTags);
-    }
-  }, [adminInfo]);
   const searchFunction = () => {
     userPodcast.forEach((element) => {
       let x = element.podcastName.toLowerCase();
@@ -187,14 +204,12 @@ const SellerFilterPage = ({ userPodcast, adminInfo }) => {
           data1.push(data[i]);
         }
       }
-      tagsSet.delete(tag);
       setSelectedTag(data);
     } else {
       let data = selectedTags;
       data.push(tag);
       element.style.backgroundColor = "rgb(148, 68, 124)";
       // setSelectedTag((oldArray) => [...oldArray, data]);
-      tagsSet.add(tag);
       setSelectedTag(data);
     }
   };
@@ -204,6 +219,35 @@ const SellerFilterPage = ({ userPodcast, adminInfo }) => {
     }, 2000);
     clearTimeout(myTimeout);
   };
+
+  const tags = [
+    "action",
+    "adventure",
+    "sci-fi",
+    "horror",
+    "games",
+    "fifa ",
+    "basketball",
+    "basketball",
+    "basketball",
+    "basketball",
+    "football",
+    "comedy",
+    "action",
+    "action",
+    "action",
+    "action",
+    "adventure",
+    "sci-fi",
+    "sci-fi",
+    "sci-fi",
+    "horror",
+    "games",
+    "fifa ",
+    "basketball",
+    "football",
+    "comedy",
+  ];
 
   let len, len1;
   if (!Array.isArray(ListofPodcast)) {
@@ -250,9 +294,9 @@ const SellerFilterPage = ({ userPodcast, adminInfo }) => {
     setStart2(start2 + 1);
     let brr = [];
     for (let i = s; i < e; i++) {
-      brr.push(ListofPodcast[i]);
+      brr.push(ListofPodcast2[i]);
     }
-    setArr(brr);
+    setArr2(brr);
   }
   function onPrev() {
     if (9 * (start - 2) < 0) {
@@ -276,9 +320,9 @@ const SellerFilterPage = ({ userPodcast, adminInfo }) => {
     setStart2(start2 - 1);
     let brr = [];
     for (let i = s; i < e; i++) {
-      brr.push(ListofPodcast[i]);
+      brr.push(ListofPodcast2[i]);
     }
-    setArr(brr);
+    setArr2(brr);
   }
 
   return loading === true ? (
@@ -351,9 +395,47 @@ const SellerFilterPage = ({ userPodcast, adminInfo }) => {
                 className="hidden md:flex flex-row ml-6 p-1 md:pt-3 md:pr-4 md:visible overflow-y-hidden scrollbar-hide   "
                 id="filter-1"
               >
-                <div className="flex flex-col">
+                <ol className="flex flex-col text-[#716d6d]">
+                  <li className="pt-1">
+                    <span className="pr-2">+</span>
+                    <span>Timing</span>
+                  </li>
+                  <li className="pt-1">
+                    <span className="pr-2">+</span>
+                    <span className="">Target Group </span>
+                  </li>
+                  <li
+                    className="pt-1 "
+                    onClick={() => setShowThemes(!showThemes)}
+                  >
+                    <span className="pr-2">+</span>
+                    <span>Themes</span>
+                    <div
+                      className={showThemes ? "flex flex-col ml-4 " : "hidden"}
+                      id="obj"
+                    >
+                      <ol className="flex flex-col">
+                        <li>
+                          <span className="pr-2">+</span>
+                          <span>Documentry</span>
+                        </li>
+                        <li>
+                          <span className="pr-2">+</span>
+                          <span>Mystry</span>
+                        </li>
+                        <li>
+                          <span className="pr-2">+</span>
+                          <span>Deep Dives</span>
+                        </li>
+                        <li>
+                          <span className="pr-2">+</span>
+                          <span>Sci-fi</span>
+                        </li>
+                      </ol>
+                    </div>
+                  </li>
                   <div className="flex flex-row items-center ">
-                    {/* <span className="pr-2">+</span> */}
+                    <span className="pr-2">+</span>
                     <span
                       className="pt-1"
                       onClick={() => {
@@ -369,40 +451,37 @@ const SellerFilterPage = ({ userPodcast, adminInfo }) => {
                   <div
                     className={
                       show
-                        ? ` flex flex-wrap w-[70%] md:w-full  md:text-md lg:text-sm lg:w-full gap-1 md:gap-0 overflow-auto  py-2 `
+                        ? ` flex flex-wrap w-[70%] md:w-full h-56 md:text-md lg:text-sm lg:w-full gap-1 md:gap-0 overflow-auto md:h-[]  `
                         : `hidden`
                     }
                     id="obj2"
                   >
-                    {tags &&
-                      tags?.slice(0).map((tag, index) => {
-                        return (
-                          <div className="mt-4" key={index}>
-                            <span
-                              className={`pt-1 pb-1 px-2 bg-[#C2C2C2] rounded-2xl mx-1 my-1`}
-                              index={index}
-                              onClick={(e) => handleClickTag(e, tag)}
-                            >
-                              {tag}
-                            </span>
-                          </div>
-                        );
-                      })}
-                  </div>
-                  <button
-                    onClick={() => {
-                      TagSortingFucntion(
-                        tagsSet,
-                        setArr,
-                        userPodcast,
-                        setListofPodcast
+                    {tags.slice(0).map((tag, index) => {
+                      return (
+                        <span
+                          className={`pt-1 pb-1 px-2 bg-[#C2C2C2] rounded-2xl mx-1 my-1`}
+                          key={index}
+                          index={index}
+                          onClick={(e) => {
+                            handleClickTag(e, tag);
+                            onHandleClick();
+                          }}
+                        >
+                          {tag}
+                        </span>
                       );
-                      onHandleClick();
-                    }}
-                  >
-                    Search
-                  </button>
-                </div>
+                    })}
+                  </div>
+
+                  <div className="">
+                    <span className="pr-2">+</span>
+                    <span>Goal of the Campaigns</span>
+                  </div>
+                  <div className="">
+                    <span className="pr-2">+</span>
+                    <span>Price Range</span>
+                  </div>
+                </ol>
               </div>
             </div>
           </div>
@@ -463,10 +542,10 @@ const SellerFilterPage = ({ userPodcast, adminInfo }) => {
               </div>
             </div>
             <div className="flex flex-col overflow-scroll  justify-center md:hidden ">
-              {Array.isArray(arr) &&
-                arr.map((pod, index) => {
+              {Array.isArray(arr2) &&
+                arr2.map((pod, index) => {
                   return (
-                    user.unique_id === pod?.sellerId && (
+                    user.unique_id === pod.sellerId && (
                       <PodcastWidgetMobile
                         key={index}
                         episodename={pod.episodeName}

@@ -42,7 +42,7 @@ function App() {
   const [ListofPodcast, setListofPodcast] = useState([]);
   const [overAllPodcastList, setOverAllPodcastList] = useState([]);
   const [currPodcastInfo, setCurrentPodcastInfo] = useState([]);
-  const [requestPodcast, setRequestPodcast] = useState([]); //request tag if 0 not confirm
+  const [requestPodcast, setRequestPodcast] = useState([]);
   const [userPodcast, setUserPodcast] = useState([]);
   const [userInfo, setUserInfo] = useState();
   const [adminInfo, setAdminInfo] = useState(null);
@@ -131,7 +131,6 @@ function App() {
         uid: "#adminmodel123",
       };
       let info = await api.post("/api/sendinfoforuser", data);
-      console.log("admininfo", info.data);
       if (info) {
         setAdminInfo(info.data);
       }
@@ -239,12 +238,7 @@ function App() {
           />
           <Route
             path="/sellerfilterpage"
-            element={
-              <SellerFilterPage
-                userPodcast={userPodcast}
-                adminInfo={adminInfo}
-              />
-            }
+            element={<SellerFilterPage userPodcast={userPodcast} />}
           />
           <Route
             path="/campaign/:id"
@@ -299,9 +293,7 @@ function App() {
           />
           <Route
             path="/addnewpodcast"
-            element={
-              <SellerPodcastAddPage userInfo={userInfo} adminInfo={adminInfo} />
-            }
+            element={<SellerPodcastAddPage userInfo={userInfo} />}
           />
           <Route
             path="/calendar"

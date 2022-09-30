@@ -12,13 +12,13 @@ export default function PopularTags({ a }) {
         background:
           " linear-gradient(110.43deg, rgba(95, 80, 163, 0.5) -538.07%, rgba(95, 80, 163, 0) 116.23%)",
       }}
-      className="w-[100%]  bg-gray-200 p-1 overflow-auto  "
+      className="w-[100%]  bg-gray-200 p-1  "
     >
       <div className="underline underline-offset-8 decoration-1 font-bold text-center mb-8">
         Popular Tags
       </div>
 
-      <div className="flex flex-wrap overflow-auto">
+      <div className="flex flex-wrap">
         {a.map((element) => {
           return (
             <div className="h-50 border-0 rounded text-center bg-white font-semibold m-2 ">

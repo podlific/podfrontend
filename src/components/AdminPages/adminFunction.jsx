@@ -19,7 +19,8 @@ export const getInfo = async (
   setLoading,
   setShowType,
   setAdminTags,
-  setRequestedTags
+  setRequestedTags,
+  
 ) => {
   let data = {
     uid: "#adminmodel123",
@@ -36,11 +37,11 @@ export const getInfo = async (
       setGroups(res.data[0].targetgroups);
       setAdminTags(res.data[0].admintags);
       setRequestedTags(res.data[0].requestedtags);
-      toast.success("Admin info loaded successfully");
+      // toast.success("Admin info loaded successfully");
       // console.log(res.data[0],"resitags")
     })
     .catch((err) => {
-      toast.error("Unable to load data , try again");
+      toast.error("Unable to load data");
     });
 
   let info1 = api
@@ -65,22 +66,23 @@ export const getInfo = async (
       toast.error("Unable to fetch podcast ");
     });
 
-  // let info3 = api
-  //   .get("/api/gettagdataforadmin")
-  //   .then((res) => {
-  //     setTagData(res.data);
-  //     // console.log(res.data,"resdata")
-  //     toast.success("Tag data loaded successfully");
-  //   })
-  //   .catch((err) => {
-  //     toast.error("Unable to get tag data");
-  //   });
-  await Promise.all([info, info1, info2]).then(() => {
+  let info3 = api
+    .get("/api/gettagdataforadmin")
+    .then((res) => {
+      setTagData(res.data);
+      // console.log(res.data,"resdata")
+      toast.success("Tag data loaded successfully");
+    })
+    .catch((err) => {
+      toast.error("Unable to get tag data");
+    });
+  await Promise.all([info, info1, info2, info3]).then(() => {
     setShowType("overview");
     setLoading(false);
   });
 };
 export const addNewtag = async (tagname) => {
+    
   if (tagname === null || tagname.length === 0) {
     toast.error("Please add something ");
     return;
@@ -99,6 +101,7 @@ export const addNewtag = async (tagname) => {
     return;
   }
 };
+
 
 export const UpdateList = async (
   allusers,
@@ -396,7 +399,8 @@ export const BarGraphFunctions = (
       }
     }
   }
-  // console.log(createdDatesofUser, "createdDateofUser");
+  // console.log(allusers,"alluers")
+  // console.log(showPodcast,"showpod")
   let currDate = new Date();
   let first = currDate.getDate();
   for (let i = 0; i < 7; i++) {
@@ -406,11 +410,9 @@ export const BarGraphFunctions = (
     currPodcastdaystoshow.push(convertDate(currday1));
     currweekdaystoshow.push(currday.split(" ")[0]);
   }
-  // console.log(currweekdaystoshow, "currweekdaystoshow");
   setUserWeekDaysLabel(currweekdaystoshow.reverse());
   let weekData = new Map();
   let podcastWeekData = new Map();
-
   for (let i = 0; i < createdDatesofUser.length; i++) {
     if (!weekData.has(createdDatesofUser[i])) {
       weekData.set(createdDatesofUser[i], 1);
@@ -428,13 +430,27 @@ export const BarGraphFunctions = (
     }
   }
 
-  for (let [key, value] of weekData) {
-    // console.log(key, value);
-  }
+  // for (let i = 0; i < 12; i++) {
+  //   let months = [
+  //     "01",
+  //     "02",
+  //     "03",
+  //     "04",
+  //     "05",
+  //     "06",
+  //     "07",
+  //     "08",
+  //     "09",
+  //     "10",
+  //     "11",
+  //     "12",
+  //   ];
+  //   monthData.set(months[i], 0);
+  // }
 
   let toshowdata = [];
   let toshowPodcastData = [];
-  let demoarr = [2, 3, 5, 1, 7, 2, 8];
+  let demoarr=[2,3,5,1,7,2,8]
   for (let i = 0; i < 7; i++) {
     if (weekData.has(currdaystoshow[i])) {
       toshowdata.push(weekData.get(currdaystoshow[i]));
@@ -447,39 +463,10 @@ export const BarGraphFunctions = (
       toshowPodcastData.push(0);
     }
   }
-  // console.log(toshowdata, "toshowdata");
-  setUserWeekDaysData(toshowdata.reverse());
-  setPodcastWeekDaysData(toshowPodcastData.reverse());
-};
+  // console.log(toshowdata,"fff");
+  // setUserWeekDaysData(toshowdata.reverse());
+  // setPodcastWeekDaysData(toshowPodcastData.reverse());
+  setUserWeekDaysData(demoarr)
+  setPodcastWeekDaysData(demoarr)
 
-export const TagSearchFunction = (adminTags, setArr) => {
-  let tempArr = [];
-  for (let i = 0; i < 26; i++) {
-    let data = { currChar: "", currArr: [] };
-    let c = String.fromCharCode(97 + i);
-    adminTags.forEach((element) => {
-      if (element.tagname[0].toLowerCase() === c) {
-        data.currArr.push({ ...element });
-        data.currChar = c;
-      }
-    });
-    // if (data.currChar !== "") arr = [...arr, data]
-    if (data.currChar !== "") tempArr.push(data);
-  }
-  setArr(tempArr);
-  return;
-};
-export const UserSearchFunction = (userarray, setArr, searchUser) => {
-  let tempArr = [];
-  userarray.forEach((element) => {
-    let username = element?.name.toLowerCase();
-    username = username.search(searchUser.toLowerCase());
-    let useremail = element?.email.toLowerCase();
-    useremail = useremail.search(searchUser.toLowerCase());
-
-    if (username !== -1 || useremail !== -1) {
-      tempArr.push(element);
-    }
-  });
-  setArr(tempArr);
 };

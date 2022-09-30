@@ -258,12 +258,12 @@ export const Messages = ({
   useEffect(() => {
     if (days.length === 1) {
       newDate = days[0].toLocaleDateString().split("/");
-      newDate = newDate[0] + "/" + newDate[1] + "/" + newDate[2];
+      newDate = newDate[1] + "/" + newDate[0] + "/" + newDate[2];
     } else if (days.length > 1) {
       newDate = days[0].toLocaleDateString().split("/");
-      newDate = newDate[0] + "/" + newDate[1] + "/" + newDate[2];
+      newDate = newDate[1] + "/" + newDate[0] + "/" + newDate[2];
       newTime = days[1].toLocaleDateString().split("/");
-      newTime = newTime[0] + "/" + newTime[1] + "/" + newTime[2];
+      newTime = newTime[1] + "/" + newTime[0] + "/" + newTime[2];
     }
   }, [days]);
   // console.log(days);

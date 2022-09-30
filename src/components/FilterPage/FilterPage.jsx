@@ -11,10 +11,6 @@ import { useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { BiSearch } from "react-icons/bi";
 import { BsArrowRightCircleFill, BsArrowLeftCircleFill } from "react-icons/bs";
-
-import { TagSortingFucntion } from "./FilterPageFunctions";
-let tagsSet = new Set();
-
 const FilterPage = ({
   ListofPodcast,
   setListofPodcast,
@@ -36,7 +32,7 @@ const FilterPage = ({
   const [selectedTags, setSelectedTag] = useState([]);
   const [active, setActive] = useState(false);
   const [theme, setTheme] = useState(false);
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
   const [showThemes, setShowThemes] = useState(false);
   const [start, setStart] = useState(1);
   const [Search, setSearch] = useState("");
@@ -118,7 +114,6 @@ const FilterPage = ({
     };
     init();
   }, [ListofPodcast]);
-
   // useEffect(() => {
   //   let tags = {
   //     tags: selectedTags,
@@ -136,16 +131,9 @@ const FilterPage = ({
   //   tagsSearch();
   // }, [selectedTags]);
   useEffect(() => {
-    let adminTags = [];
-    if (adminInfo !== null) {
-      for (let i = 0; i < adminInfo.tags.length; i++) {
-        adminTags.push(adminInfo.tags[i].tagname);
-      }
-      setTags(adminTags);
-    }
-    // setTags(adminInfo?.tags);
-    // setThemes(adminInfo?.themes);
-    // setTargetGroups(adminInfo?.groups);
+    setTags(adminInfo?.tags);
+    setThemes(adminInfo?.themes);
+    setTargetGroups(adminInfo?.groups);
   }, [adminInfo]);
   const searchFunction = () => {
     tempArr.forEach((element) => {
@@ -222,6 +210,7 @@ const FilterPage = ({
       setTheme(true);
     }
   }
+
   const handleClickTag = (event, tag) => {
     let element = event.currentTarget;
     if (element.style.backgroundColor === "rgb(148, 68, 124)") {
@@ -233,14 +222,12 @@ const FilterPage = ({
           data1.push(data[i]);
         }
       }
-      tagsSet.delete(tag);
       setSelectedTag(data);
     } else {
       let data = selectedTags;
       data.push(tag);
       element.style.backgroundColor = "rgb(148, 68, 124)";
       // setSelectedTag((oldArray) => [...oldArray, data]);
-      tagsSet.add(tag);
       setSelectedTag(data);
     }
   };
@@ -382,9 +369,69 @@ const FilterPage = ({
                 className="hidden md:flex flex-row ml-6 p-1 md:pt-3 md:pr-4 md:visible overflow-y-hidden scrollbar-hide   "
                 id="filter-1"
               >
-                <div className="flex flex-col">
+                <ol className="flex flex-col text-[#716d6d] gap-2">
+                  <li
+                    className="pt-1"
+                    onClick={() => {
+                      setShowTargetGroups(!showTargetGroups);
+                    }}
+                  >
+                    <span className="pr-2">+</span>
+                    <span className="">Target Group </span>
+                  </li>
+                  <div
+                    className={
+                      showTargetGroups
+                        ? ` flex flex-wrap w-[70%] md:w-full  md:text-md lg:text-sm lg:w-full gap-1 md:gap-0 overflow-auto py-2  `
+                        : `hidden`
+                    }
+                    id="obj2"
+                  >
+                    {targetGroups?.slice(0).map((tag, index) => {
+                      return (
+                        <div className="mt-4" key={index}>
+                          <span
+                            className={`pt-1 pb-1 px-2 bg-[#C2C2C2] rounded-2xl mx-1 my-1`}
+                            index={index}
+                            onClick={(e) => handleClickTag(e, tag)}
+                          >
+                            {tag}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <li
+                    className="pt-1 "
+                    onClick={() => setShowThemes(!showThemes)}
+                  >
+                    <span className="pr-2">+</span>
+                    <span>Themes</span>
+                  </li>
+                  <div
+                    className={
+                      showThemes
+                        ? "flex flex-wrap w-[70%] md:w-full  md:text-md lg:text-sm lg:w-full gap-1 md:gap-0 overflow-auto py-2 "
+                        : "hidden"
+                    }
+                    id="obj"
+                  >
+                    {themes?.slice(0).map((tag, index) => {
+                      return (
+                        <div className="mt-4" key={index}>
+                          <span
+                            className={`pt-1 pb-1 px-2 bg-[#C2C2C2] rounded-2xl mx-1 my-1`}
+                            index={index}
+                            onClick={(e) => handleClickTag(e, tag)}
+                          >
+                            {tag}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
                   <div className="flex flex-row items-center ">
-                    {/* <span className="pr-2">+</span> */}
+                    <span className="pr-2">+</span>
                     <span
                       className="pt-1"
                       onClick={() => {
@@ -405,35 +452,21 @@ const FilterPage = ({
                     }
                     id="obj2"
                   >
-                    {tags &&
-                      tags?.slice(0).map((tag, index) => {
-                        return (
-                          <div className="mt-4" key={index}>
-                            <span
-                              className={`pt-1 pb-1 px-2 bg-[#C2C2C2] rounded-2xl mx-1 my-1`}
-                              index={index}
-                              onClick={(e) => handleClickTag(e, tag)}
-                            >
-                              {tag}
-                            </span>
-                          </div>
-                        );
-                      })}
-                  </div>
-                  <button
-                    onClick={() => {
-                      TagSortingFucntion(
-                        tagsSet,
-                        setArr,
-                        overAllPodcastList,
-                        setListofPodcast
+                    {tags?.slice(0).map((tag, index) => {
+                      return (
+                        <div className="mt-4" key={index}>
+                          <span
+                            className={`pt-1 pb-1 px-2 bg-[#C2C2C2] rounded-2xl mx-1 my-1`}
+                            index={index}
+                            onClick={(e) => handleClickTag(e, tag)}
+                          >
+                            {tag}
+                          </span>
+                        </div>
                       );
-                      onHandleClick();
-                    }}
-                  >
-                    Search
-                  </button>
-                </div>
+                    })}
+                  </div>
+                </ol>
               </div>
             </div>
           </div>
@@ -496,7 +529,7 @@ const FilterPage = ({
               {Array.isArray(arr2) &&
                 arr2.map((pod, index) => {
                   return (
-                    <Link to={`/campaign/${pod._id}`} key={index}>
+                    <Link to={`/campaign/${pod._id}`}>
                       <PodcastWidgetMobile
                         key={index}
                         episodename={pod.episodeName}
@@ -530,7 +563,7 @@ const FilterPage = ({
               {arr &&
                 arr.map((pod, index) => {
                   return (
-                    <Link to={`/campaign/${pod._id}`} key={index}>
+                    <Link to={`/campaign/${pod._id}`}>
                       <PodcastWidget
                         key={index}
                         episodename={pod.episodeName}

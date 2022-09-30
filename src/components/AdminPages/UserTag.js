@@ -8,7 +8,14 @@ import { BiEdit } from "react-icons/bi";
 import { EditText, EditTextarea } from "react-edit-text";
 import "react-edit-text/dist/index.css";
 // import { addnewtag } from "../../../../podbackend/controllers/admin-controller";
-const addNewUserTag = async (tagname, podcastID) => {
+const addNewUserTag = async (tagname, podcastID, removeele, setRemoveele) => {
+  for (var i = 0; i < removeele.length; i++) {
+    if (removeele[i]["tag"] == tagname) {
+      removeele.splice(i, 1);
+    }
+  }
+  setRemoveele(removeele);
+  // console.log(b, "check passing val");
   if (tagname === null || tagname.length === 0) {
     toast.error("Please add something ");
     return;
@@ -71,6 +78,7 @@ const deleteNewUserTag = async (tagname, podcastID) => {
 export default function UserTag({ b }) {
   const [tagsArray, setTagArray] = useState(b);
   const [checkchange, setCheckChange] = useState(false);
+  const [removeele, setRemoveele] = useState(b);
   // console.log(b);
   // const [showModal, setShow] = useState(false);
 
@@ -127,7 +135,9 @@ export default function UserTag({ b }) {
                   onClick={() => {
                     addNewUserTag(
                       tagsArray[ind]["tag"],
-                      tagsArray[ind]["podcastID"]
+                      tagsArray[ind]["podcastID"],
+                      removeele,
+                      setRemoveele
                     );
                   }}
                 >

@@ -160,7 +160,7 @@ const SellerCalendar = ({ requestPodcast, setRequestPodcast }) => {
         <NavigationMobile />
       </div>
       <div className="grid grid-cols-4 ">
-        <div className="col-span-3 mt-3 md:mt-0 px-3  h-full w-full flex-row flex md:flex-row justify-center md:px-10 overflow-scroll">
+        <div className="col-span-3 mt-3 md:mt-0 px-3  h-full w-full flex-row flex md:flex-row justify-center md:px-10 overflow-auto">
           {/* md:w-2/3 flex md:flex-start */}
           <div className=" md:w-[70%] flex-center " id="news">
             <StyleWrapper>
@@ -207,15 +207,18 @@ const SellerCalendar = ({ requestPodcast, setRequestPodcast }) => {
             </div>
           </div>
         </div>
-        <div className="grid col-span-1 mr-3 mt-3 overflow-scroll">
-          <div>
-            <div className="w-full border-2 rounded-t-lg border-purple-600 text-center bg-purple-600 h-fit">
-              <h>UpComming</h>
+        <div className="grid col-span-1 mr-5 mt-3  ">
+          <div className="overflow-auto ">
+            <div className="w-full border-3 font-semibold rounded-t-lg border-purple-600 text-center text-white bg-[#5F50A3] h-fit">
+              <h>Up Coming</h>
             </div>
-            <div className=" grid grid-cols-2  text-center ">
+            <div className=" grid grid-cols-3 font-semibold text-center ">
               <div className="border-2 border-gray-500">UserName </div>
               <div className="border-r-2 border-t-2 border-b-2 border-gray-500">
-                Date
+                From
+              </div>
+              <div className="border-r-2 border-t-2 border-b-2 border-gray-500">
+                To
               </div>
             </div>
 
@@ -223,12 +226,15 @@ const SellerCalendar = ({ requestPodcast, setRequestPodcast }) => {
               console.log(item["time"], "before passing");
               if (item["confirmed"] === "true" && compdate(item["time"])) {
                 return (
-                  <div key={ind} className=" grid grid-cols-2 text-center ">
+                  <div key={ind} className=" grid grid-cols-3 text-center ">
                     <div className="border-r-2 border-l-2 border-b-2 border-gray-500">
                       {item["buyerusername"]}
                     </div>
                     <div className="border-r-2  border-b-2 border-gray-500">
                       {item["date"]}
+                    </div>
+                     <div className="border-r-2  border-b-2 border-gray-500">
+                      {item["time"]}
                     </div>
                   </div>
                 );
@@ -236,25 +242,31 @@ const SellerCalendar = ({ requestPodcast, setRequestPodcast }) => {
             })}
           </div>
           <div>
-            <div className="w-full border-2 rounded-t-lg border-purple-600 text-center bg-purple-600 h-fit">
+            <div className="w-full border-2 rounded-t-lg text-white font-semibold border-purple-600 text-center bg-[#5F50A3] h-fit">
               <h>Past Schedule</h>
             </div>
-            <div className=" grid grid-cols-2  text-center ">
+            <div className=" grid grid-cols-3  font-semibold text-center ">
               <div className="border-2 border-gray-500">UserName </div>
               <div className="border-r-2 border-t-2 border-b-2 border-gray-500">
-                Date
+                From 
+              </div>
+              <div className="border-r-2 border-t-2 border-b-2 border-gray-500">
+                To
               </div>
             </div>
 
             {requestPodcast.map((item, ind) => {
               if (item["confirmed"] === "true" && pastcompdate(item["time"])) {
                 return (
-                  <div key={ind} className=" grid grid-cols-2 text-center ">
+                  <div key={ind} className=" grid grid-cols-3 text-center ">
                     <div className="border-r-2 border-l-2 border-b-2 border-gray-500">
                       {item["buyerusername"]}
                     </div>
                     <div className="border-r-2  border-b-2 border-gray-500">
                       {item["date"]}
+                    </div>
+                    <div className="border-r-2  border-b-2 border-gray-500">
+                      {item["time"]}
                     </div>
                   </div>
                 );

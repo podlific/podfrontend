@@ -5,18 +5,42 @@ import FooterWebPage from "../shared/WebPage/FooterWebPage";
 import NavigationWebPage from "../shared/WebPage/NavigationWebPage";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { ImBin } from "react-icons/im";
+import { AiOutlineEye } from "react-icons/ai";
+
 const UserCampaignPage = ({ requestPodcast, setRequestPodcast }) => {
+  console.log(requestPodcast,"aaaaaaa")
   let navigate = useNavigate();
   const [showLine1, setShowLine1] = useState(true);
   const [showLine2, setShowLine2] = useState(false);
+  const [showIndex ,setShowIndex]  = useState(null)
+  const [showIndex1 ,setShowIndex1]  = useState(null)
   const [currPodcast, setCurrPodcast] = useState({});
   const currtype = useSelector((state) => state.activate.usertype);
   useEffect(() => {
     if (currtype.usertype === "admin") {
       navigate("../admindashboard");
     }
-    console.log(requestPodcast);
+    // console.log(requestPodcast);
   }, []);
+  const [requestArray , setRequestArray ] = useState([]);
+  const [confirmedArray , setConfirmedArray ] = useState([]);
+  useEffect(()=>{
+    let tempArray =[] , tempArray1= [];
+    requestPodcast.forEach((element)=>{
+       if(element.confirmed==="true"){
+         tempArray.push(element)
+       }
+       if(element.confirmed==="false"){
+        tempArray1.push(element);
+       }
+    })
+    setRequestArray(tempArray1);
+    setConfirmedArray(tempArray)
+
+  },[requestPodcast])
+  const [colasp,setColasp]=useState([])
+  
   return (
     <div className="flex flex-col  h-screen">
       <div className="hidden md:block">
@@ -25,9 +49,9 @@ const UserCampaignPage = ({ requestPodcast, setRequestPodcast }) => {
       <div className="md:hidden">
         <NavigationMobile />
       </div>
-      <div className="h-full flex flex-col overflow-y-scroll w-full ">
-        <div className="h-full w-full flex flex-col ">
-          <div className="w-full flex flex-row p-2 lg:p-3 xl:px-16">
+      <div className="h-full flex flex-col  w-full ">
+        <div className="h-full w-[97%] flex flex-col ml-[1.5%] ">
+          <div className="w-full flex flex-row p-2 lg:p-3 xl:px-16 ">
             <div
               className={
                 showLine1 === true
@@ -55,221 +79,127 @@ const UserCampaignPage = ({ requestPodcast, setRequestPodcast }) => {
               Confirmed
             </div>
           </div>
-          <div className="w-full h-full flex flex-row rounded-xl ">
-            <div className="w-1/2 h-full flex flex-col overflow-y-scroll scrollbar-hide  bg-[#B198FF] mx-1 rounded-lg ">
-              {requestPodcast &&
-                requestPodcast.map((request, index) => {
-                  return request.confirmed === "false" && showLine1 === true ? (
-                    <div
-                      className="w-full p-2 lg:p-3 xl:px-16 font-medium"
-                      onClick={() => setCurrPodcast(request)}
-                      key={index}
-                    >
-                      <div
-                        className="text-sm md:text-base grid grid-rows-2 grid-cols-2 md:grid-rows-3 md:grid-cols-2 rounded-lg text-black p-1 mb-4 bg-[#f2f4f5] box-shadow-[2px 2px 6px rgba(0, 0, 0, 0.1)] hover:cursor-pointer 
-       border-2 hover:border-solid hover:border-[#0063ff] shadow-md rounded-2xl"
-                      >
-                        <div className="flex flex-col justify-center">
-                          Podcast Name
-                        </div>
-                        <div className="flex flex-col justify-center">
-                          {request.podcastname}
-                        </div>
-
-                        <div
-                          className={
-                            currtype.usertype === "seller"
-                              ? "flex flex-col justify-center"
-                              : "hidden"
-                          }
-                        >
-                          Buyer Name
-                        </div>
-                        <div
-                          className={
-                            currtype.usertype === "seller"
-                              ? "flex flex-col justify-center"
-                              : "hidden"
-                          }
-                        >
-                          {request?.buyerusername}
-                        </div>
-                        <div
-                          className={
-                            currtype.usertype === "buyer"
-                              ? "flex flex-col justify-center"
-                              : "hidden"
-                          }
-                        >
-                          Seller Name
-                        </div>
-                        <div
-                          className={
-                            currtype.usertype === "buyer"
-                              ? "flex flex-col justify-center"
-                              : "hidden"
-                          }
-                        >
-                          {request?.sellerusername}
-                        </div>
-                        <div className="hidden md:flex flex-col justify-center">
-                          Preferred Date & Time
-                        </div>
-                        <div className=" hidden md:flex flex-col justify-center">
-                          {request.date} & {request.time}
-                        </div>
-                      </div>
-                    </div>
-                  ) : request.confirmed === "true" && showLine2 === true ? (
-                    <div
-                      className="w-full p-2 lg:p-3 xl:px-16 text-black bg-[#B198FF]  font-medium "
-                      onClick={() => setCurrPodcast(request)}
-                      key={index}
-                    >
-                      <div
-                        className="text-sm md:text-base grid grid-rows-2 grid-cols-2 md:grid-rows-3 md:grid-cols-2 rounded-lg  p-1 bg-[#f2f4f5] box-shadow-[2px 2px 6px rgba(0, 0, 0, 0.1)] hover:cursor-pointer 
-       border-2 hover:border-solid hover:border-[#0063ff] shadow-md rounded-2xl"
-                      >
-                        <div className="flex flex-col justify-center">
-                          Podcast Name
-                        </div>
-                        <div className="flex flex-col justify-center">
-                          {request.podcastname}
-                        </div>
-                        <div
-                          className={
-                            currtype.usertype === "seller"
-                              ? "flex flex-col justify-center"
-                              : "hidden"
-                          }
-                        >
-                          Buyer Name
-                        </div>
-                        <div
-                          className={
-                            currtype.usertype === "seller"
-                              ? "flex flex-col justify-center"
-                              : "hidden"
-                          }
-                        >
-                          {request?.buyerusername}
-                        </div>
-                        <div
-                          className={
-                            currtype.usertype === "buyer"
-                              ? "flex flex-col justify-center"
-                              : "hidden"
-                          }
-                        >
-                          Seller Name
-                        </div>
-                        <div
-                          className={
-                            currtype.usertype === "buyer"
-                              ? "flex flex-col justify-center"
-                              : "hidden"
-                          }
-                        >
-                          {request?.sellerusername}
-                        </div>
-                        <div className="hidden md:flex flex-col justify-center">
-                          Preferred Date & Time
-                        </div>
-                        <div className=" hidden md:flex flex-col justify-center">
-                          {request.date} & {request.time}
-                        </div>
-                      </div>
-                    </div>
-                  ) : (
-                    <div key={index}></div>
-                  );
-                })}
-            </div>
-            <div className="w-1/2 h-full flex flex-col justify-center   bg-[#B198FF] mx-1 rounded-lg  ">
-              <div className="w-full md:p-5 py-10  h-full ">
-                <div
-                  className="grid grid-cols-2 grid-rows rounded-lg text-black  p-4 gap-y-5  font-medium bg-[#f2f4f5] box-shadow-[2px 2px 6px rgba(0, 0, 0, 0.1)] hover:cursor-pointer 
-                    border-2 hover:border-solid hover:border-[#0063ff] shadow-md rounded-2xl"
-                >
-                  <div className="flex flex-col justify-center">
-                    Podcast Name
-                  </div>
-                  <div className="flex flex-col justify-center">
-                    {currPodcast.podcastname}
-                  </div>
-                  <div
-                    className={
-                      currtype.usertype === "seller"
-                        ? "flex flex-col justify-center"
-                        : "hidden"
-                    }
-                  >
-                    Buyer Name
-                  </div>
-                  <div
-                    className={
-                      currtype.usertype === "seller"
-                        ? "flex flex-col justify-center"
-                        : "hidden"
-                    }
-                  >
-                    {currPodcast?.buyerusername}
-                  </div>
-                  <div
-                    className={
-                      currtype.usertype === "buyer"
-                        ? "flex flex-col justify-center"
-                        : "hidden"
-                    }
-                  >
-                    Seller Name
-                  </div>
-                  <div
-                    className={
-                      currtype.usertype === "buyer"
-                        ? "flex flex-col justify-center"
-                        : "hidden"
-                    }
-                  >
-                    {currPodcast?.sellerusername}
-                  </div>
-                  <div className="hidden md:flex flex-col justify-center">
-                    Fixed Date & Time
-                  </div>
-                  <div className=" hidden md:flex flex-col justify-center">
-                    {currPodcast.date} & {currPodcast.time}
-                  </div>
-                  <div className="flex flex-col justify-center">
-                    Buyer client
-                  </div>
-                  <div className="flex flex-col justify-center">
-                    {currPodcast.client}
-                  </div>
-                  <div className="flex flex-col justify-center">Product</div>
-                  <div className="flex flex-col justify-center">
-                    {currPodcast.product}
-                  </div>
-                  <div className="flex flex-col justify-center">
-                    Target Group
-                  </div>
-                  <div className="flex flex-col justify-center">
-                    {currPodcast.targetgroup}
-                  </div>
-                  <div className="flex flex-col justify-center">
-                    Additional Info on Target Group
-                  </div>
-                  <div className="flex flex-col justify-center">
-                    {currPodcast.targetgroup}
-                  </div>
-                  <div className="flex flex-col justify-center">
-                    Description
-                  </div>
-                  <div className="flex flex-col justify-center">
-                    {currPodcast.description}
-                  </div>
-                </div>
+         
+            <div className=" h-full w-full text-center overflow-auto  mx-1 rounded-lg ">
+              <div className="grid grid-cols-5 bg-[#F0F0F0] rounded-xl w-[92%] ml-[4%] font-semibold">
+                <div className="mt-2 mb-2">Podcast Name</div>
+                <div className="mt-2 mb-2">Buyer’s Name</div>
+                <div className="mt-2 mb-2">Date From</div>
+                <div className="mt-2 mb-2">Date To</div>
+                <div className="mt-2 mb-2">Response</div>
+                
+                
               </div>
-            </div>
+    
+              {
+                showLine1=== true && requestArray && requestArray.map((request, index)=>{
+                  return (<div className="grid grid-cols-5 bg-white text-[#797979] border-2 mt-2 border-[rgba(214, 214, 214, 0.7)] rounded-xl w-[92%] ml-[4%] font-semibold" key={index}>
+                <div className="mt-5 mb-5">{request.podcastname}</div>
+                <div className="mt-5 mb-5">{request?.buyerusername}</div>
+                <div className="mt-5 mb-5">{request.date}</div>
+                <div className="mt-5 mb-5">{request.time}</div>
+                <div className="mt-5 mb-5">
+                  <div className="grid grid-cols-2">
+                    <div className=" ml-[50%]">
+                    <AiOutlineEye  className="w-7 h-7 cursor-pointer"  onClick={() => {
+                        if (showIndex === index) {
+                          setShowIndex(null);
+                        } else if (showIndex !== null) {
+                          setShowIndex(index);
+                        } else {
+                          setShowIndex(index);
+                        }
+                      }}/>
+                    </div>
+                    <div  >
+                       <ImBin className="w-7 h-7 cursor-pointer"/>
+                    </div>
+                  </div>
+                   <div
+                      className={
+                        showIndex === index
+                          ? "w-[100%] "
+                          : "hidden"
+                      }
+                      
+                    >
+                    <div className=" grid grid-cols-2 w-[500%] bg-gray-200">
+                        <div>
+                          <div className="font-semibold">PodcastName : </div>
+                          <div className="font-semibold">BuyersName : </div>
+
+                          <div className="font-semibold">Buyer Client : </div>
+                          <div className="font-semibold">Target Group : </div>
+                          <div className="font-semibold">Additional Information onTarget Group : </div>
+                          <div className="font-semibold">Description : </div>
+                          </div>
+                          <div className="overflow-scroll ">
+                            <div className="font-semibold">{request.podcastname} </div>
+                            <div className="font-semibold">{request.buyerusername} </div>
+                            <div className="font-semibold">{request.client} </div>
+                            <div className="font-semibold">{request.targetgroup} </div>
+                            <div className="font-semibold">{request.addtargetgroup} </div>
+                            <div className="font-semibold">{request.description} </div>
+                          </div>
+                        
+                      </div>
+                      </div>
+                </div>
+              </div>)
+                })
+                
+              }
+              {showLine2===true && confirmedArray && confirmedArray.map((request,index )=>{
+                return (<div className="w-full grid grid-cols-5 bg-white text-[#797979] border-2 mt-2 border-[rgba(214, 214, 214, 0.7)] rounded-xl w-[92%] ml-[4%] font-semibold" key={index}>
+                <div className="mt-5 mb-5">{request.podcastname}</div>
+                <div className="mt-5 mb-5">{request?.buyerusername}</div>
+                <div className="mt-5 mb-5">{request.date}</div>
+                <div className="mt-5 mb-5">{request.time}</div>
+                <div className="mt-5 mb-5 text-center">
+                  <AiOutlineEye className="w-6 h-6 ml-[47%] cursor-pointer"   
+                  onClick={() => {
+                        if (showIndex === index) {
+                          setShowIndex(null);
+                        } else if (showIndex !== null) {
+                          setShowIndex(index);
+                        } else {
+                          setShowIndex(index);
+                        }
+                      }}/>
+                </div>
+             
+                <div
+                      className={
+                        showIndex === index
+                          ? "w-[100%] "
+                          : "hidden"
+                      }
+                    >
+                    <div className=" grid grid-cols-2 w-[500%] bg-gray-200">
+                        <div>
+                          <div className="font-semibold">PodcastName : </div>
+                          <div className="font-semibold">BuyersName : </div>
+                          <div className="font-semibold">Buyer Client : </div>
+                          <div className="font-semibold">Target Group : </div>
+                          <div className="font-semibold">Additional Information onTarget Group : </div>
+                          <div className="font-semibold">Description : </div>
+                          </div>
+                          <div className="overflow-scroll ">
+                            <div className="font-semibold">{request.podcastname} </div>
+                            <div className="font-semibold">{request.buyerusername} </div>
+                            <div className="font-semibold">{request.client} </div>
+                            <div className="font-semibold">{request.targetgroup} </div>
+                            <div className="font-semibold">{request.addtargetgroup} </div>
+                            <div className="font-semibold">{request.description} </div>
+                          </div>
+                        
+                      </div>
+                  </div>
+
+              </div>
+              )})}   
+             
+            
           </div>
         </div>
       </div>

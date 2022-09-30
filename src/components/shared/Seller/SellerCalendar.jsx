@@ -134,6 +134,26 @@ const SellerCalendar = ({ requestPodcast, setRequestPodcast }) => {
       .getElementById("news")
       .getElementsByTagName("div")[0].style.width = "100%");
   }, []);
+  const compdate=(lastdate)=>{
+    console.log(lastdate,"passvalue")
+    var todaysdate=new Date();
+    var compdate=new Date(configureDate(lastdate));
+    console.log(todaysdate,'comparefunc',compdate)
+    if(todaysdate>compdate){
+      return false
+    }return true
+
+  }
+  const pastcompdate=(lastdate)=>{
+    console.log(lastdate,"passvalue")
+    var todaysdate=new Date();
+    var compdate=new Date(configureDate(lastdate));
+    console.log(todaysdate,'comparefunc',compdate)
+    if(todaysdate<compdate){
+      return false
+    }return true
+
+  }
 
   return (
     <div className="h-screen w-full flex flex-col justify-between ">
@@ -204,6 +224,8 @@ const SellerCalendar = ({ requestPodcast, setRequestPodcast }) => {
           </div>
 
           { requestPodcast.map((item,ind)=>{
+            console.log(item['time'],"before passing")
+            if(item['confirmed']=='true' && compdate(item['time'])){
             return(
           <div key = {ind} className=" grid grid-cols-2 text-center ">
 
@@ -211,12 +233,12 @@ const SellerCalendar = ({ requestPodcast, setRequestPodcast }) => {
             <div className="border-r-2 border-l-2 border-b-2 border-gray-500">{item['buyerusername']}</div>
             <div className="border-r-2  border-b-2 border-gray-500">{item['date']}</div>
           </div>
-            )})
+            )}})
           }
         </div>
         <div>
           <div className="w-full border-2 rounded-t-lg border-purple-600 text-center bg-purple-600 h-fit">
-            <h>Past</h>
+            <h>Past Schedule</h>
           </div>
           <div className=" grid grid-cols-2  text-center ">
             <div className="border-2 border-gray-500">UserName </div>
@@ -224,6 +246,7 @@ const SellerCalendar = ({ requestPodcast, setRequestPodcast }) => {
           </div>
 
           { requestPodcast.map((item,ind)=>{
+             if(item['confirmed']=='true' && pastcompdate(item['time'])){
             return(
           <div key = {ind} className=" grid grid-cols-2 text-center ">
 
@@ -231,7 +254,7 @@ const SellerCalendar = ({ requestPodcast, setRequestPodcast }) => {
             <div className="border-r-2 border-l-2 border-b-2 border-gray-500">{item['buyerusername']}</div>
             <div className="border-r-2  border-b-2 border-gray-500">{item['date']}</div>
           </div>
-            )})
+            )}})
           }
         </div>
       </div>

@@ -9,6 +9,7 @@ import FooterMobile from "../shared/Mobile/FooterMobile";
 import Loader from "../Loader/Loader";
 import toast from "react-hot-toast";
 let todayDate = "";
+let nextDate = "";
 const RequestWebPage = ({
   socketRef,
   setReceivedMessages,
@@ -52,9 +53,10 @@ const RequestWebPage = ({
   // const [selectedDate, setSelectedDate] = useState(formattedToday);
   const [selectedTime, setSelectedTime] = useState("");
   const [currentDate, setCurrentDate] = useState(formattedToday);
+  const [nextCurrentDate, setNextCurrentDate] = useState(formattedToday);
   const usertype = useSelector((state) => state.activate.usertype);
 
-  const changeDateFormat = (inputDate) => {
+  const changeDateFormat = (inputDate, type) => {
     // expects Y-m-d
     var splitDate = inputDate.split("-");
     if (splitDate.count === 0) {
@@ -64,7 +66,11 @@ const RequestWebPage = ({
     var year = splitDate[0];
     var month = splitDate[1];
     var day = splitDate[2];
-    todayDate = day + "-" + month + "-" + year;
+    if (type === "1") {
+      todayDate = day + "-" + month + "-" + year;
+    } else {
+      nextDate = day + "-" + month + "-" + year;
+    }
   };
   useEffect(() => {
     if (usertype.usertype === "seller") {
@@ -91,7 +97,7 @@ const RequestWebPage = ({
       targetGroup === "" ||
       addTargetGroup === "" ||
       todayDate === "" ||
-      selectedTime === "" ||
+      nextDate === "" ||
       description === ""
     ) {
       toast.error("Please fill all fields");
@@ -104,7 +110,7 @@ const RequestWebPage = ({
       podcastid: currPodcastInfo._id,
       podcastname: currPodcastInfo.podcastName,
       date: todayDate,
-      time: selectedTime,
+      time: nextDate,
       sellername: currPodcastInfo.sellerUserName,
       sellerusername: currPodcastInfo.sellername,
       sellerid: currPodcastInfo.sellerId,
@@ -362,10 +368,20 @@ const RequestWebPage = ({
                   onChange={(e) => {
                     setCurrentDate(e.target.value);
                     todayDate = e.target.value;
-                    changeDateFormat(e.target.value);
+                    changeDateFormat(e.target.value, "1");
                   }}
                 />
-                <select
+                <input
+                  type="date"
+                  value={nextCurrentDate}
+                  onChange={(e) => {
+                    setNextCurrentDate(e.target.value);
+                    nextDate = e.target.value;
+                    changeDateFormat(e.target.value, "2");
+                  }}
+                />
+
+                {/* <select
                   name="opt2"
                   id="opt2"
                   onClick={(e) => {
@@ -380,7 +396,7 @@ const RequestWebPage = ({
                         </option>
                       );
                     })}
-                </select>
+                </select> */}
               </div>
             </div>
             <div className="w-full  flex flex-col md:flex-col">
@@ -402,7 +418,7 @@ const RequestWebPage = ({
                   onClick={(e) => {
                     e.preventDefault();
                     handleSendMessage(
-                      `Hey I would like to have a talk on your Podcast : ${currPodcastInfo.podcastName} I am working for our Client: ${client} for Product: ${product} our main focused Target Group are ${targetGroup} and here is the addition target Info ${addTargetGroup} my Preferred Date is ${todayDate}  at ${selectedTime} and here's the Description : ${description} `,
+                      `Hey I would like to have a talk on your Podcast : ${currPodcastInfo.podcastName} I am working for our Client: ${client} for Product: ${product} our main focused Target Group are ${targetGroup} and here is the addition target Info ${addTargetGroup} my Preferred Date from ${todayDate}  to ${nextDate} and here's the Description : ${description} `,
                       "",
                       currPodcastInfo.sellerId
                     );

@@ -131,7 +131,7 @@ function App() {
         uid: "#adminmodel123",
       };
       let info = await api.post("/api/sendinfoforuser", data);
-      console.log("admininfo", info.data);
+      // console.log("admininfo", info.data);
       if (info) {
         setAdminInfo(info.data);
       }

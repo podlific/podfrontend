@@ -40,7 +40,7 @@ export const getInfo = async (
       // console.log(res.data[0],"resitags")
     })
     .catch((err) => {
-      toast.error("Unable to load data");
+      toast.error("Unable to load data , try again");
     });
 
   let info1 = api

@@ -488,18 +488,7 @@ export const Overview = ({
     sellerRequest,
     buyerRequest,
   ]);
-  function compare(a, b) {
-    let booking1 = a.bookings.length;
-    let booking2 = b.bookings.length;
 
-    let comparison = 0;
-    if (booking1 > booking2) {
-      comparison = 1;
-    } else {
-      comparison = -1;
-    }
-    return comparison;
-  }
   return (
     <div className="grid grid-cols-3 grid-rows-3 gap-2 h-[90%] pl-2 pt-2  mr-4 ">
       <div className="min-h-[200px]">

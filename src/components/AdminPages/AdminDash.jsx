@@ -275,11 +275,11 @@ const AdminDash = ({ requestPodcast, userInfo }) => {
               <img src="./adminicons/username.png" alt="username" />
             </div>
             <div>
-              <h5 className="font-medium">Username</h5>
+              <h5 className="font-medium">Admin</h5>
             </div>
-            <div className="h-[25px] w-[25px] flex flex-col items-center justify-center">
+            {/* <div className="h-[25px] w-[25px] flex flex-col items-center justify-center">
               <img src="./adminicons/downkey.png" alt="down" />
-            </div>
+            </div> */}
           </div>
         </div>
         {(showtype === "sellerRequest" || showtype === "buyerRequest") && (
@@ -287,6 +287,8 @@ const AdminDash = ({ requestPodcast, userInfo }) => {
             sellerRequest={sellerRequest}
             setSellerRequest={setSellerRequest}
             buyerRequest={buyerRequest}
+            setBuyerRequest={setBuyerRequest}
+            setAllRequest={setAllRequest}
             user={user}
             request={request}
             setRequest={setRequest}
@@ -297,6 +299,7 @@ const AdminDash = ({ requestPodcast, userInfo }) => {
             setShow={setShow}
             setModalState={setModalState}
             handleClick={handleClick}
+            setTotalpendingrequests={setTotalpendingrequests}
           />
         )}
         {(showtype === "acceptedSeller" || showtype === "acceptedBuyer") && (
@@ -351,7 +354,12 @@ const AdminDash = ({ requestPodcast, userInfo }) => {
         )}
         {showtype === "podcasts" && <PodcastView showPodcast={showPodcast} />}
         {showtype === "tags" && (
-          <TagView adminTags={adminTags} reqestedTags={reqestedTags} />
+          <TagView
+            adminTags={adminTags}
+            setAdminTags={setAdminTags}
+            reqestedTags={reqestedTags}
+            setRequestedTags={setRequestedTags}
+          />
         )}
       </div>
     </div>

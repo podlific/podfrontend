@@ -13,6 +13,8 @@ import {
   changeHandler,
   uploadCSVdata,
   addNewtag,
+  TagSearchFunction,
+  UserSearchFunction,
 } from "./adminFunction";
 import {
   BarGraph,
@@ -25,6 +27,7 @@ import { useEffect, useState, useRef } from "react";
 import toast from "react-hot-toast";
 import { el } from "date-fns/locale";
 import UserTag from "./UserTag";
+import { element } from "prop-types";
 const theme = createTheme({
   palette: {
     primary: {
@@ -53,6 +56,8 @@ export const Request = ({
   sellerRequest,
   setSellerRequest,
   buyerRequest,
+  setBuyerRequest,
+  setAllRequest,
   request,
   setRequest,
   setAllusers,
@@ -62,8 +67,48 @@ export const Request = ({
   setShow,
   setModalState,
   handleClick,
+  setTotalpendingrequests,
 }) => {
-  let arr = showtype === "sellerRequest" ? sellerRequest : buyerRequest;
+  // let arr = showtype === "sellerRequest" ? sellerRequest : buyerRequest;
+  const [arr, setArr] = useState([]);
+  const [searchUser, setSearchUser] = useState("");
+  useEffect(() => {
+    if (showtype === "sellerRequest") {
+      setArr(sellerRequest);
+    } else {
+      setArr(buyerRequest);
+    }
+  }, [showtype]);
+  useEffect(() => {
+    if (showtype === "sellerRequest" && searchUser === "") {
+      setArr(sellerRequest);
+    } else if (showtype === "buyerRequest" && searchUser === "") {
+      setArr(buyerRequest);
+    } else if (showtype === "sellerRequest" && searchUser !== "") {
+      UserSearchFunction(sellerRequest, setArr, searchUser);
+    } else if (showtype === "buyerRequest" && searchUser !== "") {
+      UserSearchFunction(buyerRequest, setArr, searchUser);
+    }
+  }, [searchUser, showtype, sellerRequest, buyerRequest]);
+
+  useEffect(() => {
+    let len = request.length;
+    let seller = [];
+    let buyer = [];
+    let all = [];
+    request.forEach((Element) => {
+      if (Element.usertype === "seller") {
+        seller.push(Element);
+      } else {
+        buyer.push(Element);
+      }
+      all.push(Element);
+    });
+    setBuyerRequest(buyer);
+    setSellerRequest(seller);
+    setAllRequest(all);
+    setTotalpendingrequests(len);
+  }, [request]);
 
   return (
     <div className="h-full flex flex-col ">
@@ -91,6 +136,10 @@ export const Request = ({
             <input
               className="bg-[#F2F4F5] w-full  "
               placeholder="Search here"
+              value={searchUser}
+              onChange={(e) => {
+                setSearchUser(e.target.value);
+              }}
             />
           </div>
         </div>
@@ -237,7 +286,27 @@ export const Accepted = ({
   acceptedSeller,
   acceptedBuyer,
 }) => {
-  let arr = showtype === "acceptedSeller" ? acceptedSeller : acceptedBuyer;
+  // let arr = showtype === "acceptedSeller" ? acceptedSeller : acceptedBuyer;
+  const [arr, setArr] = useState([]);
+  const [searchUser, setSearchUser] = useState("");
+  useEffect(() => {
+    if (showtype === "acceptedSeller") {
+      setArr(acceptedSeller);
+    } else {
+      setArr(acceptedBuyer);
+    }
+  }, [showtype]);
+  useEffect(() => {
+    if (showtype === "acceptedSeller" && searchUser === "") {
+      setArr(acceptedSeller);
+    } else if (showtype === "acceptedBuyer" && searchUser === "") {
+      setArr(acceptedBuyer);
+    } else if (showtype === "acceptedSeller" && searchUser !== "") {
+      UserSearchFunction(acceptedSeller, setArr, searchUser);
+    } else if (showtype === "acceptedBuyer" && searchUser !== "") {
+      UserSearchFunction(acceptedBuyer, setArr, searchUser);
+    }
+  }, [searchUser, showtype]);
 
   return (
     <div className="h-full flex flex-col ">
@@ -259,6 +328,10 @@ export const Accepted = ({
             <input
               className="bg-[#F2F4F5] w-full  "
               placeholder="Search here"
+              value={searchUser}
+              onChange={(e) => {
+                setSearchUser(e.target.value);
+              }}
             />
           </div>
         </div>
@@ -701,52 +774,83 @@ function singlePodcast(item) {
 }
 
 export const PodcastView = ({ showPodcast }) => {
+  const [searchPodcast, setSearchPodcast] = useState("");
+  const [tempArr, setTempArr] = useState([]);
+  useEffect(() => {
+    if (searchPodcast === "") {
+      setTempArr(showPodcast);
+    } else {
+      let arr = [];
+      showPodcast.forEach((element) => {
+        let podcastname = element.podcastName.toLowerCase();
+        podcastname = podcastname.search(searchPodcast.toLowerCase());
+        if (podcastname !== -1) {
+          arr.push(element);
+        }
+      });
+      setTempArr(arr);
+    }
+  }, [searchPodcast, showPodcast]);
   return (
     <div className="h-[89%] overflow-scroll">
+      <div>
+        <input
+          className="mx-2"
+          type="text"
+          value={searchPodcast}
+          placeholder="Search here"
+          onChange={(e) => {
+            setSearchPodcast(e.target.value);
+          }}
+        />
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 mt-1 mx-2">
-        {showPodcast &&
-          showPodcast.map((ele, index) => {
+        {tempArr &&
+          tempArr.map((ele, index) => {
             return singlePodcast(ele);
           })}
       </div>
     </div>
   );
 };
-export const TagView = ({ adminTags, reqestedTags }) => {
+export const TagView = ({
+  adminTags,
+  reqestedTags,
+  setAdminTags,
+  setRequestedTags,
+}) => {
   // console.log(adminTags);
   const [showinput, setShowinput] = useState("false");
   const [showTypeofTag, setShowTypeofTag] = useState("admin");
   const [sortingOrder, setSortingOrder] = useState([]);
-  let arr = [];
-  // useEffect(()=>{
+  const [arr, setArr] = useState([]);
+  const [searchTag, setSearchTag] = useState("");
+  useEffect(() => {
+    if (searchTag === "") {
+      TagSearchFunction(adminTags, setArr);
+    } else {
+      let tempArr = [];
+      adminTags.forEach((element) => {
+        let tagname = element.tagname.toLowerCase();
+        tagname = tagname.search(searchTag.toLowerCase());
+        if (tagname !== -1) {
+          tempArr.push(element);
+        }
+      });
+      TagSearchFunction(tempArr, setArr);
+    }
+  }, [searchTag, adminTags]);
 
-  // })
-  for (let i = 0; i < 26; i++) {
-    let data = { currChar: "", currArr: [] };
-    let c = String.fromCharCode(97 + i);
-    adminTags.forEach((element) => {
-      if (element.tagname[0].toLowerCase() === c) {
-        data.currArr.push({ ...element });
-        data.currChar = c;
-      }
-    });
-    if (data.currChar !== "") arr = [...arr, data];
-  }
-  // useEffect(() => {
-  //   setSortingOrder([...arr]);
-  // }, [arr]);
-  // console.log(arr);
+  useEffect(() => {
+    TagSearchFunction(adminTags, setArr);
+  }, [adminTags]);
+
   const [showModal, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
 
   const handleShow = () => setShow(true);
   const inputRef = useRef(null);
-  //  function updateArr(c)
-  //  {
-  //   console.log(c,"hellp")
-
-  //  }
 
   return (
     <div className="h-[89%] flex flex-row ml-[1%]">
@@ -769,6 +873,7 @@ export const TagView = ({ adminTags, reqestedTags }) => {
             >
               <p className="ml-7 mr-7 mb-1.5 mt-1 text-white">Add Tag</p>
             </button>
+
             <div>
               <Modal
                 className="absolute inset-0 text-center w-[30%] h-[30%] ml-[34%] mt-[15%]  bg-gray-300 min-h-[200px] rounded-xl"
@@ -848,7 +953,14 @@ export const TagView = ({ adminTags, reqestedTags }) => {
               justifyContent: "center",
             }}
           >
-            <input className="h-5 rounded-2xl bg-red-100" />
+            <input
+              className="h-5 rounded-2xl bg-red-100"
+              value={searchTag}
+              placeholder="Type here"
+              onChange={(e) => {
+                setSearchTag(e.target.value);
+              }}
+            />
           </div>
         </div>
         <div
@@ -898,7 +1010,11 @@ export const TagView = ({ adminTags, reqestedTags }) => {
         {showTypeofTag === "admin" ? (
           <PopularTags a={adminTags} />
         ) : (
-          <UserTag b={reqestedTags} />
+          <UserTag
+            b={reqestedTags}
+            setAdminTags={setAdminTags}
+            setRequestedTags={setRequestedTags}
+          />
         )}
       </div>
     </div>

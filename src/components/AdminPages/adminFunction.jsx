@@ -451,3 +451,35 @@ export const BarGraphFunctions = (
   setUserWeekDaysData(toshowdata.reverse());
   setPodcastWeekDaysData(toshowPodcastData.reverse());
 };
+
+export const TagSearchFunction = (adminTags, setArr) => {
+  let tempArr = [];
+  for (let i = 0; i < 26; i++) {
+    let data = { currChar: "", currArr: [] };
+    let c = String.fromCharCode(97 + i);
+    adminTags.forEach((element) => {
+      if (element.tagname[0].toLowerCase() === c) {
+        data.currArr.push({ ...element });
+        data.currChar = c;
+      }
+    });
+    // if (data.currChar !== "") arr = [...arr, data]
+    if (data.currChar !== "") tempArr.push(data);
+  }
+  setArr(tempArr);
+  return;
+};
+export const UserSearchFunction = (userarray, setArr, searchUser) => {
+  let tempArr = [];
+  userarray.forEach((element) => {
+    let username = element?.name.toLowerCase();
+    username = username.search(searchUser.toLowerCase());
+    let useremail = element?.email.toLowerCase();
+    useremail = useremail.search(searchUser.toLowerCase());
+
+    if (username !== -1 || useremail !== -1) {
+      tempArr.push(element);
+    }
+  });
+  setArr(tempArr);
+};

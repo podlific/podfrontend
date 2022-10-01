@@ -6,7 +6,8 @@ import {
   setUniqueID,
   setUserType,
 } from "../../store/activateSlice";
-
+let weekData = new Map();
+let podcastWeekData = new Map();
 export const getInfo = async (
   setRequest,
   setBroadcastMessages,
@@ -396,10 +397,16 @@ export const BarGraphFunctions = (
       }
     }
   }
-  // console.log(createdDatesofUser, "createdDateofUser");
   let currDate = new Date();
   let first = currDate.getDate();
   for (let i = 0; i < 7; i++) {
+    if (first - i === 0) {
+      let date = new Date();
+      const previous = new Date(date.getTime());
+      previous.setDate(date.getDate() - 1);
+      currDate = previous;
+      first = currDate.getDate() + 1;
+    }
     let currday = new Date(currDate.setDate(first - i)).toString();
     let currday1 = new Date(currDate.setDate(first - i)).toLocaleDateString();
     currdaystoshow.push(convertDate(currday1));
@@ -408,8 +415,6 @@ export const BarGraphFunctions = (
   }
   // console.log(currweekdaystoshow, "currweekdaystoshow");
   setUserWeekDaysLabel(currweekdaystoshow.reverse());
-  let weekData = new Map();
-  let podcastWeekData = new Map();
 
   for (let i = 0; i < createdDatesofUser.length; i++) {
     if (!weekData.has(createdDatesofUser[i])) {

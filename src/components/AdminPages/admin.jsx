@@ -132,20 +132,7 @@ export const Request = ({
               alt="serach"
             />
           </div>
-          {/* <div class="flex items-center justify-center bg-[#F2F4F5]">
- 
-      <div class="relative">
-        <span class="absolute inset-y-0 left-0 flex items-center pl-2 ">
-          <button type="submit" class="p-1 focus:outline-none focus:shadow-outline">
-            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-6 h-6"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-          </button>
-        </span>
-        <input type="search" name="q" value={searchUser} class="py-2 text-sm text-white border-2 border-black rounded-md pl-10 focus:outline-none focus:bg-white focus:text-gray-900" placeholder="Search..." autocomplete="off" onChange={(e) => {
-                  setSearchUser(e.target.value);
-                }}/>
-      </div>
-
-    </div> */}
+          
           <div className="text-[#9C9C9C] w-28">
             <input
               className="bg-[#F2F4F5] w-full  "
@@ -948,20 +935,20 @@ export const TagView = ({
                 <Modal.Body className="h-[15%] mb-10">
                   <input
                     ref={inputRef}
-                    className="rounded-xl text-center w-[80%]  "
+                    className="rounded-l text-center w-[80%] bg-gray-100 "
                   />
                 </Modal.Body>
                 <Modal.Footer>
                   <Button
                     variant="secondary"
-                    className="bg-red-600 text-white font-semibold rounded-xl mr-4"
+                    className="bg-gray-600 text-white font-semibold rounded-xl mr-4"
                     onClick={handleClose}
                   >
                     <div className="m-2 ml-5 mr-5">Close</div>
                   </Button>
                   <Button
                     variant="secondary"
-                    className="bg-green-600 text-white font-semibold rounded-xl"
+                    className="bg-purple-600 text-white font-semibold rounded-xl"
                     onClick={() => {
                       addNewtag(inputRef.current.value);
                       setAdminTags((oldArray)=>[...oldArray , {tagname:inputRef.current.value , tagcount:0}])

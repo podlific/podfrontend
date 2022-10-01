@@ -64,12 +64,14 @@ const addupdatedtag = async (
   setAdminTags,
   setRequestedTags,
   requestedTags,
-  setTagArray
+  setTagArray,
+  setnewtagname
 ) => {
   // if (tagname === null || tagname.length === 0) {
   //   toast.error("Please add something ");
   //   return;
   // }
+
   let data = {
     oldtagname: oldtagname,
     newtagname: newtagname,
@@ -91,6 +93,7 @@ const addupdatedtag = async (
       }
       setRequestedTags(tempArr);
       setTagArray(tempArr);
+      setnewtagname("");
       toast.success(" Tag added successfully");
     }
   } catch (err) {
@@ -132,10 +135,47 @@ const deleteNewUserTag = async (
     return;
   }
 };
+const addModifyTag = async (
+  tagname,
+  podcastID,
+  setRequestedTags,
+  requestedTags,
+  setTagArray
+) => {
+  if (tagname === null || tagname.length === 0) {
+    toast.error("Please add something ");
+    return;
+  }
+  let data = {
+    tagname: tagname,
+    podcastid: podcastID,
+  };
+  try {
+    // console.log(data, "tagtest");
+    let info = await api.post("/api/deletetagbyadmin", data);
+    if (info) {
+      let tempArr = [];
+      for (let i = 0; i < requestedTags.length; i++) {
+        if (requestedTags[i].tag !== tagname) {
+          tempArr.push(requestedTags[i]);
+        }
+      }
+      setRequestedTags(tempArr);
+      setTagArray(tempArr);
+      toast.success(" data deleted successfully");
+    }
+  } catch (err) {
+    toast.error("Unable to Add,try again");
+    return;
+  }
+};
 export default function UserTag({ b, setAdminTags, setRequestedTags }) {
   const [tagsArray, setTagArray] = useState(b);
   const [checkchange, setCheckChange] = useState(false);
   const [removeele, setRemoveele] = useState(b);
+  const [selectModify, setSelectModify] = useState("");
+  const [currPodcast, setCurrPodcast] = useState("");
+  const [newtagname, setnewtagname] = useState("");
   // console.log(b);
   // const [showModal, setShow] = useState(false);
 
@@ -148,7 +188,12 @@ export default function UserTag({ b, setAdminTags, setRequestedTags }) {
   useEffect(() => {
     setTagArray(b);
   }, [b]);
+  const [showModal, setShow] = useState(false);
 
+  const handleClose = () => setShow(false);
+  const inputRef = useRef(null);
+
+  const handleShow = () => setShow(true);
   return (
     <div
       style={{
@@ -176,7 +221,8 @@ export default function UserTag({ b, setAdminTags, setRequestedTags }) {
           <div key={ind}>
             <div className="grid grid-cols-3 mb-2 text-center rounded  bg-gray-300  border-2 justify-between ">
               <div className="flex flex-col justify-center">
-                {item?.sellername}
+                {console.log(item, "tempcheck")}
+                {item.sellername}
               </div>
               <div className="flex flex-col justify-center">
                 {/* <input
@@ -192,9 +238,9 @@ export default function UserTag({ b, setAdminTags, setRequestedTags }) {
                 {item?.tag}
               </div>
 
-              <div className="grid grid-rows-2 text-center">
+              <div className="grid grid-rows-3 text-center">
                 <Button
-                  className="bg-purple-500 w-[80%] ml-3 mb-1 rounded-xl"
+                  className="bg-purple-500 w-[80%] ml-3 mb-1 rounded-xl text-white"
                   onClick={() => {
                     addNewUserTag(
                       tagsArray[ind]["tag"],
@@ -211,7 +257,7 @@ export default function UserTag({ b, setAdminTags, setRequestedTags }) {
                   <p className="m-1">Add</p>
                 </Button>
                 <Button
-                  className="bg-gray-500 w-[80%] ml-3 rounded-xl "
+                  className="bg-gray-400 w-[80%] ml-3 mb-1 rounded-xl text-white"
                   onClick={() => {
                     deleteNewUserTag(
                       tagsArray[ind]["tag"],
@@ -224,8 +270,82 @@ export default function UserTag({ b, setAdminTags, setRequestedTags }) {
                 >
                   <p className="m-1">Delete</p>
                 </Button>
+                <Button
+                  className="bg-gray-500 w-[80%] ml-3 mb-1 rounded-xl text-white"
+                  // onClick={handleShow}
+                  onClick={() => {
+                    setSelectModify(tagsArray[ind]["tag"]);
+                    setCurrPodcast(tagsArray[ind]["podcastID"]);
+                    handleShow();
+                  }}
+                >
+                  <p className="m-1">Modify</p>
+                </Button>
               </div>
             </div>
+
+            <Modal
+              className="absolute inset-0 text-center w-[30%] h-[30%] ml-[34%] mt-[15%]  bg-gray-300 min-h-[200px] rounded-xl"
+              show={showModal}
+              onHide={handleClose}
+            >
+              <Modal.Header closeButton>
+                <Modal.Title className="mt-3 font-bold">
+                  Modify Tags
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body className="h-[15%] mb-10">
+                <input
+                  className="mt-[2%] w-[50%]  text-center border-b-4 bg-gray-300"
+                  value={selectModify}
+                  onChange={(e) => {
+                    let tempArray = tagsArray;
+                    // console.log(tempArray, tagsArray);
+                    tempArray[ind]["tag"] = e.target.value;
+                    // setTagArray(tempArray);
+                  }}
+                />
+                <input
+                  className="mt-[2%] w-[50%]  text-center border-b-4 bg-gray-300"
+                  value={newtagname}
+                  onChange={(e) => {
+                    let tempArray = tagsArray;
+                    // console.log(tempArray, tagsArray);
+                    // tempArray[ind]["tag"] = e.target.value;
+                    setnewtagname(e.target.value);
+
+                    // setTagArray(tempArray);
+                  }}
+                />
+              </Modal.Body>
+              <Modal.Footer>
+                <Button
+                  variant="secondary"
+                  className="bg-gray-600 text-white font-semibold rounded-xl mr-4"
+                  onClick={handleClose}
+                >
+                  <div className="m-2 ml-5 mr-5">Close</div>
+                </Button>
+                <Button
+                  variant="secondary"
+                  className="bg-purple-600 text-white font-semibold rounded-xl"
+                  onClick={() => {
+                    addupdatedtag(
+                      selectModify,
+                      newtagname,
+                      currPodcast,
+                      setAdminTags,
+                      setRequestedTags,
+                      b,
+                      setTagArray,
+                      setnewtagname
+                    );
+                  }}
+                >
+                  <div className="m-2 ml-5 mr-5">Submit</div>
+                </Button>
+              </Modal.Footer>
+            </Modal>
           </div>
         );
       })}

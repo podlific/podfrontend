@@ -65,7 +65,9 @@ const addupdatedtag = async (
   setRequestedTags,
   requestedTags,
   setTagArray,
-  setnewtagname
+  setnewtagname,
+  sellername,
+  setsellername
 ) => {
   // if (tagname === null || tagname.length === 0) {
   //   toast.error("Please add something ");
@@ -73,6 +75,7 @@ const addupdatedtag = async (
   // }
 
   let data = {
+    sellername: sellername,
     oldtagname: oldtagname,
     newtagname: newtagname,
     podcastid: podcastID,
@@ -94,6 +97,7 @@ const addupdatedtag = async (
       setRequestedTags(tempArr);
       setTagArray(tempArr);
       setnewtagname("");
+      setsellername("");
       toast.success(" Tag added successfully");
     }
   } catch (err) {
@@ -176,6 +180,7 @@ export default function UserTag({ b, setAdminTags, setRequestedTags }) {
   const [selectModify, setSelectModify] = useState("");
   const [currPodcast, setCurrPodcast] = useState("");
   const [newtagname, setnewtagname] = useState("");
+  const [sellername, setsellername] = useState("");
   // console.log(b);
   // const [showModal, setShow] = useState(false);
 
@@ -276,6 +281,7 @@ export default function UserTag({ b, setAdminTags, setRequestedTags }) {
                   onClick={() => {
                     setSelectModify(tagsArray[ind]["tag"]);
                     setCurrPodcast(tagsArray[ind]["podcastID"]);
+                    setsellername(item.sellername);
                     handleShow();
                   }}
                 >
@@ -338,7 +344,9 @@ export default function UserTag({ b, setAdminTags, setRequestedTags }) {
                       setRequestedTags,
                       b,
                       setTagArray,
-                      setnewtagname
+                      setnewtagname,
+                      sellername,
+                      setsellername
                     );
                   }}
                 >

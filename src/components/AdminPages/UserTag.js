@@ -296,7 +296,7 @@ export default function UserTag({ b, setAdminTags, setRequestedTags }) {
               </Modal.Header>
               <Modal.Body className="h-[15%] mb-10">
                 <input
-                  className="mt-[2%] w-[50%]  text-center border-b-4 bg-gray-300"
+                  className="mt-[2%] w-[50%]  text-center  bg-gray-300"
                   value={selectModify}
                   onChange={(e) => {
                     let tempArray = tagsArray;
@@ -306,8 +306,9 @@ export default function UserTag({ b, setAdminTags, setRequestedTags }) {
                   }}
                 />
                 <input
-                  className="mt-[2%] w-[50%]  text-center border-b-4 bg-gray-300"
+                  className="mt-[2%] w-[50%]  text-center  bg-gray-100"
                   value={newtagname}
+                  placeholder="New tagname"
                   onChange={(e) => {
                     let tempArray = tagsArray;
                     // console.log(tempArray, tagsArray);

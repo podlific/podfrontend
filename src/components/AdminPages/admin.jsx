@@ -133,7 +133,7 @@ export const Request = ({
             />
           </div>
           
-          <div className="text-[#9C9C9C] w-28">
+          <div className="text-[#9C9C9C] w-28 ">
             <input
               className="bg-[#F2F4F5] w-full  "
               placeholder="Search here"
@@ -828,7 +828,7 @@ export const PodcastView = ({ showPodcast }) => {
   }, [searchPodcast, showPodcast]);
   return (
     <div className="h-[89%] overflow-scroll">
-      {/* <div class="flex items-center justify-center bg-[#F2F4F5]">
+      <div class="flex items-center justify-center bg-[white]">
  
       <div class="relative">
         <span class="absolute inset-y-0 left-0 flex items-center pl-2 ">
@@ -836,15 +836,15 @@ export const PodcastView = ({ showPodcast }) => {
             <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-6 h-6"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
           </button>
         </span>
-        <input type="search" name="q" value={searchPodcast} class="py-2 text-sm text-white border-2 border-black rounded-md pl-10 focus:outline-none focus:bg-white focus:text-gray-900" placeholder="Search..." autocomplete="off" onChange={(e) => {
+        <input type="search" name="q" value={searchPodcast} class="py-2 text-sm text-white border-2 border-gray-100 rounded-2xl mb-3 mt-2 pl-10 focus:outline-none focus:bg-white focus:text-gray-900" placeholder="Search..." autocomplete="off" onChange={(e) => {
                   setSearchPodcast(e.target.value);
                 }}/>
       </div>
 
-    </div> */}
-      <div>
+    </div>
+      {/* <div>
         <input
-          className="mx-2"
+          className="mx-2 "
           type="text"
           value={searchPodcast}
           placeholder="Search here"
@@ -852,7 +852,7 @@ export const PodcastView = ({ showPodcast }) => {
             setSearchPodcast(e.target.value);
           }}
         />
-      </div>
+      </div> */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 mt-1 mx-2">
         {tempArr &&
           tempArr.map((ele, index) => {

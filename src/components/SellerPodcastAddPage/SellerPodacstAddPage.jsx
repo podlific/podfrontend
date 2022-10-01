@@ -309,6 +309,7 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
                   placeholder="Type Theme tag"
                   value={themeVal}
                   onChange={(e) => setThemeVal(e.target.value)}
+                   
                 />
               </div>
               <AiFillPlusSquare

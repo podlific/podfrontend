@@ -101,7 +101,9 @@ export const Messages = ({
   };
   useEffect(() => {
     setDisabledDays(currentBooking);
+    console.log(currentBooking,"days")
   }, [currentBooking]);
+
   const existingBooking = (curr) => {
     let arr = [];
     userPodcast.forEach((element) => {
@@ -109,14 +111,15 @@ export const Messages = ({
         element.bookings.forEach((ele) => {
           let datefrom = ele.date.split("/");
           let dateto = ele.time.split("/");
+          console.log("from",datefrom,"hhh",dateto)
           arr.push({
-            from: new Date(datefrom[2], datefrom[1] - 1, datefrom[0]),
-            to: new Date(dateto[2], dateto[1] - 1, dateto[0]),
+            from: new Date(datefrom[2], datefrom[1] -1, datefrom[0]),
+            to: new Date(dateto[2], dateto[1] -1, dateto[0]),
           });
         });
       }
     });
-
+// console.log(arr,"yoooo")
     setCurrentBooking(arr);
   };
 
@@ -274,6 +277,7 @@ export const Messages = ({
     ) : (
       <p>Please pick two dates </p>
     );
+    const [price,setPrice]=useState(100)
 
   return (
     <div className="h-full flex flex-col justify-between ">
@@ -297,7 +301,7 @@ export const Messages = ({
             }
             onClick={handleClick}
           >
-            <span className="font-semibold flex flex-row">Create Offer</span>
+            <span className="font-semibold flex flex-row bg-[#5F50A3] text-white  cursor-pointer rounded-xl text-center">Create Offer</span>
           </div>
         </div>
         <div className="flex flex-row justify-center">
@@ -312,34 +316,42 @@ export const Messages = ({
           aria-describedby="modal-modal-description"
         >
           <Box sx={style1}>
-            <div className="flex flex-col justify-evenly h-full">
+            <div className="flex flex-col justify-evenly h-full text-center">
               <div>Create Offer to Buyer</div>
-              <div className="flex flex-col md:flex-row justify-between">
-                <select
-                  name="opt1"
-                  id="opt1"
-                  onClick={(e) => {
-                    setSelectedPodcast(e.target.value);
-                    existingBooking(e.target.value);
-                  }}
-                >
-                  {requestPodcast &&
-                    requestPodcast.map((request, index) => {
-                      return request.buyerid === toMessageUser &&
-                        request.confirmed !== "true" ? (
-                        <option
-                          value={request.podcastid}
-                          // podname={request.podcastname}
-                          setname={request.podcastname}
-                          key={index}
-                        >
-                          {request.podcastname}
-                        </option>
-                      ) : (
-                        <></>
-                      );
-                    })}
-                </select>
+              <div className="justify-between ">
+                <div className=" grid grid-cols-2 mt-3">
+                  <div className="font-bold">Select Podcast</div>
+                    <select
+                    className="h-[20px] overflow-scroll text-center "
+                      name="opt1"
+                      id="opt1"
+                      onClick={(e) => {
+                        setSelectedPodcast(e.target.value);
+                        existingBooking(e.target.value);
+                      }}
+                    >
+                      {requestPodcast &&
+                        requestPodcast.map((request, index) => {
+                          return request.buyerid === toMessageUser &&
+                            request.confirmed !== "true" ? (
+                            <option
+                              value={request.podcastid}
+                              // podname={request.podcastname}
+                              setname={request.podcastname}
+                              key={index}
+                            >
+                              {request.podcastname}
+                            </option>
+                          ) : (
+                            <></>
+                          );
+                        })}
+                    </select>
+                </div>
+                <div className=" grid grid-cols-2 mt-3">
+                  <div className="font-bold">Input Price</div>
+                    <input type="number" placeholder="Enter price" className="w-[150px] text-center" value={price} required onChange={(e)=>{setPrice(e.target.value)}}/>
+                </div>
 
                 <DayPicker
                   mode="multiple"
@@ -356,7 +368,7 @@ export const Messages = ({
                   onClick={() => {
                     updateRequest();
                     handleSendMessage(
-                      `This is ths offer from ${newDate} to ${newTime} for your requested podcast `,
+                      `This is ths offer from ${newDate} to ${newTime} for your requested podcast at ${price}$`,
                       toMessageUser,
                       user.unique_id,
                       "offerfromseller",

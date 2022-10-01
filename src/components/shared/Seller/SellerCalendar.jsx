@@ -134,7 +134,7 @@ const SellerCalendar = ({ requestPodcast, setRequestPodcast }) => {
     console.log(lastdate, "passvalue");
     var todaysdate = new Date();
     var compdate = new Date(configureDate(lastdate));
-    console.log(todaysdate, "comparefunc", compdate);
+    // console.log(todaysdate, "comparefunc", compdate);
     if (todaysdate > compdate) {
       return false;
     }
@@ -144,7 +144,7 @@ const SellerCalendar = ({ requestPodcast, setRequestPodcast }) => {
     console.log(lastdate, "passvalue");
     var todaysdate = new Date();
     var compdate = new Date(configureDate(lastdate));
-    console.log(todaysdate, "comparefunc", compdate);
+    // console.log(todaysdate, "comparefunc", compdate);
     if (todaysdate < compdate) {
       return false;
     }

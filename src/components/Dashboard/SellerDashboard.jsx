@@ -74,10 +74,13 @@ const SellerDashboard = ({
             </div>
 
             <div className=" w-5/6 flex flex-row justify-around pt-1  ">
-              <div className=" flex flex-col justify-evenly items-center ">
-                <MdOutlineMoveToInbox size={26} />
-                <span className="text-xs p-1 font-semibold">Campaigns</span>
-              </div>
+              
+              <Link to="/usercampaignpage">
+                <div className="flex flex-col justify-between items-center  ">
+                  <MdOutlineMoveToInbox size={26} />
+                  <span className="text-xs p-1 font-semibold">Campaigns</span>
+                </div>
+              </Link>
               <Link to="/chat">
                 <div className="flex flex-col justify-between items-center  ">
                   <MdOutlineForwardToInbox size={26} />

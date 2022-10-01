@@ -93,32 +93,34 @@ const UserCampaignPage = ({ requestPodcast, setRequestPodcast }) => {
     
               {
                 showLine1=== true && requestArray && requestArray.map((request, index)=>{
-                  return (<div className="grid grid-cols-5 bg-white text-[#797979] border-2 mt-2 border-[rgba(214, 214, 214, 0.7)] rounded-xl w-[92%] ml-[4%] font-semibold" key={index}>
+                  return (<div className="grid grid-cols-5 bg-white  text-[#797979] border-2 mt-2 border-[rgba(214, 214, 214, 0.7)] rounded-xl w-[92%] ml-[4%] font-semibold" key={index}>
                 <div className="mt-5 mb-5">{request.podcastname}</div>
                 <div className="mt-5 mb-5">{request?.buyerusername}</div>
                 <div className="mt-5 mb-5">{request.date}</div>
                 <div className="mt-5 mb-5">{request.time}</div>
                 <div className="mt-5 mb-5">
-                  <div className="grid grid-cols-2">
-                    <div className=" ml-[50%]">
-                    <AiOutlineEye  className="w-7 h-7 cursor-pointer"  onClick={() => {
-                        if (showIndex === index) {
-                          setShowIndex(null);
-                        } else if (showIndex !== null) {
-                          setShowIndex(index);
-                        } else {
-                          setShowIndex(index);
-                        }
-                      }}/>
+                  <div className="grid grid-cols-2 text-center">
+                    <div className=" ">
+                      <AiOutlineEye  className="w-7 h-7 cursor-pointer ml-[60%]"  onClick={() => {
+                          if (showIndex === index) {
+                            setShowIndex(null);
+                          } else if (showIndex !== null) {
+                            setShowIndex(index);
+                          } else {
+                            setShowIndex(index);
+                          }
+                        }}/>
                     </div>
                     <div  >
                        <ImBin className="w-7 h-7 cursor-pointer"/>
                     </div>
                   </div>
-                   <div
+                  
+                </div>
+                 <div
                       className={
                         showIndex === index
-                          ? "w-[100%] "
+                          ? " "
                           : "hidden"
                       }
                       
@@ -133,7 +135,7 @@ const UserCampaignPage = ({ requestPodcast, setRequestPodcast }) => {
                           <div className="font-semibold">Additional Information onTarget Group : </div>
                           <div className="font-semibold">Description : </div>
                           </div>
-                          <div className="overflow-scroll ">
+                          <div className="overflow-scroll text-left">
                             <div className="font-semibold">{request.podcastname} </div>
                             <div className="font-semibold">{request.buyerusername} </div>
                             <div className="font-semibold">{request.client} </div>
@@ -144,7 +146,6 @@ const UserCampaignPage = ({ requestPodcast, setRequestPodcast }) => {
                         
                       </div>
                       </div>
-                </div>
               </div>)
                 })
                 
@@ -175,7 +176,7 @@ const UserCampaignPage = ({ requestPodcast, setRequestPodcast }) => {
                           : "hidden"
                       }
                     >
-                    <div className=" grid grid-cols-2 w-[500%] bg-gray-200">
+                    <div className=" grid grid-cols-2 text-left w-[500%] bg-gray-200">
                         <div>
                           <div className="font-semibold">PodcastName : </div>
                           <div className="font-semibold">BuyersName : </div>

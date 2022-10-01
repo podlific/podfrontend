@@ -947,10 +947,7 @@ export const TagView = ({
                     className="bg-green-600 text-white font-semibold rounded-xl"
                     onClick={() => {
                       addNewtag(inputRef.current.value);
-                      adminTags.push({
-                        tagname: inputRef.current.value,
-                        tagcount: 3,
-                      });
+                      setAdminTags((oldArray)=>[...oldArray , {tagname:inputRef.current.value , tagcount:0}])
                     }}
                   >
                     <div className="m-2 ml-5 mr-5">Submit</div>

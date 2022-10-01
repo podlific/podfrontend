@@ -132,8 +132,8 @@ export const Request = ({
               alt="serach"
             />
           </div>
-          
-          <div className="text-[#9C9C9C] w-28 ">
+
+          <div className="text-[#9C9C9C] w-28">
             <input
               className="bg-[#F2F4F5] w-full  "
               placeholder="Search here"
@@ -318,15 +318,15 @@ export const Accepted = ({
             CSV
           </button>
         </div>
-        <div className="flex flex-row gap-x-4 p-1 px-3 rounded-lg bg-[#F2F4F5] mr-7">
-          <div className=" flex flex-col items-center justify-center">
-            <img
-              className="h-[18px] w-[18px]"
-              src="./adminicons/search.png"
-              alt="serach"
-            />
-          </div>
-          <div class="flex items-center justify-center bg-[#F2F4F5]">
+        {/* <div className="flex flex-row gap-x-4 p-1 px-3 rounded-lg bg-[#F2F4F5] mr-7"> */}
+        <div className=" flex flex-col items-center justify-center">
+          {/* <img
+            className="h-[18px] w-[18px]"
+            src="./adminicons/search.png"
+            alt="serach"
+          /> */}
+          {/* </div> */}
+          <div class="flex items-center justify-center bg-[#F2F4F5] mr-2">
             <div class="relative">
               <span class="absolute inset-y-0 left-0 flex items-center pl-2 ">
                 <button
@@ -951,7 +951,10 @@ export const TagView = ({
                     className="bg-purple-600 text-white font-semibold rounded-xl"
                     onClick={() => {
                       addNewtag(inputRef.current.value);
-                      setAdminTags((oldArray)=>[...oldArray , {tagname:inputRef.current.value , tagcount:0}])
+                      setAdminTags((oldArray) => [
+                        ...oldArray,
+                        { tagname: inputRef.current.value, tagcount: 0 },
+                      ]);
                     }}
                   >
                     <div className="m-2 ml-5 mr-5">Submit</div>

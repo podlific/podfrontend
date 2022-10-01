@@ -158,24 +158,23 @@ export const Request = ({
           </div>
         </div>
 
-
-      <div className="flex flex-row justify-end">
-        <div className="flex flex-row justify-center items-center pr-7 -mt-2">
-          <div className="font-medium">Buyer</div>
-          <ThemeProvider theme={theme}>
-            <Switch
-              checked={showtype === "sellerRequest" ? true : false}
-              onChange={() => {
-                showtype === "sellerRequest"
-                ? setShowType("buyerRequest")
-                : setShowType("sellerRequest");
-              }}
-              inputProps={{ "aria-label": "controlled" }}
+        <div className="flex flex-row justify-end">
+          <div className="flex flex-row justify-center items-center pr-7 -mt-2">
+            <div className="font-medium">Buyer</div>
+            <ThemeProvider theme={theme}>
+              <Switch
+                checked={showtype === "sellerRequest" ? true : false}
+                onChange={() => {
+                  showtype === "sellerRequest"
+                    ? setShowType("buyerRequest")
+                    : setShowType("sellerRequest");
+                }}
+                inputProps={{ "aria-label": "controlled" }}
               />
-          </ThemeProvider>
-          <div className="font-medium">Seller</div>
+            </ThemeProvider>
+            <div className="font-medium">Seller</div>
+          </div>
         </div>
-       </div>
       </div>
       <div className="grid grid-cols-6 ">
         <div className=" flex flex-row justify-center ">Name</div>
@@ -341,19 +340,38 @@ export const Accepted = ({
             />
           </div>
           <div class="flex items-center justify-center bg-[#F2F4F5]">
- 
-      <div class="relative">
-        <span class="absolute inset-y-0 left-0 flex items-center pl-2 ">
-          <button type="submit" class="p-1 focus:outline-none focus:shadow-outline">
-            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-6 h-6"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-          </button>
-        </span>
-        <input type="search" name="q" value={searchUser} class="py-2 text-sm text-white border-2 border-black rounded-md pl-10 focus:outline-none focus:bg-white focus:text-gray-900" placeholder="Search..." autocomplete="off" onChange={(e) => {
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 flex items-center pl-2 ">
+                <button
+                  type="submit"
+                  class="p-1 focus:outline-none focus:shadow-outline"
+                >
+                  <svg
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    class="w-6 h-6"
+                  >
+                    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                  </svg>
+                </button>
+              </span>
+              <input
+                type="search"
+                name="q"
+                value={searchUser}
+                class="py-2 text-sm text-white border-2 border-black rounded-md pl-10 focus:outline-none focus:bg-white focus:text-gray-900"
+                placeholder="Search..."
+                autocomplete="off"
+                onChange={(e) => {
                   setSearchUser(e.target.value);
-                }}/>
-      </div>
-
-    </div>
+                }}
+              />
+            </div>
+          </div>
           {/* <div className="text-[#9C9C9C] w-28">
             <input
               className="bg-[#F2F4F5] w-full  "
@@ -838,7 +856,6 @@ export const PodcastView = ({ showPodcast }) => {
 
     </div> */}
       <div>
-        
         <input
           className="mx-2"
           type="text"
@@ -995,22 +1012,39 @@ export const TagView = ({
               justifyContent: "center",
             }}
           >
-    <div class="flex items-center justify-center bg-[#F2F4F5]">
- 
-      <div class="relative">
-        <span class="absolute inset-y-0 left-0 flex items-center pl-2 ">
-          <button type="submit" class="p-1 focus:outline-none focus:shadow-outline">
-            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-6 h-6"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-          </button>
-        </span>
-        <input type="search" name="q" value={searchTag} class="py-2 text-sm text-white border-2 border-black rounded-md pl-10 focus:outline-none focus:bg-white focus:text-gray-900" placeholder="Search..." autocomplete="off" onChange={(e) => {
-                  setSearchTag(e.target.value);
-                }}/>
-      </div>
-
-    </div>
-
-          
+            <div class="flex items-center justify-center bg-[#F2F4F5]">
+              <div class="relative">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-2 ">
+                  <button
+                    type="submit"
+                    class="p-1 focus:outline-none focus:shadow-outline"
+                  >
+                    <svg
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      class="w-6 h-6"
+                    >
+                      <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                  </button>
+                </span>
+                <input
+                  type="search"
+                  name="q"
+                  value={searchTag}
+                  class="py-2 text-sm text-white border-2 border-black rounded-md pl-10 focus:outline-none focus:bg-white focus:text-gray-900"
+                  placeholder="Search..."
+                  autocomplete="off"
+                  onChange={(e) => {
+                    setSearchTag(e.target.value);
+                  }}
+                />
+              </div>
+            </div>
           </div>
         </div>
         <div

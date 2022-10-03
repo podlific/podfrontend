@@ -6,8 +6,7 @@ import {
   setUniqueID,
   setUserType,
 } from "../../store/activateSlice";
-let weekData = new Map();
-let podcastWeekData = new Map();
+
 export const getInfo = async (
   setRequest,
   setBroadcastMessages,
@@ -383,6 +382,7 @@ export const BarGraphFunctions = (
   let currdaystoshow = [];
   let currPodcastdaystoshow = [];
   let currweekdaystoshow = [];
+  /// exracting the date on which the user was created
   if (allusers) {
     for (let i = 1; i < allusers.length; i++) {
       if (allusers[i].createdAt !== undefined) {
@@ -390,6 +390,7 @@ export const BarGraphFunctions = (
       }
     }
   }
+  /// exracting the date on which the podcast was created
   if (showPodcast) {
     for (let i = 0; i < showPodcast.length; i++) {
       if (showPodcast[i].createdAt !== undefined) {
@@ -397,6 +398,7 @@ export const BarGraphFunctions = (
       }
     }
   }
+  // exracting the last 7 days from current day
   for (let i = 0; i < 7; i++) {
     let newDate = new Date();
     newDate = newDate.setDate(newDate.getDate() - i);
@@ -407,8 +409,9 @@ export const BarGraphFunctions = (
     currPodcastdaystoshow.push(convertDate(new1));
     currweekdaystoshow.push(new2.split(" ")[0]);
   }
-  setUserWeekDaysLabel(currweekdaystoshow.reverse());
-
+  setUserWeekDaysLabel(currweekdaystoshow.reverse()); // this array contain the week days
+  let weekData = new Map();
+  let podcastWeekData = new Map();
   for (let i = 0; i < createdDatesofUser.length; i++) {
     if (!weekData.has(createdDatesofUser[i])) {
       weekData.set(createdDatesofUser[i], 1);
@@ -426,13 +429,8 @@ export const BarGraphFunctions = (
     }
   }
 
-  for (let [key, value] of weekData) {
-    // console.log(key, value);
-  }
-
   let toshowdata = [];
   let toshowPodcastData = [];
-  let demoarr = [2, 3, 5, 1, 7, 2, 8];
   for (let i = 0; i < 7; i++) {
     if (weekData.has(currdaystoshow[i])) {
       toshowdata.push(weekData.get(currdaystoshow[i]));
@@ -445,9 +443,9 @@ export const BarGraphFunctions = (
       toshowPodcastData.push(0);
     }
   }
-  // console.log(toshowdata, "toshowdata");
-  setUserWeekDaysData(toshowdata.reverse());
-  setPodcastWeekDaysData(toshowPodcastData.reverse());
+  console.log(toshowdata);
+  setUserWeekDaysData(toshowdata.reverse()); /// number of user created during last seven days
+  setPodcastWeekDaysData(toshowPodcastData.reverse()); // similar for podcast
 };
 
 export const TagSearchFunction = (adminTags, setArr) => {

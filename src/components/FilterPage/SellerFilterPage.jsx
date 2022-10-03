@@ -178,7 +178,7 @@ const SellerFilterPage = ({ userPodcast, adminInfo }) => {
   }
   const handleClickTag = (event, tag) => {
     let element = event.currentTarget;
-    if (element.style.backgroundColor === "rgb(148, 68, 124)") {
+    if (element.style.backgroundColor === "rgb(95,80,163)") {
       element.style.backgroundColor = "#C2C2C2";
       let data = selectedTags;
       let data1 = [];
@@ -192,7 +192,7 @@ const SellerFilterPage = ({ userPodcast, adminInfo }) => {
     } else {
       let data = selectedTags;
       data.push(tag);
-      element.style.backgroundColor = "rgb(148, 68, 124)";
+      element.style.backgroundColor = "rgb(95,80,163)";
       // setSelectedTag((oldArray) => [...oldArray, data]);
       tagsSet.add(tag);
       setSelectedTag(data);
@@ -369,7 +369,7 @@ const SellerFilterPage = ({ userPodcast, adminInfo }) => {
                   <div
                     className={
                       show
-                        ? ` flex flex-wrap w-[70%] md:w-full  md:text-md lg:text-sm lg:w-full gap-1 md:gap-0 overflow-auto  py-2 `
+                        ? ` flex flex-wrap w-[70%] md:w-full  md:text-md lg:text-sm lg:w-full gap-1 md:gap-0 overflow-auto  py-2  `
                         : `hidden`
                     }
                     id="obj2"
@@ -379,7 +379,7 @@ const SellerFilterPage = ({ userPodcast, adminInfo }) => {
                         return (
                           <div className="mt-4" key={index}>
                             <span
-                              className={`pt-1 pb-1 px-2 bg-[#C2C2C2] rounded-2xl mx-1 my-1`}
+                              className={`pt-1 pb-1 px-2 bg-[#C2C2C2] rounded-2xl mx-1 my-1 cur`}
                               index={index}
                               onClick={(e) => handleClickTag(e, tag)}
                             >

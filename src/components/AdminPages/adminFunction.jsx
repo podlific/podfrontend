@@ -397,23 +397,16 @@ export const BarGraphFunctions = (
       }
     }
   }
-  let currDate = new Date();
-  let first = currDate.getDate();
   for (let i = 0; i < 7; i++) {
-    if (first - i === 0) {
-      let date = new Date();
-      const previous = new Date(date.getTime());
-      previous.setDate(date.getDate() - 1);
-      currDate = previous;
-      first = currDate.getDate() + 1;
-    }
-    let currday = new Date(currDate.setDate(first - i)).toString();
-    let currday1 = new Date(currDate.setDate(first - i)).toLocaleDateString();
-    currdaystoshow.push(convertDate(currday1));
-    currPodcastdaystoshow.push(convertDate(currday1));
-    currweekdaystoshow.push(currday.split(" ")[0]);
+    let newDate = new Date();
+    newDate = newDate.setDate(newDate.getDate() - i);
+    let new1 = new Date(newDate);
+    let new2 = new1.toString();
+    new1 = new1.toLocaleDateString();
+    currdaystoshow.push(convertDate(new1));
+    currPodcastdaystoshow.push(convertDate(new1));
+    currweekdaystoshow.push(new2.split(" ")[0]);
   }
-  // console.log(currweekdaystoshow, "currweekdaystoshow");
   setUserWeekDaysLabel(currweekdaystoshow.reverse());
 
   for (let i = 0; i < createdDatesofUser.length; i++) {

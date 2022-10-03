@@ -350,7 +350,7 @@ export const Accepted = ({
                 type="search"
                 name="q"
                 value={searchUser}
-                class="py-2 text-sm text-white border-2 border-black rounded-md pl-10 focus:outline-none focus:bg-white focus:text-gray-900"
+                class="py-2 text-sm text-white border-2 border-gray-300 rounded-md pl-10 focus:outline-none focus:bg-white focus:text-gray-900"
                 placeholder="Search..."
                 autocomplete="off"
                 onChange={(e) => {

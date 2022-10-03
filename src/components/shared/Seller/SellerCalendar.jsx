@@ -159,10 +159,10 @@ const SellerCalendar = ({ requestPodcast, setRequestPodcast }) => {
       <div className="block md:hidden">
         <NavigationMobile />
       </div>
-      <div className="grid grid-cols-4 ">
+      <div className="grid md:grid-cols-4 ">
         <div className="col-span-3 mt-3 md:mt-0 px-3  h-full w-full flex-row flex md:flex-row justify-center md:px-10 overflow-auto">
           {/* md:w-2/3 flex md:flex-start */}
-          <div className=" md:w-[70%] flex-center " id="news">
+          <div className=" md:w-[70%] w-[100%] flex-center " id="news">
             <StyleWrapper>
               <FullCalendar
                 plugins={[dayGridPlugin, interactionPlugin]}
@@ -179,8 +179,8 @@ const SellerCalendar = ({ requestPodcast, setRequestPodcast }) => {
               />
             </StyleWrapper>
           </div>
-          <div className=" w-full md:w-1/3  flex-col justify-start hidden">
-            <div className=" mb-5  md:mb-0 w-full flex flex-row justify-center pt-16 h-full">
+          {/* <div className=" w-full  flex-col justify-start hidden">
+            <div className=" mb-5  md:mb-3 flex flex-row justify-center pt-16 h-full">
               <div className="w-full md:w-[65%] h-72   bg-[#F3F3F3] rounded-lg flex flex-col justify-start p-3">
                 <div className="w-full flex flex-row justify-center ">
                   <span className="font-bold text-lg">{currDate}</span>
@@ -205,14 +205,14 @@ const SellerCalendar = ({ requestPodcast, setRequestPodcast }) => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
-        <div className="grid col-span-1 mr-5 mt-3  ">
-          <div className="overflow-auto ">
+        <div className="md:grid w-full col-span-3 md:col-span-1  mr-5 mt-3 overflow-auto text-center ">
+          <div className="mb-[5%] w-full">
             <div className="w-full border-3 font-semibold rounded-t-lg border-purple-600 text-center text-white bg-[#5F50A3] h-fit">
               <h>Up Coming</h>
             </div>
-            <div className=" grid grid-cols-3 font-semibold text-center ">
+            <div className=" grid grid-cols-3 font-semibold text-center overflow-auto ">
               <div className="border-2 border-gray-500">UserName </div>
               <div className="border-r-2 border-t-2 border-b-2 border-gray-500">
                 From
@@ -241,11 +241,11 @@ const SellerCalendar = ({ requestPodcast, setRequestPodcast }) => {
               }
             })}
           </div>
-          <div>
-            <div className="w-full border-2 rounded-t-lg text-white font-semibold border-purple-600 text-center bg-[#5F50A3] h-fit">
+          <div className="">
+            <div className="w-full border-2  rounded-t-lg text-white font-semibold border-purple-600 text-center bg-[#5F50A3] h-fit">
               <h>Past Schedule</h>
             </div>
-            <div className=" grid grid-cols-3  font-semibold text-center ">
+            <div className=" grid grid-cols-3  font-semibold text-center overflow-auto ">
               <div className="border-2 border-gray-500">UserName </div>
               <div className="border-r-2 border-t-2 border-b-2 border-gray-500">
                 From 

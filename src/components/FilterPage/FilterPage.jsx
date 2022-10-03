@@ -486,7 +486,7 @@ const FilterPage = ({
               </div>
               <div className=" hidden  md:flex flex-col md:visible justify-end mr-[6.5%] ">
                 <div className=" hidden md:flex flex-col md:visible  ">
-                  <span className="text-[#5F50A3] font-bold ">
+                  <span className="text-[#5F50A3] font-bold hidden ">
                     LIST OF PODCAST
                   </span>
                 </div>

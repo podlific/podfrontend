@@ -636,7 +636,7 @@ export const Overview = ({
         </div>
       </div>
 
-      <div className=" bg-[#F0F0F0] rounded-xl">
+      <div className="h-full bg-[#F0F0F0] rounded-xl lg:min-h-[200px]">
         <div className="flex flex-col lg:h-full ">
           <div className="flex flex-row pl-4 text-lg font-semibold">
             Pending Request
@@ -657,7 +657,7 @@ export const Overview = ({
               </div>
               <div className="w-full h-1/2 flex flex-col justify-start ">
                 <div className="h-1/2 ">Seller</div>
-                <div className="h-1/2 flex flex-col justify-start py-2 pr-8">
+                <div className="h-1/2 flex flex-col justify-start py-2 ">
                   <HorizontalLine percentage={percentage4 * 100} />
                 </div>
               </div>

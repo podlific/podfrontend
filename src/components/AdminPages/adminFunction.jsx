@@ -36,7 +36,7 @@ export const getInfo = async (
       setGroups(res.data[0].targetgroups);
       setAdminTags(res.data[0].admintags);
       setRequestedTags(res.data[0].requestedtags);
-      toast.success("Admin info loaded successfully");
+      // toast.success("Admin info loaded successfully");
       // console.log(res.data[0],"resitags")
     })
     .catch((err) => {
@@ -59,7 +59,7 @@ export const getInfo = async (
     .post("/api/getpodcastfromsearch", data1)
     .then((res) => {
       setShowPodcast(res.data);
-      toast.success("Podcast data loaded succesfully");
+      // toast.success("Podcast data loaded succesfully");
     })
     .catch((err) => {
       toast.error("Unable to fetch podcast ");
@@ -409,6 +409,7 @@ export const BarGraphFunctions = (
     currPodcastdaystoshow.push(convertDate(new1));
     currweekdaystoshow.push(new2.split(" ")[0]);
   }
+  console.log(currdaystoshow, "currdaystoshow");
   setUserWeekDaysLabel(currweekdaystoshow.reverse()); // this array contain the week days
   let weekData = new Map();
   let podcastWeekData = new Map();
@@ -428,7 +429,9 @@ export const BarGraphFunctions = (
       podcastWeekData.set(createdDatesofPodcast[i], currValue + 1);
     }
   }
-
+  for (let [key, value] of weekData) {
+    console.log(key, value, "key");
+  }
   let toshowdata = [];
   let toshowPodcastData = [];
   for (let i = 0; i < 7; i++) {

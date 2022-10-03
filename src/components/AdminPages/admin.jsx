@@ -598,8 +598,8 @@ export const Overview = ({
   ]);
 
   return (
-    <div className="grid grid-cols-3 grid-rows-3 gap-2 h-[90%] pl-2 pt-2  mr-4 ">
-      <div className="min-h-[200px]">
+    <div className="lg:grid lg:grid-cols-3  gap-2 h-[90%] pl-2 pt-2  mr-4 ">
+      <div className="min-h-[200px] flex flex-col">
         <div className="h-full ">
           <div className=" flex flex-col  h-full bg-[#F0F0F0] rounded-xl">
             <div className="flex flex-row pl-4 text-lg font-semibold">
@@ -636,8 +636,8 @@ export const Overview = ({
         </div>
       </div>
 
-      <div className="h-full bg-[#F0F0F0] rounded-xl min-h-[200px]">
-        <div className="flex flex-col  h-full">
+      <div className="h-full bg-[#F0F0F0] rounded-xl min-h-[200px] ">
+        <div className="flex flex-col">
           <div className="flex flex-row pl-4 text-lg font-semibold">
             Pending Request
           </div>
@@ -656,8 +656,8 @@ export const Overview = ({
                 </div>
               </div>
               <div className="w-full h-1/2 flex flex-col justify-start ">
-                <div className="h-1/2 ">Seller</div>
-                <div className="h-1/2 flex flex-col justify-start py-2 pr-8">
+                <div className="h-1/2 flex flex-col justify-start  ">Seller</div>
+                <div className="h-1/2 flex flex-col justify-start  py-2 ">
                   <HorizontalLine percentage={percentage4 * 100} />
                 </div>
               </div>

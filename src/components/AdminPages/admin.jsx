@@ -636,7 +636,7 @@ export const Overview = ({
         </div>
       </div>
 
-      <div className="h-full bg-[#F0F0F0] rounded-xl lg:min-h-[200px]">
+      <div className=" bg-[#F0F0F0] rounded-xl lg:min-h-[200px]">
         <div className="flex flex-col lg:h-full ">
           <div className="flex flex-row pl-4 text-lg font-semibold">
             Pending Request
@@ -671,7 +671,7 @@ export const Overview = ({
           <div className="flex flex-row pl-4 text-lg font-semibold">
             Trending Tags
           </div>
-          <div className="w-full h-[90%] py-2 pr-8">
+          <div className=" w-full md:w-[70%] lg:w-full h-[90%] py-2 pr-8">
             <PieChart tags={tags} />
           </div>
         </div>
@@ -703,7 +703,7 @@ export const Overview = ({
           </div>
         </div>
       </div>
-      <div className="col-span-3 h-full flex flex-col py-2  rounded-xl px-2 bg-[#F0F0F0] mt-[10px] ">
+      <div className="col-span-3  flex flex-col py-2  rounded-xl px-2 bg-[#F0F0F0] mt-[10px] ">
         <div className="pr-7   pl-4 font-semibold">Top Five Podcast</div>
         <div className="grid grid-cols-6 pr-7 pl-2 font-semibold ">
           <div className="flex flex-row justify-center">Podcast Name</div>

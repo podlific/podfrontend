@@ -86,6 +86,7 @@ let temparr=[]
       }
     }
     console.log("working")
+    setdisable(true)
   
     for(let i=0;i<temporarytags.length;i++){
       temparr.push(temporarytags[i]['value'])
@@ -103,7 +104,7 @@ let temparr=[]
         // update progress
         // setPercent(percent);
       },
-      (err) => //console.log(err),
+      (err) => console.log(err),
       () => {
         // download url
         //  headers: {

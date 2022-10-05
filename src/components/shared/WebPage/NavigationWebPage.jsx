@@ -55,7 +55,7 @@ const NavigationWebPage = ({ socketRef, receivedMessages }) => {
       }
       navigate("/login", { replace: true });
     } catch (err) {
-      //console.log(err);
+      console.log(err);
     }
   }
   return (

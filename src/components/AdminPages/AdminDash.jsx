@@ -29,6 +29,7 @@ import { RiFileUploadFill, RiCloseCircleFill } from "react-icons/ri";
 import { AiFillPlusSquare } from "react-icons/ai";
 import Loader from "../Loader/Loader";
 import { BarGraph } from "./ChartFunction";
+import Viewpodcast from "./Viewpodcast";
 const AdminDash = ({ requestPodcast, userInfo }) => {
   const [request, setRequest] = useState([]);
   const [allusers, setAllusers] = useState([]);
@@ -73,6 +74,7 @@ const AdminDash = ({ requestPodcast, userInfo }) => {
   const user = useSelector((state) => state.activate.unique_id);
   const usertype = useSelector((state) => state.activate.usertype);
   const [loading, setLoading] = useState(true);
+  const [ podCastData ,setPodCastData] = useState([])
   useEffect(() => {
     if (usertype.usertype === "admin") {
       setLoading(true);
@@ -121,6 +123,7 @@ const AdminDash = ({ requestPodcast, userInfo }) => {
   const handleClose = () => {
     setModalState(false);
     setOpen(false);
+    setShowType("sellerRequest");
   };
   useEffect(() => {
     if (ModalState === true) {
@@ -139,7 +142,7 @@ const AdminDash = ({ requestPodcast, userInfo }) => {
   return loading ? (
     <Loader message="" />
   ) : (
-    <div className="h-screen flex flex-row fixed">
+    <div className="h-screen w-full flex flex-row fixed">
       <div className="hidden lg:flex  flex-col h-full w-1/6">
         <div className="">
           <div className="h-[10%]">
@@ -271,7 +274,7 @@ const AdminDash = ({ requestPodcast, userInfo }) => {
       </div>
       <div className="flex flex-col w-full lg:w-5/6 overflow-auto">
         <div className="lg:hidden"><NavigationMobile/></div>
-        <div className="h-[11%] hidden lg:flex flex-col justify-end items-end pb-2 pr-7 border-b-black border-b-[1px] ">
+        <div className="h-[11%] hidden lg:w-full lg:flex flex-col justify-end items-end pb-2 pr-7 border-b-black border-b-[1px] ">
           <div className="flex flex-row gap-x-2">
             <div className="h-[25px] w-[25px] flex flex-col items-center justify-center">
               <img src="./adminicons/username.png" alt="username" />
@@ -354,7 +357,8 @@ const AdminDash = ({ requestPodcast, userInfo }) => {
             tags={adminTags}
           />
         )}
-        {showtype === "podcasts" && <PodcastView showPodcast={showPodcast} />}
+        {showtype === "podcasts" && <PodcastView showPodcast={showPodcast} setShowType={setShowType} setPodCastData={setPodCastData} />}
+        {showtype === "PodCastItems" && <Viewpodcast data = {podCastData.ele}/>}
         {showtype === "tags" && (
           <TagView
             adminTags={adminTags}

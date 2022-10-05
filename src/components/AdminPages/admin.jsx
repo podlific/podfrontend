@@ -28,6 +28,7 @@ import toast from "react-hot-toast";
 import { el } from "date-fns/locale";
 import UserTag from "./UserTag";
 import { element } from "prop-types";
+import Viewpodcast from "./Viewpodcast";
 const theme = createTheme({
   palette: {
     primary: {
@@ -752,40 +753,40 @@ export const Overview = ({
   );
 };
 
-function singlePodcast(item) {
+function SinglePodcast(item) {
   return (
-    <div className="bg-[#F2F4F5] flex flex-row justify-center rounded-xl ">
-      <div className=" w-[90%] bg-white my-4 rounded-xl">
+    <div className="bg-[#F2F4F5] flex flex-row justify-center rounded-xl  " onClick={(e)=>{item.setShowType("PodCastItems");item.setPodCastData(item)}}>
+      <div className=" w-[90%] bg-white my-4 rounded-xl " >
         <div className="">
           <div className="p-5 pb-0 h-1/2 flex flex-row">
             <img
-              src={item.image}
+              src={item.ele.image}
               className="rounded-xl object-fit  h-[200px] object-fit w-full"
               alt="images"
             />
           </div>
         </div>
-        <div className="px-5 font-semibold text-md">{item.podcastName}</div>
+        <div className="px-5 font-semibold text-md">{item.ele.podcastName}</div>
         <div className="flex flex-row px-5 justify-between py-1">
           <div>
             <div className="flex flex-row justify-center">
               <MdOutlineLibraryBooks size={22} color="#5F50A3" />
             </div>
-            <div className="text-[#5F50A3]">{item.episodeName}</div>
+            <div className="text-[#5F50A3]">{item.ele.episodeName}</div>
           </div>
           <div className="">
             <div className="flex flex-row justify-center">
               <BsCart4 size={22} color="#5F50A3" />
             </div>
             <div className="text-[#5F50A3]">
-              {item.bookings.length} Purchases
+              {item.ele.bookings.length} Purchases
             </div>
           </div>
           <div className="">
             <div className="flex flex-row justify-center">
               <BsClock size={22} color="#5F50A3" />
             </div>
-            <div className="text-[#5F50A3]">{item.averageLTR} mins</div>
+            <div className="text-[#5F50A3]">{item.ele.averageLTR} mins</div>
           </div>
         </div>
         <div className="flex flex-row px-5 py-2">
@@ -793,11 +794,11 @@ function singlePodcast(item) {
             <IoIosPricetags size={22} color="#5F50A3" />
           </div>
           <div className="flex flex-row overflow-hidden">
-            {item.tags &&
-              item.tags.map((ele, index) => {
+            {item.ele.tags &&
+              item.ele.tags.map((elem, index) => {
                 return (
                   <div key={index} className="text-[#5F50A3] mx-2">
-                    {ele}
+                    {elem}
                   </div>
                 );
               })}
@@ -808,7 +809,7 @@ function singlePodcast(item) {
   );
 }
 
-export const PodcastView = ({ showPodcast }) => {
+export const PodcastView = ({ showPodcast,setShowType,setPodCastData }) => {
   const [searchPodcast, setSearchPodcast] = useState("");
   const [tempArr, setTempArr] = useState([]);
   useEffect(() => {
@@ -875,7 +876,7 @@ export const PodcastView = ({ showPodcast }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 mt-1 mx-2">
         {tempArr &&
           tempArr.map((ele, index) => {
-            return singlePodcast(ele);
+            return <SinglePodcast ele = {ele} setShowType={ setShowType} setPodCastData={setPodCastData}/>
           })}
       </div>
     </div>

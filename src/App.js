@@ -151,6 +151,7 @@ function App() {
     });
     let info3 = api.post("/api/getpodcastfromsearch", data).then((res) => {
       setOverAllPodcastList(res.data);
+      console.log(overAllPodcastList);
       setListofPodcast(res.data);
     });
     // const Extractmessage = async () => {

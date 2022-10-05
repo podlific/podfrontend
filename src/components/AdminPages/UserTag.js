@@ -311,7 +311,7 @@ export default function UserTag({ b, setAdminTags, setRequestedTags }) {
                   }}
                 />
                 <input
-                  className="mt-[2%] w-[50%]  text-center  bg-gray-100"
+                  className="mt-[2%] w-[48%] rounded-xl mr-[2%]  text-center  bg-gray-100"
                   value={newtagname}
                   placeholder="New tagname"
                   onChange={(e) => {
@@ -336,6 +336,8 @@ export default function UserTag({ b, setAdminTags, setRequestedTags }) {
                   variant="secondary"
                   className="bg-purple-600 text-white font-semibold rounded-xl"
                   onClick={() => {
+                    handleClose();
+
                     addupdatedtag(
                       selectModify,
                       newtagname,

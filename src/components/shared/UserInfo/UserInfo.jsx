@@ -18,7 +18,7 @@ const UserInfo = ({ userInfo }) => {
       <div className="h-full  flex flex-col items-center ">
         <img
           className="fixed rounded-full w-[380px] h-[380px] top-[160px] left-[130px] "
-          src="./logo.png"
+          src="./ellipse4.png"
           alt="icon"
         />
         {/* width: 825px;

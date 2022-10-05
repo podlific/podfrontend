@@ -49,28 +49,24 @@ function App() {
   const { loading } = useLoadingWithRefresh({ setUserInfo });
 
   const socketRef = useRef(null);
-  const data = {
-    currUserId: user.unique_id,
-  };
-  useEffect(() => {
-    async function getcontacts() {
-      const cont = await api.post("/api/getconnected", data);
-      if (cont) {
-        if (cont !== contacts) {
-          setContacts(cont.data);
-        }
-      }
-    }
 
-    if (
-      user.unique_id !== "" &&
-      user.unique_id !== undefined &&
-      usertype.usertype !== "" &&
-      usertype.usertype !== "admin"
-    ) {
-      getcontacts();
-    }
-  }, [user.unique_id]);
+  // useEffect(() => {
+  //   async function getcontacts() {
+  //     // if (cont) {
+  //     //   if (cont !== contacts) {
+  //     //   }
+  //     // }
+  //   }
+
+  //   if (
+  //     user.unique_id !== "" &&
+  //     user.unique_id !== undefined &&
+  //     usertype.usertype !== "" &&
+  //     usertype.usertype !== "admin"
+  //   ) {
+  //     getcontacts();
+  //   }
+  // }, [user.unique_id]);
   useEffect(() => {
     const init = async () => {
       socketRef.current = await initSocket();
@@ -126,42 +122,64 @@ function App() {
       );
     };
 
-    const ExtractAdminInfo = async () => {
-      let data = {
-        uid: "#adminmodel123",
-      };
-      let info = await api.post("/api/sendinfoforuser", data);
-      // console.log("admininfo", info.data);
-      if (info) {
-        setAdminInfo(info.data);
-      }
+    // const ExtractAdminInfo = async () => {
+    //   // let data = {
+    //   //   uid: "#adminmodel123",
+    //   // };
+    //   // console.log("admininfo", info.data);
+    //   // if (info) {
+    //   //   setAdminInfo(info.data);
+    //   // }
+    // };
+    let data = {
+      currUserId: user.unique_id,
+      uid: "#adminmodel123",
+      userId: user.unique_id,
+      searchItem: "",
     };
-    const Extractmessage = async () => {
-      let data = {
-        userId: user.unique_id,
-      };
-      let cont = await api.post("/api/extractmessages", data);
-      if (cont) {
-        setReceivedMessages(cont.data.messages);
-        setRequestPodcast(cont.data.requests);
+    let info = api.post("/api/sendinfoforuser", data).then((res) => {
+      setAdminInfo(res.data);
+    });
+    let info1 = api.post("/api/extractmessages", data).then((res) => {
+      setReceivedMessages(res.data.messages);
+      setRequestPodcast(res.data.requests);
+    });
+    let info2 = api.post("/api/getconnected", data).then((res) => {
+      if (res.data !== contacts) {
+        setContacts(res.data);
       }
-    };
+    });
+    let info3 = api.post("/api/getpodcastfromsearch", data).then((res) => {
+      setOverAllPodcastList(res.data);
+      setListofPodcast(res.data);
+    });
+    // const Extractmessage = async () => {
+    //   // let data = {
+    //   //   userId: user.unique_id,
+    //   // };
+    //   // if (cont) {
+    //   //   setReceivedMessages(cont.data.messages);
+    //   //   setRequestPodcast(cont.data.requests);
+    //   // }
+    // };
     if (
       user.unique_id !== "" &&
       user.unique_id !== undefined &&
       usertype.usertype !== "" &&
       usertype.usertype !== "admin"
     ) {
-      ExtractAdminInfo();
-      Extractmessage();
+      // ExtractAdminInfo();
+      // Extractmessage();
+      console.log(user.unique_id, usertype.usertype, "logs");
+      Promise.all([info, info1, info2, info3]);
       init();
     }
 
     const getPodcastforSeller = async () => {
-      let data = {
+      let data1 = {
         userId: user.unique_id,
       };
-      let cont = await api.post("/api/getpodcastforparticularuser", data);
+      let cont = await api.post("/api/getpodcastforparticularuser", data1);
       setUserPodcast(cont.data);
     };
     if (usertype.usertype === "seller") {

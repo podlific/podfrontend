@@ -371,24 +371,24 @@ export const Accepted = ({
             />
           </div> */}
         </div>
-      <div className="flex flex-row justify-end">
-        <div className="flex flex-row justify-center items-center pr-7 -mt-2">
-          <div className="font-medium">Buyer</div>
-          <ThemeProvider theme={theme}>
-            <Switch
-              checked={showtype === "acceptedSeller" ? true : false}
-              onChange={() => {
-                showtype === "acceptedSeller"
-                ? setShowType("acceptedBuyer")
-                : setShowType("acceptedSeller");
-              }}
-              inputProps={{ "aria-label": "controlled" }}
+        <div className="flex flex-row justify-end">
+          <div className="flex flex-row justify-center items-center pr-7 -mt-2">
+            <div className="font-medium">Buyer</div>
+            <ThemeProvider theme={theme}>
+              <Switch
+                checked={showtype === "acceptedSeller" ? true : false}
+                onChange={() => {
+                  showtype === "acceptedSeller"
+                    ? setShowType("acceptedBuyer")
+                    : setShowType("acceptedSeller");
+                }}
+                inputProps={{ "aria-label": "controlled" }}
               />
-          </ThemeProvider>
-          <div className="font-medium">Seller</div>
+            </ThemeProvider>
+            <div className="font-medium">Seller</div>
+          </div>
         </div>
       </div>
-    </div>
       <div className="grid grid-cols-4 ">
         <div className=" flex flex-row justify-center ">Name</div>
         <div className=" flex flex-row justify-center ">Email</div>

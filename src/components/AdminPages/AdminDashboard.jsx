@@ -119,17 +119,17 @@ const AdminDashboard = ({ requestPodcast, userInfo }) => {
       let data1 = {
         searchItem: "",
       };
-      let info2 = api
-        .post("/api/getpodcastfromsearch", data1)
-        .then((res) => {
-          setShowPodcast(res.data);
-          toast.success("Podcast data loaded succesfully");
-        })
-        .catch((err) => {
-          toast.error("Unable to fetch podcast ");
-        });
+      // let info2 = api
+      //   .post("/api/getpodcastfromsearch", data1)
+      //   .then((res) => {
+      //     setShowPodcast(res.data);
+      //     toast.success("Podcast data loaded succesfully");
+      //   })
+      //   .catch((err) => {
+      //     toast.error("Unable to fetch podcast ");
+      //   });
 
-      Promise.all([info, info1, info2]);
+      Promise.all([info, info1]);
     };
     if (usertype.usertype === "admin") {
       getInfo();
@@ -294,7 +294,7 @@ const AdminDashboard = ({ requestPodcast, userInfo }) => {
     let data = {
       csvData: csvData,
     };
-    
+
     try {
       let info = await api.post("/api/addcsvdata", data);
       if (info) {

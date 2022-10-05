@@ -43,38 +43,6 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
   const [searchTag, setSearchTag] = useState("");
   const [tagSuggestionArray, setTagSuggestionArray] = useState([]);
   const [adminTags, setAdminTags] = useState([]);
-  const episodes = [
-    {
-      id: 1,
-      epi_no: "EP 01",
-      epi_name: "OVERCAST Name of Episode",
-      epi_duration: "23:45",
-    },
-    {
-      id: 2,
-      epi_no: "EP 01",
-      epi_name: "OVERCAST Name of Episode",
-      epi_duration: "23:45",
-    },
-    {
-      id: 3,
-      epi_no: "EP 01",
-      epi_name: "OVERCAST Name of Episode",
-      epi_duration: "23:45",
-    },
-    {
-      id: 4,
-      epi_no: "EP 01",
-      epi_name: "OVERCAST Name of Episode",
-      epi_duration: "23:45",
-    },
-    {
-      id: 5,
-      epi_no: "EP 01",
-      epi_name: "OVERCAST Name of Episode",
-      epi_duration: "23:45",
-    },
-  ];
 
   const data = {
     image: link,
@@ -309,7 +277,6 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
                   placeholder="Type Theme tag"
                   value={themeVal}
                   onChange={(e) => setThemeVal(e.target.value)}
-                   
                 />
               </div>
               <AiFillPlusSquare

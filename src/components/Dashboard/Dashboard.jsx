@@ -61,22 +61,21 @@ const Dashboard = ({
     currUserId: user.unique_id,
   };
   useEffect(() => {
-    async function getcontacts() {
-      const cont = await api.post("/api/getconnected", data);
-      if (cont) {
-        if (cont !== contacts) {
-          setContacts(cont.data);
-        }
-      }
-    }
-
-    if (
-      user.unique_id !== "" &&
-      user.unique_id !== undefined &&
-      contacts.length === 0
-    ) {
-      getcontacts();
-    }
+    // async function getcontacts() {
+    //   const cont = await api.post("/api/getconnected", data);
+    //   if (cont) {
+    //     if (cont !== contacts) {
+    //       setContacts(cont.data);
+    //     }
+    //   }
+    // }
+    // if (
+    //   user.unique_id !== "" &&
+    //   user.unique_id !== undefined &&
+    //   contacts.length === 0
+    // ) {
+    //   getcontacts();
+    // }
   }, []);
 
   return (

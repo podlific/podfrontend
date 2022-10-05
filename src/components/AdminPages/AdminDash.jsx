@@ -6,7 +6,7 @@ import {
 } from "../../store/activateSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import NavigationMobile from "../shared/Mobile/NavigationMobile"
+import NavigationMobile from "../shared/Mobile/NavigationMobile";
 import {
   Accepted,
   Broadcastmessage,
@@ -273,8 +273,10 @@ const AdminDash = ({ requestPodcast, userInfo }) => {
         </div>
       </div>
       <div className="flex flex-col w-full lg:w-5/6 overflow-auto">
-        <div className="lg:hidden"><NavigationMobile/></div>
-        <div className="h-[11%] hidden lg:w-full lg:flex flex-col justify-end items-end pb-2 pr-7 border-b-black border-b-[1px] ">
+        <div className="lg:hidden">
+          <NavigationMobile />
+        </div>
+        <div className="h-[11%] hidden lg:flex flex-col justify-end items-end pb-2 pr-7 border-b-black border-b-[1px] ">
           <div className="flex flex-row gap-x-2">
             <div className="h-[25px] w-[25px] flex flex-col items-center justify-center">
               <img src="./adminicons/username.png" alt="username" />

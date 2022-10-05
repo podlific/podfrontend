@@ -37,6 +37,7 @@ export const getInfo = async (
       setAdminTags(res.data[0].admintags);
       setRequestedTags(res.data[0].requestedtags);
       // toast.success("Admin info loaded successfully");
+      // //console.log(res.data[0],"resitags")
     })
     .catch((err) => {
       toast.error("Unable to load data , try again");
@@ -68,6 +69,7 @@ export const getInfo = async (
   //   .get("/api/gettagdataforadmin")
   //   .then((res) => {
   //     setTagData(res.data);
+  //     // //console.log(res.data,"resdata")
   //     toast.success("Tag data loaded successfully");
   //   })
   //   .catch((err) => {
@@ -78,7 +80,8 @@ export const getInfo = async (
     setLoading(false);
   });
 };
-export const addNewtag = async (tagname, requestedTags) => {
+export const addNewtag = async (tagname,requestedTags) => {
+  // console.log(requestedTags,"ddddd")
   for (var i = 0; i < requestedTags.length; i++) {
     if (tagname.toLowerCase() === requestedTags[i].tagname.toLowerCase()) {
       toast.error("Tag already exist");
@@ -93,6 +96,7 @@ export const addNewtag = async (tagname, requestedTags) => {
     tagname: tagname,
   };
   try {
+    // //console.log(data, "tagtest");
     let info = await api.post("/api/addnewtagbyadmin", data);
     if (info) {
       toast.success(" data Added successfully");
@@ -413,6 +417,7 @@ export const BarGraphFunctions = (
     currweekdaystoshow.push(new2.split(" ")[0]);
   }
 
+  //console.log(currdaystoshow, "currweekdaystoshow");
   setUserWeekDaysLabel(currweekdaystoshow.reverse()); // this array contain the week days
   let weekData = new Map();
   let podcastWeekData = new Map();
@@ -432,7 +437,12 @@ export const BarGraphFunctions = (
       podcastWeekData.set(createdDatesofPodcast[i], currValue + 1);
     }
   }
-
+  // for (let [key, value] of weekData) {
+  //   //console.log(key, value, "key");
+  // }
+  // for (let [key, value] of weekData) {
+  //   //console.log(key, value);
+  // }
   let toshowdata = [];
   let toshowPodcastData = [];
   for (let i = 0; i < 7; i++) {
@@ -448,6 +458,7 @@ export const BarGraphFunctions = (
     }
   }
 
+  // //console.log(toshowdata);
   setUserWeekDaysData(toshowdata.reverse()); /// number of user created during last seven days
   setPodcastWeekDaysData(toshowPodcastData.reverse()); // similar for podcast
 };

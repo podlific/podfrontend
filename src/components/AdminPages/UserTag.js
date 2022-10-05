@@ -291,7 +291,7 @@ export default function UserTag({ b, setAdminTags, setRequestedTags }) {
             </div>
 
             <Modal
-              className="absolute inset-0 text-center w-[30%] h-[30%] ml-[34%] mt-[15%]  bg-gray-300 min-h-[200px] rounded-xl"
+              className="absolute inset-0 text-center w-[80%] lg:w-[30%] h-[30%] ml-[10%] lg:ml-[34%] mt-[15%]  bg-gray-300 min-h-[200px] rounded-xl"
               show={showModal}
               onHide={handleClose}
             >

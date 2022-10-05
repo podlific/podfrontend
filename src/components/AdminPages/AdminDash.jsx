@@ -139,8 +139,8 @@ const AdminDash = ({ requestPodcast, userInfo }) => {
   return loading ? (
     <Loader message="" />
   ) : (
-    <div className="h-screen flex flex-row ">
-      <div className="hidden lg:flex  flex-col w-1/6">
+    <div className="h-screen flex flex-row fixed">
+      <div className="hidden lg:flex  flex-col h-full w-1/6">
         <div className="">
           <div className="h-[10%]">
             <img className="bg-[#5F50A3]" src="./adminlogo.png" alt="logo" />
@@ -269,7 +269,7 @@ const AdminDash = ({ requestPodcast, userInfo }) => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col w-full lg:w-5/6">
+      <div className="flex flex-col w-full lg:w-5/6 overflow-auto">
         <div className="lg:hidden"><NavigationMobile/></div>
         <div className="h-[11%] hidden lg:flex flex-col justify-end items-end pb-2 pr-7 border-b-black border-b-[1px] ">
           <div className="flex flex-row gap-x-2">

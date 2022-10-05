@@ -312,21 +312,21 @@ export const Accepted = ({
 
   return (
     <div className="h-full flex flex-col ">
-      <div className="flex flex-row py-2 justify-end">
-        <div className="pl-3 hidden">
+      <div className="flex flex-row py-2 justify-between">
+        {/* <div className="pl-3 hidden">
           <button className="p-1 px-6 bg-[#5F50A3] text-white text-sm rounded-md">
             CSV
           </button>
-        </div>
+        </div> */}
         {/* <div className="flex flex-row gap-x-4 p-1 px-3 rounded-lg bg-[#F2F4F5] mr-7"> */}
-        <div className=" flex flex-col items-center justify-center">
+        <div className=" flex flex-row items-center justify-center lg:ml-[40%] mb-5">
           {/* <img
             className="h-[18px] w-[18px]"
             src="./adminicons/search.png"
             alt="serach"
           /> */}
           {/* </div> */}
-          <div class="flex items-center justify-center bg-[#F2F4F5] mr-2">
+          <div class="flex flex-row items-center justify-center bg-[#F2F4F5] mr-2 w-1/2 ">
             <div class="relative">
               <span class="absolute inset-y-0 left-0 flex items-center pl-2 ">
                 <button
@@ -370,22 +370,22 @@ export const Accepted = ({
             />
           </div> */}
         </div>
-      </div>
-      <div className="flex flex-row justify-end">
-        <div className="flex flex-row justify-center items-center pr-7 -mt-2">
-          <div className="font-medium">Buyer</div>
-          <ThemeProvider theme={theme}>
-            <Switch
-              checked={showtype === "acceptedSeller" ? true : false}
-              onChange={() => {
-                showtype === "acceptedSeller"
-                  ? setShowType("acceptedBuyer")
-                  : setShowType("acceptedSeller");
-              }}
-              inputProps={{ "aria-label": "controlled" }}
-            />
-          </ThemeProvider>
-          <div className="font-medium">Seller</div>
+        <div className="flex flex-row justify-end">
+          <div className="flex flex-row justify-center items-center pr-7 -mt-2">
+            <div className="font-medium">Buyer</div>
+            <ThemeProvider theme={theme}>
+              <Switch
+                checked={showtype === "acceptedSeller" ? true : false}
+                onChange={() => {
+                  showtype === "acceptedSeller"
+                    ? setShowType("acceptedBuyer")
+                    : setShowType("acceptedSeller");
+                }}
+                inputProps={{ "aria-label": "controlled" }}
+              />
+            </ThemeProvider>
+            <div className="font-medium">Seller</div>
+          </div>
         </div>
       </div>
       <div className="grid grid-cols-4 ">
@@ -405,7 +405,7 @@ export const Accepted = ({
                   <div className="flex flex-row justify-center ">
                     <span>{ele?.name}</span>
                   </div>
-                  <div className="flex flex-row justify-center overflow-clip text-start">
+                  <div className="flex flex-row justify-center text-start overflow-auto">
                     {ele?.email}
                   </div>
 
@@ -598,7 +598,7 @@ export const Overview = ({
   ]);
 
   return (
-    <div className="lg:grid grid-cols-3 grid-rows-3 gap-2 h-[90%] pl-2 pt-2  mr-4 ">
+    <div className="lg:grid grid-cols-3  gap-2 h-[90%] pl-2 pt-2  mr-4 ">
       <div className="min-h-[200px]">
         <div className="h-full ">
           <div className=" flex flex-col  h-full bg-[#F0F0F0] rounded-xl">
@@ -636,7 +636,7 @@ export const Overview = ({
         </div>
       </div>
 
-      <div className=" bg-[#F0F0F0] rounded-xl lg:min-h-[200px]">
+      <div className=" bg-[#F0F0F0] rounded-xl lg:min-h-[200px] mt-2 mb-2 lg:mt-0 lg:mb-0">
         <div className="flex flex-col lg:h-full ">
           <div className="flex flex-row pl-4 text-lg font-semibold">
             Pending Request
@@ -671,12 +671,12 @@ export const Overview = ({
           <div className="flex flex-row pl-4 text-lg font-semibold">
             Trending Tags
           </div>
-          <div className=" w-full md:w-[70%] lg:w-full h-[90%] py-2 pr-8">
+          <div className="w-full md:w-[70%] lg:w-full h-[90%] py-2 pr-8">
             <PieChart tags={tags} />
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-3 col-span-3 mt-5 mb-5">
+      <div className="lg:grid lg:grid-cols-2 gap-3 col-span-3 mt-5 mb-5">
         <div className="flex flex-col h-[99%]">
           <div className="pl-4 font-semibold">Total Users</div>
           <div className="w-full h-[99%] px-2">
@@ -703,15 +703,15 @@ export const Overview = ({
           </div>
         </div>
       </div>
-      <div className="col-span-3  flex flex-col py-2  rounded-xl px-2 bg-[#F0F0F0] mt-[10px] ">
-        <div className="pr-7   pl-4 font-semibold">Top Five Podcast</div>
-        <div className="grid grid-cols-6 pr-7 pl-2 font-semibold ">
+      <div className="col-span-3 h-fit flex flex-col py-2  rounded-xl px-2 bg-gray-100 mt-[10px] text-center ">
+        <div className="pr-7   pl-4 font-bold underline">Top Five Podcast</div>
+        <div className="grid grid-cols-5 pr-7 pl-2 font-semibold ">
           <div className="flex flex-row justify-center">Podcast Name</div>
           <div className="flex flex-row justify-center">Seller Name</div>
           <div className="flex flex-row justify-center">Average Length</div>
           <div className="flex flex-row justify-center">No. of bookings</div>
           <div className="flex flex-row justify-center">Uploaded On</div>
-          <div className="flex flex-row justify-center">Description</div>
+          {/* <div className="flex flex-row justify-center">Description</div> */}
         </div>
         <div className="bg-[#F0F0F0] rounded-xl mt-2 ">
           {showPodcast &&
@@ -723,7 +723,7 @@ export const Overview = ({
               .map((Element, index) => {
                 return (
                   <div className="" key={index}>
-                    <div className="grid grid-cols-6 pr-7 pl-2 border-b-[1px] border-gray-200">
+                    <div className="grid grid-cols-5 pr-7 pl-2 border-b-[1px] border-gray-200">
                       <div className="flex flex-row justify-center truncate">
                         {Element.podcastName}
                       </div>
@@ -739,9 +739,9 @@ export const Overview = ({
                       <div className="flex flex-row justify-center truncate">
                         {Element.createdAt.slice(0, 10)}
                       </div>
-                      <div className="flex flex-row justify-start truncate text-ellipsis text-left">
+                      {/* <div className="flex flex-row justify-start overflow-auto text-ellipsis text-left">
                         {Element.description}
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 );
@@ -792,7 +792,7 @@ function singlePodcast(item) {
           <div className="flex flex-row justify-center items-center mr-2">
             <IoIosPricetags size={22} color="#5F50A3" />
           </div>
-          <div className="flex flex-row overflow-clip">
+          <div className="flex flex-row overflow-hidden">
             {item.tags &&
               item.tags.map((ele, index) => {
                 return (
@@ -921,8 +921,8 @@ export const TagView = ({
   const inputRef = useRef(null);
 
   return (
-    <div className="h-[89%] flex flex-row ml-[1%]">
-      <div className="flex flex-col w-3/4">
+    <div className="h-[89%] flex flex-col lg:flex-row ml-[1%]">
+      <div className="flex flex-col  w-full lg:w-3/4">
         <div className="flex flex-col ">
           <div className="w-full underline underline-offset-8 decoration-1 font-bold">
             Tags
@@ -944,7 +944,7 @@ export const TagView = ({
 
             <div>
               <Modal
-                className="absolute inset-0 text-center w-[30%] h-[30%] ml-[34%] mt-[15%]  bg-gray-300 min-h-[200px] rounded-xl"
+                className="absolute inset-0 text-center  lg:w-[30%] w-[80%] h-[30%] ml-[10%] lg:ml-[34%]  mt-[15%]  bg-gray-300 min-h-[200px] rounded-xl"
                 show={showModal}
                 onHide={handleClose}
               >
@@ -1099,7 +1099,7 @@ export const TagView = ({
           {<popularTags />}
         </div>
       </div>
-      <div className="flex flex-row w-1/4 relative">
+      <div className="flex flex-col lg:flex-row w-full lg:w-1/4 relative">
         {showTypeofTag === "admin" ? (
           <PopularTags a={adminTags} />
         ) : (

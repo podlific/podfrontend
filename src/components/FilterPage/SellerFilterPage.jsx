@@ -1,20 +1,24 @@
 import React, { useEffect, useState } from "react";
 import FooterMobile from "../shared/Mobile/FooterMobile";
 import NavigationMobile from "../shared/Mobile/NavigationMobile";
-import PodcastWidgetMobile from "../shared/Mobile/PodcastWidgetMobile";
 import FooterWebPage from "../shared/WebPage/FooterWebPage";
 import NavigationWebPage from "../shared/WebPage/NavigationWebPage";
 import PodcastWidget from "../shared/WebPage/PodcastWidget";
 import "react-multi-carousel/lib/styles.css";
-// import api from "../../config/axios";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { BiSearch } from "react-icons/bi";
 import { BsArrowRightCircleFill, BsArrowLeftCircleFill } from "react-icons/bs";
 import Loader from "../Loader/Loader";
-import { TagSortingFucntion } from "./FilterPageFunctions";
+import {
+  TagSortingFucntion,
+  handleClickTag,
+  hide,
+  onNext,
+  onPrev,
+  searchFunction,
+} from "./FilterPageFunctions";
 let tagsSet = new Set();
-
 const SellerFilterPage = ({ userPodcast, adminInfo }) => {
   const navigate = useNavigate();
   const currtype = useSelector((state) => state.activate.usertype);
@@ -27,13 +31,10 @@ const SellerFilterPage = ({ userPodcast, adminInfo }) => {
       navigate("../admindashboard");
     }
   }, [user.unique_id]);
-  const [selectedTags, setSelectedTag] = useState([]);
   const [active, setActive] = useState(false);
   const [theme, setTheme] = useState(false);
   const [show, setShow] = useState(true);
-  const [showThemes, setShowThemes] = useState(false);
   const [ListofPodcast, setListofPodcast] = useState([...userPodcast]);
-  const [ListofPodcast2, setListofPodcast2] = useState([...userPodcast]);
   const [arr, setArr] = useState([]);
   const [arr2, setArr2] = useState([]);
   const [start, setStart] = useState(1);
@@ -57,7 +58,7 @@ const SellerFilterPage = ({ userPodcast, adminInfo }) => {
   };
   const currPage1 = () => {
     let s = 0;
-    let e = Math.min(len1, 4);
+    let e = Math.min(len, 4);
     let brr = [];
     for (let i = s; i < e; i++) {
       brr.push(ListofPodcast[i]);
@@ -71,50 +72,27 @@ const SellerFilterPage = ({ userPodcast, adminInfo }) => {
       currPage();
     };
     init();
-  }, [ListofPodcast, ListofPodcast2]);
+  }, [ListofPodcast]);
   useEffect(() => {
-    let adminTags = [];
-    if (adminInfo !== null) {
-      for (let i = 0; i < adminInfo.tags.length; i++) {
-        adminTags.push(adminInfo.tags[i].tagname);
-      }
-      setTags(adminTags);
-    }
-  }, [adminInfo]);
-  const searchFunction = () => {
+    let tagarray = [];
     userPodcast.forEach((element) => {
-      let x = element.podcastName.toLowerCase();
-      x = x.search(searchTag.toLowerCase());
-      if (x !== -1) {
-        tempUserPodcast = [...tempUserPodcast, element];
+      let temparr = element.tags;
+      for (let i = 0; i < temparr.length; i++) {
+        tagarray.push(temparr[i]);
       }
     });
-    setListofPodcast([...tempUserPodcast]);
-    setListofPodcast2([...tempUserPodcast]);
-    let l = tempUserPodcast.length;
-    let e = Math.min(l, 9);
-    let ee = Math.min(l, 4);
-    let cnt = 0;
-    let brr = [];
-    let brrr = [];
-    tempUserPodcast.forEach((element) => {
-      if (cnt < e) {
-        brr.push(element);
-      }
-      if (cnt < ee) {
-        brrr.push(element);
-      }
-      cnt++;
-    });
-    setArr([...brr]);
-    setArr2([...brrr]);
-    onHandleClick();
-  };
+    let tagset = new Set(tagarray);
+    tagarray = [];
+    for (let element of tagset) {
+      tagarray.push(element);
+      // console.log(element);
+    }
+    setTags(tagarray);
+  }, [userPodcast]);
 
   useEffect(() => {
     setTempArr(userPodcast);
     setListofPodcast([...userPodcast]);
-    setListofPodcast2([...userPodcast]);
     let l = userPodcast.length;
     let e = Math.min(l, 9);
     let ee = Math.min(l, 4);
@@ -141,7 +119,6 @@ const SellerFilterPage = ({ userPodcast, adminInfo }) => {
   useEffect(() => {
     if (searchTag === "") {
       setListofPodcast(userPodcast);
-      setListofPodcast2(userPodcast);
     }
     let tempSuggestions = [];
     tempArr.forEach((element) => {
@@ -153,51 +130,7 @@ const SellerFilterPage = ({ userPodcast, adminInfo }) => {
     });
     setSuggestionArray(tempSuggestions);
   }, [searchTag]);
-  function hide(obj) {
-    if (obj === "filter-1" && active) {
-      let el = document.getElementById(obj);
-      el.style.display = "none";
-      setActive(false);
-    }
-    if (obj === "obj" && theme) {
-      let el = document.getElementById(obj);
-      el.style.display = "none";
-      setTheme(false);
-    }
 
-    if (obj === "filter-1" && !active) {
-      let p = document.getElementById(obj);
-      p.style.display = "block";
-      setActive(true);
-    }
-    if (obj === "obj" && !theme) {
-      let p = document.getElementById(obj);
-      p.style.display = "block";
-      setTheme(true);
-    }
-  }
-  const handleClickTag = (event, tag) => {
-    let element = event.currentTarget;
-    if (element.style.backgroundColor === "rgb(95,80,163)") {
-      element.style.backgroundColor = "#C2C2C2";
-      let data = selectedTags;
-      let data1 = [];
-      for (let i = 0; i < data.length; i++) {
-        if (data[i] !== tag) {
-          data1.push(data[i]);
-        }
-      }
-      tagsSet.delete(tag);
-      setSelectedTag(data);
-    } else {
-      let data = selectedTags;
-      data.push(tag);
-      element.style.backgroundColor = "rgb(95,80,163)";
-      // setSelectedTag((oldArray) => [...oldArray, data]);
-      tagsSet.add(tag);
-      setSelectedTag(data);
-    }
-  };
   const myTimeout = () => {
     setTimeout(() => {
       setShowSuggestions(false);
@@ -205,21 +138,11 @@ const SellerFilterPage = ({ userPodcast, adminInfo }) => {
     clearTimeout(myTimeout);
   };
 
-  let len, len1;
+  let len;
   if (!Array.isArray(ListofPodcast)) {
     len = 0;
   } else {
     len = ListofPodcast.length;
-  }
-  if (!Array.isArray(ListofPodcast2)) {
-    len1 = 0;
-  } else {
-    len1 = ListofPodcast2.length;
-  }
-
-  let intialArray = [];
-  for (let i = 0; i < Math.min(9, len); i++) {
-    intialArray.push(ListofPodcast[i]);
   }
 
   const onHandleClick = () => {
@@ -228,58 +151,6 @@ const SellerFilterPage = ({ userPodcast, adminInfo }) => {
     setStart2(1);
     currPage1();
   };
-  function onNext() {
-    if (start * 9 > len) {
-      return;
-    }
-    let s = 9 * start;
-    let e = Math.min(len, 9 * (start + 1));
-    setStart(start + 1);
-    let brr = [];
-    for (let i = s; i < e; i++) {
-      brr.push(ListofPodcast[i]);
-    }
-    setArr(brr);
-  }
-  function onNext1() {
-    if (start2 * 4 > len1) {
-      return;
-    }
-    let s = 4 * start2;
-    let e = Math.min(len1, 4 * (start2 + 1));
-    setStart2(start2 + 1);
-    let brr = [];
-    for (let i = s; i < e; i++) {
-      brr.push(ListofPodcast[i]);
-    }
-    setArr(brr);
-  }
-  function onPrev() {
-    if (9 * (start - 2) < 0) {
-      return;
-    }
-    let s = Math.max(0, 9 * (start - 2));
-    let e = Math.min(Math.abs(9 * (start - 1)), len);
-    setStart(start - 1);
-    let brr = [];
-    for (let i = s; i < e; i++) {
-      brr.push(ListofPodcast[i]);
-    }
-    setArr(brr);
-  }
-  function onPrev1() {
-    if (4 * (start2 - 2) < 0) {
-      return;
-    }
-    let s = Math.max(0, 4 * (start2 - 2));
-    let e = Math.min(Math.abs(4 * (start2 - 1)), len1);
-    setStart2(start2 - 1);
-    let brr = [];
-    for (let i = s; i < e; i++) {
-      brr.push(ListofPodcast[i]);
-    }
-    setArr(brr);
-  }
 
   return loading === true ? (
     <Loader />
@@ -331,7 +202,15 @@ const SellerFilterPage = ({ userPodcast, adminInfo }) => {
         <div
           className="p-2 pl-3 pr-3 bg-[#5F50A3] rounded-lg m-auto h-full  flex flex-col justify-center items-center -ml-3 cursor-pointer"
           onClick={() => {
-            searchFunction();
+            searchFunction(
+              userPodcast,
+              searchTag,
+              tempUserPodcast,
+              setListofPodcast,
+              setArr,
+              setArr2,
+              onHandleClick
+            );
           }}
         >
           <BiSearch color="white" size="22" />
@@ -343,7 +222,9 @@ const SellerFilterPage = ({ userPodcast, adminInfo }) => {
             <div className="flex flex-col pt-2 ml-4 md:ml-0 md:pt-[26%]   md:pl-1 lg:w-full lg:ml-0 xl:w-5/6 ">
               <div
                 className="flex flex-row text-[#5F50A3] font-bold md:pl-[15%] lg:pl-[10%] xl:pl-[5%]   "
-                onClick={() => hide("filter-1")}
+                onClick={() =>
+                  hide("filter-1", active, setActive, theme, setTheme)
+                }
               >
                 FILTER
               </div>
@@ -379,9 +260,9 @@ const SellerFilterPage = ({ userPodcast, adminInfo }) => {
                         return (
                           <div className="mt-4" key={index}>
                             <span
-                              className={`pt-1 pb-1 px-2 bg-[#C2C2C2] rounded-2xl mx-1 my-1 cur`}
+                              className={`pt-1 pb-1 px-2 bg-[#C2C2C2] rounded-2xl mx-1 my-1 cursor-pointer`}
                               index={index}
-                              onClick={(e) => handleClickTag(e, tag)}
+                              onClick={(e) => handleClickTag(e, tag, tagsSet)}
                             >
                               {tag}
                             </span>
@@ -447,7 +328,15 @@ const SellerFilterPage = ({ userPodcast, adminInfo }) => {
                   <div
                     className="p-2 pl-3 pr-3 bg-[#5F50A3] rounded-lg m-auto h-full  flex flex-col justify-center items-center -ml-3 cursor-pointer"
                     onClick={() => {
-                      searchFunction();
+                      searchFunction(
+                        userPodcast,
+                        searchTag,
+                        tempUserPodcast,
+                        setListofPodcast,
+                        setArr,
+                        setArr2,
+                        onHandleClick
+                      );
                     }}
                   >
                     <BiSearch color="white" size="22" />
@@ -463,11 +352,11 @@ const SellerFilterPage = ({ userPodcast, adminInfo }) => {
               </div>
             </div>
             <div className="flex flex-col overflow-scroll  justify-center md:hidden ">
-              {Array.isArray(arr) &&
-                arr.map((pod, index) => {
+              {Array.isArray(arr2) &&
+                arr2.map((pod, index) => {
                   return (
                     user.unique_id === pod?.sellerId && (
-                      <PodcastWidgetMobile
+                      <PodcastWidget
                         key={index}
                         episodename={pod.episodeName}
                         podcastname={pod.podcastName}
@@ -484,7 +373,9 @@ const SellerFilterPage = ({ userPodcast, adminInfo }) => {
                   className="cursor-pointer"
                   size={25}
                   color="#5F50A3"
-                  onClick={() => onPrev1()}
+                  onClick={() =>
+                    onPrev(start2, len, setStart2, ListofPodcast, setArr2, 4)
+                  }
                 />
               </div>
               <div className="w-[50%]  flex flex-row justify-center items-center py-3">
@@ -492,7 +383,9 @@ const SellerFilterPage = ({ userPodcast, adminInfo }) => {
                   className="cursor-pointer "
                   size={25}
                   color="#5F50A3"
-                  onClick={() => onNext1()}
+                  onClick={() =>
+                    onNext(start2, len, setStart2, ListofPodcast, setArr2, 4)
+                  }
                 />
               </div>
             </div>
@@ -500,7 +393,7 @@ const SellerFilterPage = ({ userPodcast, adminInfo }) => {
               {arr &&
                 arr?.map((pod, index) => {
                   return (
-                    user.unique_id === pod.sellerId && (
+                    user.unique_id === pod?.sellerId && (
                       <PodcastWidget
                         key={index}
                         episodename={pod.episodeName}
@@ -518,7 +411,9 @@ const SellerFilterPage = ({ userPodcast, adminInfo }) => {
                   className="cursor-pointer"
                   size={25}
                   color="#5F50A3"
-                  onClick={() => onPrev()}
+                  onClick={() =>
+                    onPrev(start, len, setStart, ListofPodcast, setArr, 9)
+                  }
                 />
               </div>
               <div className="w-[50%]  flex flex-row justify-center items-center py-3">
@@ -526,7 +421,9 @@ const SellerFilterPage = ({ userPodcast, adminInfo }) => {
                   className="cursor-pointer "
                   size={25}
                   color="#5F50A3"
-                  onClick={() => onNext()}
+                  onClick={() =>
+                    onNext(start, len, setStart, ListofPodcast, setArr, 9)
+                  }
                 />
               </div>
             </div>

@@ -367,7 +367,7 @@ const convertDate = (currDate) => {
   if (splitTime[0] < 10) {
     splitTime[0] = "0" + splitTime[0];
   }
-  splitTime = splitTime[2] + "-" + splitTime[1] + "-" + splitTime[0];
+  splitTime = splitTime[2] + "-" + splitTime[0] + "-" + splitTime[1]; //version related problem // error
   return splitTime;
 };
 export const BarGraphFunctions = (
@@ -409,6 +409,8 @@ export const BarGraphFunctions = (
     currPodcastdaystoshow.push(convertDate(new1));
     currweekdaystoshow.push(new2.split(" ")[0]);
   }
+
+  console.log(currdaystoshow, "currweekdaystoshow");
   setUserWeekDaysLabel(currweekdaystoshow.reverse()); // this array contain the week days
   let weekData = new Map();
   let podcastWeekData = new Map();
@@ -428,8 +430,11 @@ export const BarGraphFunctions = (
       podcastWeekData.set(createdDatesofPodcast[i], currValue + 1);
     }
   }
+  // for (let [key, value] of weekData) {
+  //   console.log(key, value, "key");
+  // }
   for (let [key, value] of weekData) {
-    console.log(key, value, "key");
+    console.log(key, value);
   }
   let toshowdata = [];
   let toshowPodcastData = [];
@@ -445,6 +450,7 @@ export const BarGraphFunctions = (
       toshowPodcastData.push(0);
     }
   }
+
   // console.log(toshowdata);
   setUserWeekDaysData(toshowdata.reverse()); /// number of user created during last seven days
   setPodcastWeekDaysData(toshowPodcastData.reverse()); // similar for podcast

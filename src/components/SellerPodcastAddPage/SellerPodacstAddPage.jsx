@@ -32,21 +32,18 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo, overAllPodcastList }) => {
   const [description, setDescription] = useState("");
   const [episodeName, setEpisdeName] = useState("");
   const [themes, setThemes] = useState([]);
-  const [tags, setTags] = useState([]);
   const [groups, setGroups] = useState([]);
   const [themeVal, setThemeVal] = useState("");
-  const [tagVal, setTagVal] = useState("");
   const [groupVal, setGroupVal] = useState("");
   const [podcastThumbnail, setPodcastThumbnail] = useState(null);
   const [podcastPreview, setPodcastPreview] = useState();
   const [showImage, setShowImage] = useState(false);
   const [link, setLink] = useState("");
-  const [showTagSuggestions, setShowTagSuggestions] = useState(false);
   const [searchTag, setSearchTag] = useState("");
   const [tagSuggestionArray, setTagSuggestionArray] = useState([]);
   const [adminTags, setAdminTags] = useState([]);
-  const [admintagarr, setAdmintagarr] = useState([]);
   const [temporarytags, setTemporarytags] = useState([]);
+  const [disable, setDisable] = useState(false);
   let temparr = [];
   const data = {
     image: link,
@@ -86,7 +83,7 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo, overAllPodcastList }) => {
         return;
       }
     }
-
+    setDisable(true);
     for (let i = 0; i < temporarytags.length; i++) {
       temparr.push(temporarytags[i]["value"]);
     }
@@ -103,7 +100,8 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo, overAllPodcastList }) => {
         // update progress
         // setPercent(percent);
       },
-      (err) => () => {
+      (err) => {},
+      () => {
         // download url
         //  headers: {
         //         "content-type": "multipart/form-data",
@@ -503,6 +501,7 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo, overAllPodcastList }) => {
           </div>
           <div className="flex flex-row items-end ">
             <button
+              disabled={disable}
               className="px-5 p-1 rounded-2xl  bg-[#B198FF] text-white font-semibold"
               onClick={() => handleSubmit()}
             >

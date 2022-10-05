@@ -54,25 +54,32 @@ const FilterPage = ({
   const [suggestionArray, setSuggestionArray] = useState([]);
   const [suggestionToShow, setSuggestionToShow] = useState([]);
   let tempUserPodcast = [];
+  // useEffect(() => {
+  //   if (currtype.usertype === "admin") {
+  //     navigate("../admindashboard");
+  //   }
+  //   const init = async () => {
+  //     let data1 = {
+  //       searchItem: "",
+  //     };
+  //     await api.post("/api/getpodcastfromsearch", data1).then((res) => {
+  //       setOverAllPodcastList(res.data);
+  //       setListofPodcast(res.data);
+  //       // setTempArr(res.data);
+  //       onHandleClick();
+  //     });
+  //   };
+  //   if (ListofPodcast.length === 0) {
+  //     init();
+  //   }
+  // }, []);
   useEffect(() => {
     if (currtype.usertype === "admin") {
       navigate("../admindashboard");
     }
-    const init = async () => {
-      let data1 = {
-        searchItem: "",
-      };
-      await api.post("/api/getpodcastfromsearch", data1).then((res) => {
-        setOverAllPodcastList(res.data);
-        setListofPodcast(res.data);
-        setTempArr(res.data);
-        onHandleClick();
-      });
-    };
-    if (ListofPodcast.length === 0) {
-      init();
-    }
-  }, []);
+    setTempArr(ListofPodcast);
+    onHandleClick();
+  }, [ListofPodcast]);
   function currPage() {
     let s = 0;
     let e = Math.min(len, 9);

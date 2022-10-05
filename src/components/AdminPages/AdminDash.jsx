@@ -274,7 +274,7 @@ const AdminDash = ({ requestPodcast, userInfo }) => {
       </div>
       <div className="flex flex-col w-full lg:w-5/6 overflow-auto">
         <div className="lg:hidden">
-          <NavigationMobile />
+          <NavigationMobile setShowType={setShowType}/>
         </div>
         <div className="h-[11%] hidden lg:flex flex-col justify-end items-end pb-2 pr-7 border-b-black border-b-[1px] ">
           <div className="flex flex-row gap-x-2">

@@ -17,12 +17,13 @@ import { MdOutlineSpaceDashboard } from "react-icons/md";
 import { CgClose } from "react-icons/cg";
 import { MdOutlineForwardToInbox, MdOutlineMoveToInbox } from "react-icons/md";
 import toast from "react-hot-toast";
-const NavigationMobile = ({ socketRef, receivedMessages }) => {
+const NavigationMobile = ({ socketRef, receivedMessages ,setShowType}) => {
+
   const [show, setShow] = useState(false);
   let navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.activate.unique_id);
-
+const usertype = useSelector((state) => state.activate.usertype.usertype);
   async function logoutUser() {
     const senddata = {
       message: receivedMessages,
@@ -48,7 +49,89 @@ const NavigationMobile = ({ socketRef, receivedMessages }) => {
     navigate("/login", { replace: true });
     socketRef.current.on("disconnecting");
   }
+  if(usertype==="admin"){
+    return(<div className="  flex flex-row justify-between p-3 shadow-md shadow-zinc-500/75 relative">
+      <div className="flex flex-row w-3/6 items-center ">
+        <div>
+          {!show && (
+            <GiHamburgerMenu
+              onClick={() => {
+                setShow(!show);
+              }}
+            />
+          )}
+          {show && (
+            <CgClose
+              onClick={() => {
+                setShow(!show);
+              }}
+            />
+          )}
+        </div>
+        <div className="ml-3">
+          <BiUser />
+        </div>
+      </div>
+      <div className="w-3/6 flex flex-row justify-end  items-center">
+        <img className="h-10 w-24 " src="./logo.png" alt="logo" />
+      </div>
+
+      <div
+        className={
+          show === true
+            ? "h-screen w-1/2 z-10 translate-x-px duration-500 ease-linear top-[68px] -left-1 bg-[#FFFFFF] absolute md:hidden transform-gpu"
+            : "h-screen w-1/2 z-10 translate-x-px duration-500 ease-linear top-[68px] left-[-500px] bg-[#FFFFFF] absolute md:hidden transform-gpu"
+        }
+      >
+        <div className="p-1 flex flex-col font-semibold ">
+          
+            <div className="pl-3 mb-4 flex flex-row items-center">
+              <MdOutlineSpaceDashboard />
+              <button className="pl-1" onClick={()=>setShowType("overview")}>Dashboard</button>
+            </div>
+        
+         
+            <div className="pl-3 mb-4 flex flex-row items-center">
+              <BiUser />
+              <button className="pl-1" onClick={()=>setShowType("sellerRequest")}>Request</button>
+            </div>
+            <div className="pl-3 mb-4 flex flex-row items-center">
+              <MdOutlineMoveToInbox />
+              <button className="pl-1" onClick={()=>setShowType("acceptedSeller")}>Accepted Users</button>
+            </div>
+            <div className="pl-3 mb-4 flex flex-row items-center">
+              <MdOutlineForwardToInbox />
+              
+              <button className="pl-1" onClick={()=>setShowType("broadcastMessage")}> Brodcast Message</button>
+            </div>
+            <div className="pl-3 mb-4 flex flex-row items-center">
+              <SiGooglepodcasts />
+              <button className="pl-1" onClick={()=>setShowType("podcasts")}>podcasts</button>
+            </div>
+            <div className="pl-3 mb-4 flex flex-row items-center">
+              <SiGooglepodcasts />
+              <button className="pl-1" onClick={()=>setShowType("tags")}>Tags</button>
+            </div>
+          
+          
+          
+          
+
+          <div
+            className="pl-3 mb-4 flex flex-row items-center"
+            onClick={() => logoutUser()}
+          >
+            <BiLogOut /> <span className="pl-1">Logout</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+    
+  }
   return (
+
     <div className="  flex flex-row justify-between p-3 shadow-md shadow-zinc-500/75 relative">
       <div className="flex flex-row w-3/6 items-center ">
         <div>
@@ -95,6 +178,13 @@ const NavigationMobile = ({ socketRef, receivedMessages }) => {
               <span className="pl-1">Browse Podcast</span>
             </div>
           </Link>
+          {usertype==="seller" && <Link to="/addnewpodcast">
+            <div className="pl-3 mb-4 flex flex-row items-center">
+              <SiGooglepodcasts />
+              <span className="pl-1">Add Podcast</span>
+            </div>
+          </Link>}
+
           <Link to="/usercampaignpage">
             <div className="pl-3 mb-4 flex flex-row items-center">
               <MdOutlineMoveToInbox />{" "}

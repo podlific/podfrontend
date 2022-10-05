@@ -24,7 +24,6 @@ const addNewUserTag = async (
     }
   }
   setRemoveele(removeele);
-  // //console.log(b, "check passing val");
   if (tagname === null || tagname.length === 0) {
     toast.error("Please add something ");
     return;
@@ -34,7 +33,6 @@ const addNewUserTag = async (
     podcastid: podcastID,
   };
   try {
-    // //console.log(data, "tagtest");
     let info = await api.post("/api/addnewtagbyuser", data);
     if (info) {
       setAdminTags((oldArray) => [
@@ -81,7 +79,6 @@ const addupdatedtag = async (
     podcastid: podcastID,
   };
   try {
-    // //console.log(data, "tagtest");
     let info = await api.post("/api/addmodifiedtag", data);
     if (info) {
       setAdminTags((oldArray) => [
@@ -121,7 +118,6 @@ const deleteNewUserTag = async (
     podcastid: podcastID,
   };
   try {
-    // //console.log(data, "tagtest");
     let info = await api.post("/api/deletetagbyadmin", data);
     if (info) {
       let tempArr = [];
@@ -155,7 +151,6 @@ const addModifyTag = async (
     podcastid: podcastID,
   };
   try {
-    // //console.log(data, "tagtest");
     let info = await api.post("/api/deletetagbyadmin", data);
     if (info) {
       let tempArr = [];
@@ -181,7 +176,6 @@ export default function UserTag({ b, setAdminTags, setRequestedTags }) {
   const [currPodcast, setCurrPodcast] = useState("");
   const [newtagname, setnewtagname] = useState("");
   const [sellername, setsellername] = useState("");
-  // //console.log(b);
   // const [showModal, setShow] = useState(false);
 
   // const handleClose = () => setShow(false);
@@ -189,7 +183,6 @@ export default function UserTag({ b, setAdminTags, setRequestedTags }) {
   // const handleShow = () => setShow(true);
   // const inputRef = useRef(null);
 
-  // //console.log(tagsArray, "array");
   useEffect(() => {
     setTagArray(b);
   }, [b]);
@@ -234,7 +227,6 @@ export default function UserTag({ b, setAdminTags, setRequestedTags }) {
                   defaultValue={item.tag}
                   onChange={(e) => {
                     let tempArray = tagsArray;
-                    // //console.log(tempArray, tagsArray);
                     tempArray[ind]["tag"] = e.target.value;
                     // setTagArray(tempArray);
                   }}
@@ -305,9 +297,7 @@ export default function UserTag({ b, setAdminTags, setRequestedTags }) {
                   value={selectModify}
                   onChange={(e) => {
                     let tempArray = tagsArray;
-                    // //console.log(tempArray, tagsArray);
                     tempArray[ind]["tag"] = e.target.value;
-                    // setTagArray(tempArray);
                   }}
                 />
                 <input
@@ -315,12 +305,7 @@ export default function UserTag({ b, setAdminTags, setRequestedTags }) {
                   value={newtagname}
                   placeholder="New tagname"
                   onChange={(e) => {
-                    let tempArray = tagsArray;
-                    // //console.log(tempArray, tagsArray);
-                    // tempArray[ind]["tag"] = e.target.value;
                     setnewtagname(e.target.value);
-
-                    // setTagArray(tempArray);
                   }}
                 />
               </Modal.Body>

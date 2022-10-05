@@ -92,8 +92,8 @@ export const Request = ({
       UserSearchFunction(buyerRequest, setArr, searchUser);
     }
   }, [searchUser, showtype, sellerRequest, buyerRequest]);
-  
-  const [disable,setdisable]=useState(false)
+
+  const [disable, setdisable] = useState(false);
   useEffect(() => {
     let len = request.length;
     let seller = [];
@@ -245,10 +245,10 @@ export const Request = ({
                   </div>
                   <div className="flex flex-row justify-center gap-x-2 ">
                     <button
-                    disabled={disable}
+                      disabled={disable}
                       className="cursor-pointer"
                       onClick={() => {
-                        setdisable(true)
+                        setdisable(true);
                         requestAcceptFunction(
                           ele,
                           request,
@@ -758,8 +758,14 @@ export const Overview = ({
 
 function SinglePodcast(item) {
   return (
-    <div className="bg-[#F2F4F5] flex flex-row justify-center rounded-xl  " onClick={(e)=>{item.setShowType("PodCastItems");item.setPodCastData(item)}}>
-      <div className=" w-[90%] bg-white my-4 rounded-xl " >
+    <div
+      className="bg-[#F2F4F5] flex flex-row justify-center rounded-xl  "
+      onClick={(e) => {
+        item.setShowType("PodCastItems");
+        item.setPodCastData(item);
+      }}
+    >
+      <div className=" w-[90%] bg-white my-4 rounded-xl ">
         <div className="">
           <div className="p-5 pb-0 h-1/2 flex flex-row">
             <img
@@ -812,7 +818,7 @@ function SinglePodcast(item) {
   );
 }
 
-export const PodcastView = ({ showPodcast,setShowType,setPodCastData }) => {
+export const PodcastView = ({ showPodcast, setShowType, setPodCastData }) => {
   const [searchPodcast, setSearchPodcast] = useState("");
   const [tempArr, setTempArr] = useState([]);
   useEffect(() => {
@@ -879,7 +885,13 @@ export const PodcastView = ({ showPodcast,setShowType,setPodCastData }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 mt-1 mx-2">
         {tempArr &&
           tempArr.map((ele, index) => {
-            return <SinglePodcast ele = {ele} setShowType={ setShowType} setPodCastData={setPodCastData}/>
+            return (
+              <SinglePodcast
+                ele={ele}
+                setShowType={setShowType}
+                setPodCastData={setPodCastData}
+              />
+            );
           })}
       </div>
     </div>
@@ -891,10 +903,7 @@ export const TagView = ({
   setAdminTags,
   setRequestedTags,
 }) => {
-  // //console.log(adminTags);
-  const [showinput, setShowinput] = useState("false");
   const [showTypeofTag, setShowTypeofTag] = useState("admin");
-  const [sortingOrder, setSortingOrder] = useState([]);
   const [arr, setArr] = useState([]);
   const [searchTag, setSearchTag] = useState("");
   useEffect(() => {
@@ -973,7 +982,7 @@ export const TagView = ({
                     variant="secondary"
                     className="bg-purple-600 text-white font-semibold rounded-xl"
                     onClick={() => {
-                      addNewtag(inputRef.current.value,adminTags);
+                      addNewtag(inputRef.current.value, adminTags);
                       setAdminTags((oldArray) => [
                         ...oldArray,
                         { tagname: inputRef.current.value, tagcount: 0 },

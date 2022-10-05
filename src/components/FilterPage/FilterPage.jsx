@@ -201,7 +201,6 @@ const FilterPage = ({
                   key={index}
                   onClick={() => {
                     setSearchTag(item.podcastName);
-                    // //console.log(item.podcastName);
                   }}
                 >
                   {item.podcastName}
@@ -328,7 +327,6 @@ const FilterPage = ({
                             key={index}
                             onClick={() => {
                               setSearchTag(item.podcastName);
-                              // //console.log(item.podcastName);
                             }}
                           >
                             {item.podcastName}

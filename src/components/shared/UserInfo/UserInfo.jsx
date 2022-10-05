@@ -5,7 +5,6 @@ import FooterWebPage from "../WebPage/FooterWebPage";
 import NavigationWebPage from "../WebPage/NavigationWebPage";
 
 const UserInfo = ({ userInfo }) => {
-  // //console.log(userInfo);
   return (
     <div className="h-screen flex flex-col justify-between">
       <div className="hidden md:block ">

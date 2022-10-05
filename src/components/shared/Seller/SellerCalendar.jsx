@@ -41,7 +41,6 @@ const SellerCalendar = ({ requestPodcast, setRequestPodcast }) => {
   const [displayArray, setDisplayArray] = useState([]);
   const [markedEvents, setMarkedEvents] = useState([]);
   const [currDate, setCurrDate] = useState("TODAY'S BOOKING");
-  //console.log(requestPodcast, "reqpod");
 
   function changeDateFormat(inputDate) {
     var splitDate = inputDate.split("-");
@@ -56,7 +55,6 @@ const SellerCalendar = ({ requestPodcast, setRequestPodcast }) => {
     return day + "-" + month + "-" + year;
   }
   const handleSelectedDates = (e) => {
-    // //console.log(e.dateStr);
     let d = e.dateStr;
     d = changeDateFormat(d);
     setCurrDate(d);
@@ -89,7 +87,6 @@ const SellerCalendar = ({ requestPodcast, setRequestPodcast }) => {
     return d.join("-");
   };
   const formateDate = (d) => {
-    //console.log(d, "formate");
     let month = "" + (d.getMonth() + 1);
     let day = "" + d.getDate();
     let year = "" + d.getFullYear();
@@ -97,7 +94,6 @@ const SellerCalendar = ({ requestPodcast, setRequestPodcast }) => {
     if (day.length < 2) day = "0" + day;
     return [year, month, day].join("-");
   };
-  const currentBooking = requestPodcast;
   useEffect(() => {
     requestPodcast.forEach((element) => {});
   }, [requestPodcast]);
@@ -106,13 +102,8 @@ const SellerCalendar = ({ requestPodcast, setRequestPodcast }) => {
     for (let i = 0; i < requestPodcast.length; i++) {
       let startDay = splitTime(requestPodcast[i].date);
       let endDay = new Date(configureDate(requestPodcast[i].time));
-      // //console.log("dates",requestPodcast[i].time,"che")
       endDay.setDate(endDay.getDate() + 1);
       endDay = formateDate(endDay);
-      // endDay='2022-09-25'
-      // endDay = addOneDayToDate(endDay);
-      // endDay = convertDate(endDay);
-      // //console.log("dates",startDay,endDay)
       if (requestPodcast[i].confirmed === "true") {
         arr.push({
           start: startDay,
@@ -131,20 +122,16 @@ const SellerCalendar = ({ requestPodcast, setRequestPodcast }) => {
       .getElementsByTagName("div")[0].style.width = "100%");
   }, []);
   const compdate = (lastdate) => {
-    //console.log(lastdate, "passvalue");
     var todaysdate = new Date();
     var compdate = new Date(configureDate(lastdate));
-    // //console.log(todaysdate, "comparefunc", compdate);
     if (todaysdate > compdate) {
       return false;
     }
     return true;
   };
   const pastcompdate = (lastdate) => {
-    //console.log(lastdate, "passvalue");
     var todaysdate = new Date();
     var compdate = new Date(configureDate(lastdate));
-    // //console.log(todaysdate, "comparefunc", compdate);
     if (todaysdate < compdate) {
       return false;
     }
@@ -223,7 +210,6 @@ const SellerCalendar = ({ requestPodcast, setRequestPodcast }) => {
             </div>
 
             {requestPodcast.map((item, ind) => {
-              //console.log(item["time"], "before passing");
               if (item["confirmed"] === "true" && compdate(item["time"])) {
                 return (
                   <div key={ind} className=" grid grid-cols-3 text-center ">
@@ -233,7 +219,7 @@ const SellerCalendar = ({ requestPodcast, setRequestPodcast }) => {
                     <div className="border-r-2  border-b-2 border-gray-500">
                       {item["date"]}
                     </div>
-                     <div className="border-r-2  border-b-2 border-gray-500">
+                    <div className="border-r-2  border-b-2 border-gray-500">
                       {item["time"]}
                     </div>
                   </div>
@@ -248,7 +234,7 @@ const SellerCalendar = ({ requestPodcast, setRequestPodcast }) => {
             <div className=" grid grid-cols-3  font-semibold text-center overflow-auto ">
               <div className="border-2 border-gray-500">UserName </div>
               <div className="border-r-2 border-t-2 border-b-2 border-gray-500">
-                From 
+                From
               </div>
               <div className="border-r-2 border-t-2 border-b-2 border-gray-500">
                 To

@@ -4,11 +4,8 @@ import { HiPhotograph } from "react-icons/hi";
 import { ImPriceTags } from "react-icons/im";
 
 export default function Viewpodcast({ data }) {
-  //   //console.log(data);
   return (
     <div className="mt-3 h-[85%] flex flex-col w-full  ">
-      {/* md:h-[12%] lg:h-[15%] xl:h-[17%] */}
-
       <div className="mt-1 w-full ml-[2.5%] flex flex-col item-center md:flex md:flex-row md:h-[100%] md:m-0 overflow-y-scroll scrollbar-hide">
         <div className="  md:flex md:flex-col w-[95%]">
           <div className="h-1/4 flex flex-row  md:flex md:flex-row  md:h-[86%]  justify-center   w-[100%] ">

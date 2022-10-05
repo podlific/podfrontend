@@ -101,7 +101,6 @@ export const Messages = ({
   };
   useEffect(() => {
     setDisabledDays(currentBooking);
-    //console.log(currentBooking,"days")
   }, [currentBooking]);
 
   const existingBooking = (curr) => {
@@ -111,15 +110,13 @@ export const Messages = ({
         element.bookings.forEach((ele) => {
           let datefrom = ele.date.split("/");
           let dateto = ele.time.split("/");
-          //console.log("from",datefrom,"hhh",dateto)
           arr.push({
-            from: new Date(datefrom[2], datefrom[1] -1, datefrom[0]),
-            to: new Date(dateto[2], dateto[1] -1, dateto[0]),
+            from: new Date(datefrom[2], datefrom[1] - 1, datefrom[0]),
+            to: new Date(dateto[2], dateto[1] - 1, dateto[0]),
           });
         });
       }
     });
-// //console.log(arr,"yoooo")
     setCurrentBooking(arr);
   };
 
@@ -269,7 +266,6 @@ export const Messages = ({
       newTime = newTime[0] + "/" + newTime[1] + "/" + newTime[2];
     }
   }, [days]);
-  // //console.log(days);
 
   const footer =
     days && days.length > 0 ? (
@@ -277,7 +273,7 @@ export const Messages = ({
     ) : (
       <p>Please pick two dates </p>
     );
-    const [price,setPrice]=useState(100)
+  const [price, setPrice] = useState(100);
 
   return (
     <div className="h-full flex flex-col justify-between ">
@@ -301,7 +297,9 @@ export const Messages = ({
             }
             onClick={handleClick}
           >
-            <span className="font-semibold flex flex-row bg-[#5F50A3] text-white  cursor-pointer rounded-xl text-center">Create Offer</span>
+            <span className="font-semibold flex flex-row bg-[#5F50A3] text-white  cursor-pointer rounded-xl text-center">
+              Create Offer
+            </span>
           </div>
         </div>
         <div className="flex flex-row justify-center">
@@ -321,36 +319,45 @@ export const Messages = ({
               <div className="justify-between ">
                 <div className=" grid grid-cols-2 mt-3">
                   <div className="font-bold">Select Podcast</div>
-                    <select
+                  <select
                     className="h-[20px] overflow-scroll text-center "
-                      name="opt1"
-                      id="opt1"
-                      onClick={(e) => {
-                        setSelectedPodcast(e.target.value);
-                        existingBooking(e.target.value);
-                      }}
-                    >
-                      {requestPodcast &&
-                        requestPodcast.map((request, index) => {
-                          return request.buyerid === toMessageUser &&
-                            request.confirmed !== "true" ? (
-                            <option
-                              value={request.podcastid}
-                              // podname={request.podcastname}
-                              setname={request.podcastname}
-                              key={index}
-                            >
-                              {request.podcastname}
-                            </option>
-                          ) : (
-                            <></>
-                          );
-                        })}
-                    </select>
+                    name="opt1"
+                    id="opt1"
+                    onClick={(e) => {
+                      setSelectedPodcast(e.target.value);
+                      existingBooking(e.target.value);
+                    }}
+                  >
+                    {requestPodcast &&
+                      requestPodcast.map((request, index) => {
+                        return request.buyerid === toMessageUser &&
+                          request.confirmed !== "true" ? (
+                          <option
+                            value={request.podcastid}
+                            // podname={request.podcastname}
+                            setname={request.podcastname}
+                            key={index}
+                          >
+                            {request.podcastname}
+                          </option>
+                        ) : (
+                          <></>
+                        );
+                      })}
+                  </select>
                 </div>
                 <div className=" grid grid-cols-2 mt-3">
                   <div className="font-bold">Input Price</div>
-                    <input type="number" placeholder="Enter price" className="w-[150px] text-center" value={price} required onChange={(e)=>{setPrice(e.target.value)}}/>
+                  <input
+                    type="number"
+                    placeholder="Enter price"
+                    className="w-[150px] text-center"
+                    value={price}
+                    required
+                    onChange={(e) => {
+                      setPrice(e.target.value);
+                    }}
+                  />
                 </div>
 
                 <DayPicker

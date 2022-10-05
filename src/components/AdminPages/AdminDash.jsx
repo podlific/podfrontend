@@ -74,7 +74,7 @@ const AdminDash = ({ requestPodcast, userInfo }) => {
   const user = useSelector((state) => state.activate.unique_id);
   const usertype = useSelector((state) => state.activate.usertype);
   const [loading, setLoading] = useState(true);
-  const [ podCastData ,setPodCastData] = useState([])
+  const [podCastData, setPodCastData] = useState([]);
   useEffect(() => {
     if (usertype.usertype === "admin") {
       setLoading(true);
@@ -359,8 +359,14 @@ const AdminDash = ({ requestPodcast, userInfo }) => {
             tags={adminTags}
           />
         )}
-        {showtype === "podcasts" && <PodcastView showPodcast={showPodcast} setShowType={setShowType} setPodCastData={setPodCastData} />}
-        {showtype === "PodCastItems" && <Viewpodcast data = {podCastData.ele}/>}
+        {showtype === "podcasts" && (
+          <PodcastView
+            showPodcast={showPodcast}
+            setShowType={setShowType}
+            setPodCastData={setPodCastData}
+          />
+        )}
+        {showtype === "PodCastItems" && <Viewpodcast data={podCastData.ele} />}
         {showtype === "tags" && (
           <TagView
             adminTags={adminTags}

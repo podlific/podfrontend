@@ -25,9 +25,7 @@ api.interceptors.response.use(
           withCredentials: true,
         });
         return api.request(orginalResquest);
-      } catch (err) {
-        //console.log(err.message);
-      }
+      } catch (err) {}
     }
     throw error;
   }

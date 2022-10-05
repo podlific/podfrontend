@@ -16,8 +16,8 @@ import toast from "react-hot-toast";
 import storage from "../../firebaseConfig";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { myTimeout } from "./addPodcastFunctions";
-  import Select from 'react-select';
-const SellerPodcastAddPage = ({ userInfo, adminInfo ,overAllPodcastList}) => {
+import Select from "react-select";
+const SellerPodcastAddPage = ({ userInfo, adminInfo, overAllPodcastList }) => {
   let navigate = useNavigate();
   const user = useSelector((state) => state.activate.unique_id);
   const usertype = useSelector((state) => state.activate.usertype);
@@ -32,23 +32,19 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo ,overAllPodcastList}) => {
   const [description, setDescription] = useState("");
   const [episodeName, setEpisdeName] = useState("");
   const [themes, setThemes] = useState([]);
-  const [tags, setTags] = useState([]);
   const [groups, setGroups] = useState([]);
   const [themeVal, setThemeVal] = useState("");
-  const [tagVal, setTagVal] = useState("");
   const [groupVal, setGroupVal] = useState("");
   const [podcastThumbnail, setPodcastThumbnail] = useState(null);
   const [podcastPreview, setPodcastPreview] = useState();
   const [showImage, setShowImage] = useState(false);
   const [link, setLink] = useState("");
-  const [showTagSuggestions, setShowTagSuggestions] = useState(false);
   const [searchTag, setSearchTag] = useState("");
   const [tagSuggestionArray, setTagSuggestionArray] = useState([]);
   const [adminTags, setAdminTags] = useState([]);
-  const [admintagarr,setAdmintagarr]=useState([]);
-  const [temporarytags,setTemporarytags]=useState([])
-  const [disable,setdisable]=useState(false)
-let temparr=[]
+  const [temporarytags, setTemporarytags] = useState([]);
+  const [disable, setDisable] = useState(false);
+  let temparr = [];
   const data = {
     image: link,
     sellerId: user.unique_id,
@@ -77,21 +73,21 @@ let temparr=[]
     ) {
       toast.error("Fill all fields");
       return;
-    } 
-    for(var i=0 ; i<overAllPodcastList.length;i++){
-      if(podcastName.toLowerCase()===overAllPodcastList[i].podcastName.toLowerCase())
-      {
-          toast.error("Podcast name already exist");
-          return;
+    }
+    for (let i = 0; i < overAllPodcastList.length; i++) {
+      if (
+        podcastName.toLowerCase() ===
+        overAllPodcastList[i].podcastName.toLowerCase()
+      ) {
+        toast.error("Podcast name already exist");
+        return;
       }
     }
-    console.log("working")
-    setdisable(true)
-  
-    for(let i=0;i<temporarytags.length;i++){
-      temparr.push(temporarytags[i]['value'])
+    setDisable(true);
+    for (let i = 0; i < temporarytags.length; i++) {
+      temparr.push(temporarytags[i]["value"]);
     }
-    setTags(temparr)
+    // setTags(temparr);
     const storageRef = ref(storage, `/files/${podcastThumbnail.name}`);
     const uploadTask = uploadBytesResumable(storageRef, podcastThumbnail);
     await uploadTask.on(
@@ -104,7 +100,7 @@ let temparr=[]
         // update progress
         // setPercent(percent);
       },
-      (err) => console.log(err),
+      (err) => {},
       () => {
         // download url
         //  headers: {
@@ -141,7 +137,6 @@ let temparr=[]
     if (podcastThumbnail) {
       let objectUrl;
       const size = (podcastThumbnail.size / 1024 / 1024).toFixed(2);
-      // //console.log(size);
 
       if (size > 1) {
         toast.error("The image size must be less than 1Mb");
@@ -175,14 +170,16 @@ let temparr=[]
       // /*pending
       let x = element.toLowerCase();
       x = x.search(searchTag.toLowerCase());
-      //console.log(element,"xxx")
       if (x !== -1) {
-        tempSuggestions = [...tempSuggestions, {'value':element,'label':element}];
+        tempSuggestions = [
+          ...tempSuggestions,
+          { value: element, label: element },
+        ];
       }
     });
     setTagSuggestionArray(tempSuggestions);
-  },[adminTags]);
-  
+  }, [adminTags]);
+
   return (
     <div className="h-screen flex flex-col justify-between">
       <div className="hidden md:block">
@@ -324,25 +321,23 @@ let temparr=[]
                   </span>
                 </div>
                 <div className="p-2 flex flex-wrap ">
-                  {/* {console.log(tagSuggestionArray,"tagSuggestionArray")} */}
                   <Select
-                  placeholder="Select from admin tag"
-                defaultValue={""}
-                isMulti
-                name="colors"
-                options={tagSuggestionArray}
-                className="basic-multi-select w-[100%]"
-                classNamePrefix="select"
-                onChange={(list)=>{setTemporarytags(list)}}
-              />
-              
+                    placeholder="Select from admin tag"
+                    defaultValue={""}
+                    isMulti
+                    name="colors"
+                    options={tagSuggestionArray}
+                    className="basic-multi-select w-[100%]"
+                    classNamePrefix="select"
+                    onChange={(list) => {
+                      setTemporarytags(list);
+                    }}
+                  />
                 </div>
               </div>
             </div>
-            
-          
+
             <div className="w-full  pt-2 flex flex-row items-center md:justify-center">
-              
               {/* <div className="pt-1">
                 <input
                   className="rounded-md bg-[#FBFBFB] border-[1px] border-[#D6E4EC]  p-1"
@@ -506,7 +501,7 @@ let temparr=[]
           </div>
           <div className="flex flex-row items-end ">
             <button
-            disabled={disable}
+              disabled={disable}
               className="px-5 p-1 rounded-2xl  bg-[#B198FF] text-white font-semibold"
               onClick={() => handleSubmit()}
             >

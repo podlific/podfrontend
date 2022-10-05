@@ -126,7 +126,6 @@ function App() {
     //   // let data = {
     //   //   uid: "#adminmodel123",
     //   // };
-    //   // //console.log("admininfo", info.data);
     //   // if (info) {
     //   //   setAdminInfo(info.data);
     //   // }
@@ -151,7 +150,6 @@ function App() {
     });
     let info3 = api.post("/api/getpodcastfromsearch", data).then((res) => {
       setOverAllPodcastList(res.data);
-      console.log(overAllPodcastList);
       setListofPodcast(res.data);
     });
     // const Extractmessage = async () => {
@@ -171,7 +169,6 @@ function App() {
     ) {
       // ExtractAdminInfo();
       // Extractmessage();
-      //console.log(user.unique_id, usertype.usertype, "logs");
       Promise.all([info, info1, info2, info3]);
       init();
     }
@@ -319,7 +316,11 @@ function App() {
           <Route
             path="/addnewpodcast"
             element={
-              <SellerPodcastAddPage userInfo={userInfo} adminInfo={adminInfo} overAllPodcastList={overAllPodcastList}/>
+              <SellerPodcastAddPage
+                userInfo={userInfo}
+                adminInfo={adminInfo}
+                overAllPodcastList={overAllPodcastList}
+              />
             }
           />
           <Route

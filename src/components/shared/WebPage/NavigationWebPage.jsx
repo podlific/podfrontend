@@ -54,9 +54,7 @@ const NavigationWebPage = ({ socketRef, receivedMessages }) => {
         socketRef.current.on("disconnecting");
       }
       navigate("/login", { replace: true });
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   }
   return (
     <div className="flex flex-row justify-between font-medium text-white mt-3 pl-10 w-full ">

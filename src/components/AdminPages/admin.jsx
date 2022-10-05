@@ -29,6 +29,7 @@ import { el } from "date-fns/locale";
 import UserTag from "./UserTag";
 import { element } from "prop-types";
 import Viewpodcast from "./Viewpodcast";
+import { disableCursor } from "@fullcalendar/react";
 const theme = createTheme({
   palette: {
     primary: {
@@ -91,7 +92,8 @@ export const Request = ({
       UserSearchFunction(buyerRequest, setArr, searchUser);
     }
   }, [searchUser, showtype, sellerRequest, buyerRequest]);
-
+  
+  const [disable,setdisable]=useState(false)
   useEffect(() => {
     let len = request.length;
     let seller = [];
@@ -110,7 +112,6 @@ export const Request = ({
     setAllRequest(all);
     setTotalpendingrequests(len);
   }, [request]);
-
   return (
     <div className="h-full flex flex-col ">
       <div className="flex flex-row py-2 justify-between">
@@ -243,9 +244,11 @@ export const Request = ({
                     ></div>
                   </div>
                   <div className="flex flex-row justify-center gap-x-2 ">
-                    <div
+                    <button
+                    disabled={disable}
                       className="cursor-pointer"
                       onClick={() => {
+                        setdisable(true)
                         requestAcceptFunction(
                           ele,
                           request,
@@ -259,7 +262,7 @@ export const Request = ({
                         src="./adminicons/lock.png"
                         alt="lock"
                       />
-                    </div>
+                    </button>
                     <div
                       className="cursor-pointer"
                       onClick={() => {
@@ -970,7 +973,7 @@ export const TagView = ({
                     variant="secondary"
                     className="bg-purple-600 text-white font-semibold rounded-xl"
                     onClick={() => {
-                      addNewtag(inputRef.current.value);
+                      addNewtag(inputRef.current.value,adminTags);
                       setAdminTags((oldArray) => [
                         ...oldArray,
                         { tagname: inputRef.current.value, tagcount: 0 },

@@ -17,7 +17,7 @@ import storage from "../../firebaseConfig";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { myTimeout } from "./addPodcastFunctions";
   import Select from 'react-select';
-const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
+const SellerPodcastAddPage = ({ userInfo, adminInfo ,overAllPodcastList}) => {
   let navigate = useNavigate();
   const user = useSelector((state) => state.activate.unique_id);
   const usertype = useSelector((state) => state.activate.usertype);
@@ -47,6 +47,7 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
   const [adminTags, setAdminTags] = useState([]);
   const [admintagarr,setAdmintagarr]=useState([]);
   const [temporarytags,setTemporarytags]=useState([])
+  const [disable,setdisable]=useState(false)
 let temparr=[]
   const data = {
     image: link,
@@ -77,7 +78,15 @@ let temparr=[]
       toast.error("Fill all fields");
       return;
     } 
-    
+    for(var i=0 ; i<overAllPodcastList.length;i++){
+      if(podcastName.toLowerCase()===overAllPodcastList[i].podcastName.toLowerCase())
+      {
+          toast.error("Podcast name already exist");
+          return;
+      }
+    }
+    console.log("working")
+  
     for(let i=0;i<temporarytags.length;i++){
       temparr.push(temporarytags[i]['value'])
     }
@@ -171,7 +180,7 @@ let temparr=[]
       }
     });
     setTagSuggestionArray(tempSuggestions);
-  }, [searchTag]);
+  },[adminTags]);
   
   return (
     <div className="h-screen flex flex-col justify-between">
@@ -314,6 +323,7 @@ let temparr=[]
                   </span>
                 </div>
                 <div className="p-2 flex flex-wrap ">
+                  {/* {console.log(tagSuggestionArray,"tagSuggestionArray")} */}
                   <Select
                   placeholder="Select from admin tag"
                 defaultValue={""}
@@ -495,6 +505,7 @@ let temparr=[]
           </div>
           <div className="flex flex-row items-end ">
             <button
+            disabled={disable}
               className="px-5 p-1 rounded-2xl  bg-[#B198FF] text-white font-semibold"
               onClick={() => handleSubmit()}
             >

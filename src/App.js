@@ -319,7 +319,7 @@ function App() {
           <Route
             path="/addnewpodcast"
             element={
-              <SellerPodcastAddPage userInfo={userInfo} adminInfo={adminInfo} />
+              <SellerPodcastAddPage userInfo={userInfo} adminInfo={adminInfo} overAllPodcastList={overAllPodcastList}/>
             }
           />
           <Route

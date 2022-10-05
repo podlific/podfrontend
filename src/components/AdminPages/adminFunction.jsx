@@ -80,7 +80,14 @@ export const getInfo = async (
     setLoading(false);
   });
 };
-export const addNewtag = async (tagname) => {
+export const addNewtag = async (tagname,requestedTags) => {
+  // console.log(requestedTags,"ddddd")
+  for (var i = 0; i < requestedTags.length; i++) {
+    if (tagname.toLowerCase() === requestedTags[i].tagname.toLowerCase()) {
+      toast.error("Tag already exist");
+      return;
+    }
+  }
   if (tagname === null || tagname.length === 0) {
     toast.error("Please add something ");
     return;

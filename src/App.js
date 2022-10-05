@@ -126,7 +126,7 @@ function App() {
     //   // let data = {
     //   //   uid: "#adminmodel123",
     //   // };
-    //   // console.log("admininfo", info.data);
+    //   // //console.log("admininfo", info.data);
     //   // if (info) {
     //   //   setAdminInfo(info.data);
     //   // }
@@ -170,7 +170,7 @@ function App() {
     ) {
       // ExtractAdminInfo();
       // Extractmessage();
-      console.log(user.unique_id, usertype.usertype, "logs");
+      //console.log(user.unique_id, usertype.usertype, "logs");
       Promise.all([info, info1, info2, info3]);
       init();
     }

@@ -85,7 +85,7 @@ const SellerFilterPage = ({ userPodcast, adminInfo }) => {
     tagarray = [];
     for (let element of tagset) {
       tagarray.push(element);
-      // console.log(element);
+      // //console.log(element);
     }
     setTags(tagarray);
   }, [userPodcast]);

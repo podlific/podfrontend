@@ -34,7 +34,7 @@ const SignUpPage = () => {
     user.email = user.username;
     user.email = user.email.trim();
     user.username = user.username.trim();
-    // console.log(user);
+    // //console.log(user);
     if (
       user.username === "" ||
       user.name === "" ||

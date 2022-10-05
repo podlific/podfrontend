@@ -888,7 +888,7 @@ export const TagView = ({
   setAdminTags,
   setRequestedTags,
 }) => {
-  // console.log(adminTags);
+  // //console.log(adminTags);
   const [showinput, setShowinput] = useState("false");
   const [showTypeofTag, setShowTypeofTag] = useState("admin");
   const [sortingOrder, setSortingOrder] = useState([]);

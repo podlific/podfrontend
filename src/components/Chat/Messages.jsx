@@ -101,7 +101,7 @@ export const Messages = ({
   };
   useEffect(() => {
     setDisabledDays(currentBooking);
-    console.log(currentBooking,"days")
+    //console.log(currentBooking,"days")
   }, [currentBooking]);
 
   const existingBooking = (curr) => {
@@ -111,7 +111,7 @@ export const Messages = ({
         element.bookings.forEach((ele) => {
           let datefrom = ele.date.split("/");
           let dateto = ele.time.split("/");
-          console.log("from",datefrom,"hhh",dateto)
+          //console.log("from",datefrom,"hhh",dateto)
           arr.push({
             from: new Date(datefrom[2], datefrom[1] -1, datefrom[0]),
             to: new Date(dateto[2], dateto[1] -1, dateto[0]),
@@ -119,7 +119,7 @@ export const Messages = ({
         });
       }
     });
-// console.log(arr,"yoooo")
+// //console.log(arr,"yoooo")
     setCurrentBooking(arr);
   };
 
@@ -269,7 +269,7 @@ export const Messages = ({
       newTime = newTime[0] + "/" + newTime[1] + "/" + newTime[2];
     }
   }, [days]);
-  // console.log(days);
+  // //console.log(days);
 
   const footer =
     days && days.length > 0 ? (

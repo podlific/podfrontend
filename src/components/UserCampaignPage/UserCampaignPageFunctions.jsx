@@ -5,7 +5,7 @@ export const RemoveRequestFunction = async (
   setRequestPodcast,
   requestPodcast
 ) => {
-  //   console.log(request);
+  //   //console.log(request);
   let info;
   try {
     info = await api.post("/api/deleterequest", request);

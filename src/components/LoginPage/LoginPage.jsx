@@ -55,7 +55,7 @@ const LoginPage = ({ setUserInfo }) => {
 
       // navigate("../buyerdashboard");
     } catch (error) {
-      // console.log(error);
+      // //console.log(error);
       toast.error("Unable to login, try again");
       return;
     }

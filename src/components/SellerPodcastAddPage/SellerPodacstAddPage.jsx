@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import FooterWebPage from "../shared/WebPage/FooterWebPage";
+// import SelectSearch from 'react-select-search';
 import FooterMobile from "../shared/Mobile/FooterMobile";
 import NavigationWebPage from "../shared/WebPage/NavigationWebPage";
 import NavigationMobile from "../shared/Mobile/NavigationMobile";
@@ -15,6 +16,7 @@ import toast from "react-hot-toast";
 import storage from "../../firebaseConfig";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { myTimeout } from "./addPodcastFunctions";
+  import Select from 'react-select';
 const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
   let navigate = useNavigate();
   const user = useSelector((state) => state.activate.unique_id);
@@ -43,7 +45,9 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
   const [searchTag, setSearchTag] = useState("");
   const [tagSuggestionArray, setTagSuggestionArray] = useState([]);
   const [adminTags, setAdminTags] = useState([]);
-
+  const [admintagarr,setAdmintagarr]=useState([]);
+  const [temporarytags,setTemporarytags]=useState([])
+let temparr=[]
   const data = {
     image: link,
     sellerId: user.unique_id,
@@ -51,7 +55,7 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
     sellername: userInfo.name,
     episodeName: episodeName,
     podcastName: podcastName,
-    tags: tags,
+    tags: temparr,
     requestedtags: groups,
     description: description,
     averageListener: averageListener,
@@ -72,7 +76,12 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
     ) {
       toast.error("Fill all fields");
       return;
+    } 
+    
+    for(let i=0;i<temporarytags.length;i++){
+      temparr.push(temporarytags[i]['value'])
     }
+    setTags(temparr)
     const storageRef = ref(storage, `/files/${podcastThumbnail.name}`);
     const uploadTask = uploadBytesResumable(storageRef, podcastThumbnail);
     await uploadTask.on(
@@ -85,7 +94,7 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
         // update progress
         // setPercent(percent);
       },
-      (err) => console.log(err),
+      (err) => //console.log(err),
       () => {
         // download url
         //  headers: {
@@ -122,7 +131,7 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
     if (podcastThumbnail) {
       let objectUrl;
       const size = (podcastThumbnail.size / 1024 / 1024).toFixed(2);
-      // console.log(size);
+      // //console.log(size);
 
       if (size > 1) {
         toast.error("The image size must be less than 1Mb");
@@ -153,14 +162,17 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
     }
     let tempSuggestions = [];
     adminTags.forEach((element) => {
+      // /*pending
       let x = element.toLowerCase();
       x = x.search(searchTag.toLowerCase());
+      //console.log(element,"xxx")
       if (x !== -1) {
-        tempSuggestions = [...tempSuggestions, element];
+        tempSuggestions = [...tempSuggestions, {'value':element,'label':element}];
       }
     });
     setTagSuggestionArray(tempSuggestions);
   }, [searchTag]);
+  
   return (
     <div className="h-screen flex flex-col justify-between">
       <div className="hidden md:block">
@@ -292,7 +304,7 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
             </div>
           </div>
 
-          <div className=" w-full md:w-1/2 flex flex-col ">
+          <div className=" w-full  md:w-1/2 flex flex-col ">
             <div className=" w-full h-full lg:w-[80%] flex flex-row flex-wrap">
               <div className="w-full h-full p-2 shadow-md shadow-zinc-400 rounded-lg">
                 <div className="flex  flex-row p-2 items-center">
@@ -302,72 +314,33 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
                   </span>
                 </div>
                 <div className="p-2 flex flex-wrap ">
-                  {tags &&
-                    tags.map((tag, index) => {
-                      return (
-                        <span
-                          className="p-1 pl-2 m-1 pr-2 rounded-xl bg-[#B198FF] text-white"
-                          key={index}
-                        >
-                          {tag}
-                        </span>
-                      );
-                    })}
+                  <Select
+                  placeholder="Select from admin tag"
+                defaultValue={""}
+                isMulti
+                name="colors"
+                options={tagSuggestionArray}
+                className="basic-multi-select w-[100%]"
+                classNamePrefix="select"
+                onChange={(list)=>{setTemporarytags(list)}}
+              />
+              
                 </div>
               </div>
             </div>
+            
+          
             <div className="w-full  pt-2 flex flex-row items-center md:justify-center">
-              <div className="overflow-hidden">
-                <input
-                  className=""
-                  value={searchTag}
-                  placeholder="Type here"
-                  onChange={(e) => {
-                    setSearchTag(e.target.value);
-                  }}
-                  onFocus={() => {
-                    setShowTagSuggestions(true);
-                    setSearchTag("");
-                  }}
-                  // onBlur={() => myTimeout(setShowTagSuggestions)}
-                />
-                <button
-                  onClick={() => {
-                    setShowTagSuggestions(false);
-                  }}
-                >
-                  X
-                </button>
-                <div
-                  className={
-                    showTagSuggestions === true ? "overflow-hidden" : "hidden"
-                  }
-                >
-                  {tagSuggestionArray &&
-                    tagSuggestionArray.map((item, index) => {
-                      return (
-                        <div
-                          onClick={() => {
-                            setTagVal(item);
-                            // setShowTagSuggestions(false);
-                          }}
-                          key={index}
-                        >
-                          {item}
-                        </div>
-                      );
-                    })}
-                </div>
-              </div>
-              <div className="pt-1">
+              
+              {/* <div className="pt-1">
                 <input
                   className="rounded-md bg-[#FBFBFB] border-[1px] border-[#D6E4EC]  p-1"
                   placeholder="Type Theme tag"
                   value={tagVal}
                   onChange={(e) => setTagVal(e.target.value)}
                 />
-              </div>
-              <AiFillPlusSquare
+              </div> */}
+              {/* <AiFillPlusSquare
                 className="pl-3 rounded-md"
                 size={50}
                 color={"#B198FF"}
@@ -376,7 +349,7 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
                   setTags((oldArray) => [...oldArray, tagVal]);
                   setTagVal("");
                 }}
-              />
+              /> */}
             </div>
           </div>
           <div className=" w-full md:w-1/2 flex flex-col items-end justify-between">
@@ -388,12 +361,12 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
                     Custom Tags
                   </span>
                 </div>
-                <div className="p-2 flex flex-wrap ">
+                <div className="p-2 flex flex-wrap z-40">
                   {groups &&
                     groups.map((tag, index) => {
                       return (
                         <span
-                          className="p-1 pl-2 m-1 pr-2 rounded-xl bg-[#B198FF] text-white"
+                          className="p-1 pl-2 m-1 pr-2 rounded-xl bg-[#B198FF] text-white z-40"
                           key={index}
                         >
                           {tag}
@@ -403,11 +376,11 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
                 </div>
               </div>
             </div>
-            <div className="w-full pt-2 flex flex-row items-center md:justify-end">
-              <div className="pt-1">
+            <div className="w-full pt-2  flex flex-row items-center md:justify-end">
+              <div className="pt-1 w-full lg:w-[71%]">
                 <input
-                  className="rounded-md bg-[#FBFBFB] border-[1px] border-[#D6E4EC] pl-3 p-1"
-                  placeholder="Type Group tag"
+                  className="rounded-md bg-[#FBFBFB] border-[1px] border-[#D6E4EC] pl-3 p-1 w-full"
+                  placeholder="Type Custom tag"
                   value={groupVal}
                   onChange={(e) => setGroupVal(e.target.value)}
                 />

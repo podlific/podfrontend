@@ -20,7 +20,7 @@ const UserCampaignPage = ({ requestPodcast, setRequestPodcast }) => {
     if (currtype.usertype === "admin") {
       navigate("../admindashboard");
     }
-    // console.log(requestPodcast);
+    // //console.log(requestPodcast);
   }, []);
   const [requestArray, setRequestArray] = useState([]);
   const [confirmedArray, setConfirmedArray] = useState([]);

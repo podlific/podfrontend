@@ -26,7 +26,7 @@ api.interceptors.response.use(
         });
         return api.request(orginalResquest);
       } catch (err) {
-        console.log(err.message);
+        //console.log(err.message);
       }
     }
     throw error;

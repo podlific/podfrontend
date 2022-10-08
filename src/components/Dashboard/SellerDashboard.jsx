@@ -113,7 +113,7 @@ const SellerDashboard = ({
                 <div className="  md:p-3  lg:p-3 xl:text-">
                   <span className="font-medium">Platform News for Seller</span>
                 </div>
-                <div className=" lg:h-5/6 lg:pl-1 lg:pb-3 xl:h-5/6 w-full">
+                <div className=" lg:h-5/6 lg:pl-1 lg:pb-3 xl:h-5/6 w-full max-h-[200px] overflow-auto " style={{  scrollbarWidth:'0px'}}>
                   <div className=" w-full inline">
                     <p className="md:text-xs lg:text-sm xl:text-lg md:p-2 lg:p-3">
                       {adminInfo?.broadcastmessages}

@@ -265,6 +265,7 @@ const AdminDash = ({ requestPodcast, userInfo }) => {
             <button
               onClick={() => {
                 logoutUser(dispatch, navigate);
+                
               }}
             >
               Logout

@@ -42,6 +42,8 @@ const usertype = useSelector((state) => state.activate.usertype.usertype);
       return;
     }
     toast.success("Successfully logged out");
+    // window.location.reload();
+    
     dispatch(setUserName({ username: "" }));
     dispatch(setUniqueID({ unique_id: "" }));
     dispatch(setUserType({ usertype: "" }));
@@ -209,7 +211,7 @@ const usertype = useSelector((state) => state.activate.usertype.usertype);
 
           <div
             className="pl-3 mb-4 flex flex-row items-center"
-            onClick={() => logoutUser()}
+            onClick={() =>{ logoutUser()}}
           >
             <BiLogOut /> <span className="pl-1">Logout</span>
           </div>

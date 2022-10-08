@@ -41,6 +41,8 @@ const NavigationWebPage = ({ socketRef, receivedMessages }) => {
         toast.error("Unable to logout , try again ");
         return;
       }
+       navigate("/login", { replace: true });
+
       toast.success("Successfully logged out");
       dispatch(setUserName({ username: "" }));
       dispatch(setUniqueID({ unique_id: "" }));
@@ -121,7 +123,7 @@ const NavigationWebPage = ({ socketRef, receivedMessages }) => {
           </Link>
           <div
             className="flex flex-col justify-center md:p-4 md:pl-4 md:h-3 cursor-pointer"
-            onClick={() => logoutUser()}
+            onClick={() => {logoutUser()}}
           >
             Logout
           </div>

@@ -8,6 +8,8 @@ import "@fullcalendar/daygrid/main.css";
 import styled from "@emotion/styled";
 import NavigationMobile from "../Mobile/NavigationMobile";
 import { splitTime, addOneDayToDate, convertDate } from "./ConvertDate";
+import { GiConsoleController } from "react-icons/gi";
+import { Button } from "@material-tailwind/react";
 export const StyleWrapper = styled.div`
   .fc-button.fc-prev-button,
   .fc-button.fc-next-button,
@@ -41,7 +43,9 @@ const SellerCalendar = ({ requestPodcast, setRequestPodcast }) => {
   const [displayArray, setDisplayArray] = useState([]);
   const [markedEvents, setMarkedEvents] = useState([]);
   const [currDate, setCurrDate] = useState("TODAY'S BOOKING");
-
+  const [onclickdata,setOnclickdata]=useState(new Date())
+  const [podcastdatafordate,setPodcastdatafordate]=useState({msg:"please select date"})
+  const [flagpodcastdatafordate,setFlagodcastdatafordate]=useState(0)
   function changeDateFormat(inputDate) {
     var splitDate = inputDate.split("-");
     if (splitDate.count === 0) {
@@ -130,6 +134,7 @@ const SellerCalendar = ({ requestPodcast, setRequestPodcast }) => {
     return true;
   };
   const pastcompdate = (lastdate) => {
+    // console.log(lastdate,"lastdate")
     var todaysdate = new Date();
     var compdate = new Date(configureDate(lastdate));
     if (todaysdate < compdate) {
@@ -158,11 +163,34 @@ const SellerCalendar = ({ requestPodcast, setRequestPodcast }) => {
                 selectable={true}
                 dateClick={function (info) {
                   handleSelectedDates(info);
+                  let flag=0
+                  for(let i=0;i<requestPodcast.length;i++)
+                  {
+                    if(requestPodcast[i]["confirmed"]==="true" && new Date(configureDate(requestPodcast[i]["time"]))>=new Date(info.dateStr) && new Date(configureDate(requestPodcast[i]["date"]))<=new Date(info.dateStr))
+                    {
+                      flag=1
+                     setPodcastdatafordate(requestPodcast[i])
+                     setFlagodcastdatafordate(1)
+                     break
+                    }
+                    
+
+                  }
+                  if(flag===0)
+                    {
+                      setPodcastdatafordate({msg:"No schedule for selected date"})
+                      setFlagodcastdatafordate(0)
+                    }
+                  // console.log(info,"info")
+
                 }}
                 height={500}
                 events={markedEvents}
                 contentHeight={600}
                 aspectRatio={1}
+                       
+         
+        
               />
             </StyleWrapper>
           </div>
@@ -194,71 +222,34 @@ const SellerCalendar = ({ requestPodcast, setRequestPodcast }) => {
             </div>
           </div> */}
         </div>
-        <div className="md:grid w-full col-span-3 md:col-span-1  mr-5 mt-3 overflow-auto text-center ">
+        <div className="md:grid col-span-1  md:col-span-1  mr-5  overflow-auto font-bold mt-[30%]  ">
           <div className="mb-[5%] w-full">
-            <div className="w-full border-3 font-semibold rounded-t-lg border-purple-600 text-center text-white bg-[#5F50A3] h-fit">
-              <h>Up Coming</h>
-            </div>
-            <div className=" grid grid-cols-3 font-semibold text-center overflow-auto ">
-              <div className="border-2 border-gray-500">UserName </div>
-              <div className="border-r-2 border-t-2 border-b-2 border-gray-500">
-                From
-              </div>
-              <div className="border-r-2 border-t-2 border-b-2 border-gray-500">
-                To
-              </div>
-            </div>
+           
+            { flagpodcastdatafordate==0 ? 
+            (
+              
+              <Button className="ml-3 mt-3 min-h-[190px] w-[80%] shadow-xl text-black text-[17px]">
+                 {podcastdatafordate.msg}
+            </Button>
+            ):
+            (<Button className="ml-3 mt-3 min-h-[190px] w-[80%] shadow-xl text-black text-[17px] ">
+              <div className="text-black decoration-2">Event</div>
+                  Podcast Name: {podcastdatafordate["podcastname"]}
+                  <br/>
+                  Buyer: {podcastdatafordate["buyerusername"]}
+                  <br/>
+                  From: {podcastdatafordate["date"]}
+                  <br/>
+                  To: {podcastdatafordate["time"]}
+            </Button>
+             )
+             }
+            
 
-            {requestPodcast.map((item, ind) => {
-              if (item["confirmed"] === "true" && compdate(item["time"])) {
-                return (
-                  <div key={ind} className=" grid grid-cols-3 text-center ">
-                    <div className="border-r-2 border-l-2 border-b-2 border-gray-500">
-                      {item["buyerusername"]}
-                    </div>
-                    <div className="border-r-2  border-b-2 border-gray-500">
-                      {item["date"]}
-                    </div>
-                    <div className="border-r-2  border-b-2 border-gray-500">
-                      {item["time"]}
-                    </div>
-                  </div>
-                );
-              }
-            })}
+            
           </div>
-          <div className="">
-            <div className="w-full border-2  rounded-t-lg text-white font-semibold border-purple-600 text-center bg-[#5F50A3] h-fit">
-              <h>Past Schedule</h>
-            </div>
-            <div className=" grid grid-cols-3  font-semibold text-center overflow-auto ">
-              <div className="border-2 border-gray-500">UserName </div>
-              <div className="border-r-2 border-t-2 border-b-2 border-gray-500">
-                From
-              </div>
-              <div className="border-r-2 border-t-2 border-b-2 border-gray-500">
-                To
-              </div>
-            </div>
-
-            {requestPodcast.map((item, ind) => {
-              if (item["confirmed"] === "true" && pastcompdate(item["time"])) {
-                return (
-                  <div key={ind} className=" grid grid-cols-3 text-center ">
-                    <div className="border-r-2 border-l-2 border-b-2 border-gray-500">
-                      {item["buyerusername"]}
-                    </div>
-                    <div className="border-r-2  border-b-2 border-gray-500">
-                      {item["date"]}
-                    </div>
-                    <div className="border-r-2  border-b-2 border-gray-500">
-                      {item["time"]}
-                    </div>
-                  </div>
-                );
-              }
-            })}
-          </div>
+          
+         
         </div>
       </div>
       <div>

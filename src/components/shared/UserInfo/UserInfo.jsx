@@ -3,6 +3,10 @@ import FooterMobile from "../Mobile/FooterMobile";
 import NavigationMobile from "../Mobile/NavigationMobile";
 import FooterWebPage from "../WebPage/FooterWebPage";
 import NavigationWebPage from "../WebPage/NavigationWebPage";
+import { FaUserTie } from 'react-icons/fa';
+import { MdEmail } from 'react-icons/md';
+
+
 
 const UserInfo = ({ userInfo }) => {
   // console.log(userInfo);
@@ -14,63 +18,54 @@ const UserInfo = ({ userInfo }) => {
       <div className="md:hidden">
         <NavigationMobile />
       </div>
-
-      <div className="h-full  flex flex-col items-center ">
+    <div className="ml-[10%] w-[80%] md:grid grid-cols-2 mt-[-5%]">
+      <div className=" ">
         <img
-          className="fixed rounded-full w-[380px] h-[380px] top-[160px] left-[130px] "
-          src="./ellipse4.png"
-          alt="icon"
-        />
-        {/* width: 825px;
-        height: 0px;
-        left: 553px;
-        top: 1000px; */}
+              className=" rounded-full w-[45%] ml-[25%] "
+              src="./ellipse4.png"
+              alt="icon"
+            />
+            {/* <div className="grid grid-cols-2 w-[50%] ml-[25%]"> */}
+              
+            <div className="flex justify-center ml-[-5%]" >
 
-        <div className="background-[#E2E2E2F2] w-[825px] h-[0px] left-[553px] top-[1000px]"></div>
+                  <div className="m-1"><FaUserTie /></div><div className="font-semibold">{userInfo?.name}</div>
 
-        <div className="w-3/6 ml-80 flex flex-col gap-5 p-3 mt-8 text-[23px]">
-          <div className="flex flex-row  w-full justify-right">
-            <div className="w-1/2 h-[50px] border-b-2 border-gray-200  m-auto flex flex-col justify-center font-bold ">
-              Name
-            </div>
-            <div className="w-1/2 h-[50px]  border-b-2 border-gray-200 m-auto flex flex-col justify-center font-semibold ">
-              {userInfo?.name}
-            </div>
-          </div>
-          <div className="flex flex-row w-full justify-between">
-            <div className="w-1/2 h-[50px] border-b-2 border-gray-200  m-auto flex flex-col justify-center font-bold">
-              Email
-            </div>
-            <div className="w-1/2 h-[50px] border-b-2 border-gray-200 m-auto flex flex-col justify-center font-semibold ">
-              {userInfo?.email}
-            </div>
-          </div>
-          <div className="flex flex-row w-full justify-between">
-            <div className="w-1/2 h-[50px] border-b-2 border-gray-200  m-auto flex flex-col justify-center font-bold">
-              Usertype
-            </div>
-            <div className="w-1/2 h-[50px] border-b-2 border-gray-200  m-auto flex flex-col justify-center font-semibold ">
-              {userInfo?.usertype}
-            </div>
-          </div>
-          <div className="flex flex-row w-full justify-between">
-            <div className="w-1/2 h-[50px] border-b-2 border-gray-200  m-auto flex flex-col justify-center font-bold ">
-              Company Name
-            </div>
-            <div className="w-1/2 h-[50px] border-b-2 border-gray-200 m-auto flex flex-col justify-center font-semibold ">
-              {userInfo?.companyname}
-            </div>
-          </div>
-          <div className="flex flex-row w-full justify-between">
-            <div className="w-1/2 h-[50px] border-b-2 border-gray-200 m-auto flex flex-col justify-center font-bold">
-              Phone No
-            </div>
-            <div className="w-1/2 h-[50px]  border-b-2 border-gray-200 m-auto flex flex-col justify-center font-semibold ">
-              {userInfo?.phoneno}
-            </div>
-          </div>
-        </div>
+              </div>
+            <div className="flex justify-center  ml-[-5%]" >
+
+                  <div className="m-1 "><MdEmail  /></div><div className="font-semibold">{userInfo?.email}</div>
+
+              </div>
+           
       </div>
+      <div className="md:h-full  ">
+            
+          <div className="grid grid-rows-5 text-[18px] md:text-[25px] font-bold space-y-2 mt-2 ">
+            <div className="">
+              Name : {userInfo?.name}
+            </div>
+            <div>
+              Email : {userInfo?.email}
+            </div>
+            <div>
+              Usertype : {userInfo?.usertype}
+            </div>
+            <div>
+              Company Name : {userInfo?.companyname}
+            </div>
+            <div>
+              Phone No. : {userInfo?.phoneno}
+            </div>
+           
+
+          </div>
+
+
+
+        </div>
+    </div>
+      
 
       <div className="hidden md:block">
         <FooterWebPage />

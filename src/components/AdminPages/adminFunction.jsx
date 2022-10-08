@@ -360,6 +360,8 @@ export const logoutUser = async (dispatch, navigate) => {
     dispatch(setUserType({ usertype: "" }));
     navigate("/login", { replace: true });
     toast.success("User logged out successfully");
+    // window.location.reload();
+    
   } catch (err) {
     toast.error("Unable to logout , try again");
     return;

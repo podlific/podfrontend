@@ -15,6 +15,7 @@ const UserInfo = ({ userInfo }) => {
       <div className="hidden md:block ">
         <NavigationWebPage />
       </div>
+
       <div className="md:hidden">
         <NavigationMobile />
       </div>

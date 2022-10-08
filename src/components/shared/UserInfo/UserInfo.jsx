@@ -3,6 +3,7 @@ import FooterMobile from "../Mobile/FooterMobile";
 import NavigationMobile from "../Mobile/NavigationMobile";
 import FooterWebPage from "../WebPage/FooterWebPage";
 import NavigationWebPage from "../WebPage/NavigationWebPage";
+// checking pushes
 
 const UserInfo = ({ userInfo }) => {
   // console.log(userInfo);

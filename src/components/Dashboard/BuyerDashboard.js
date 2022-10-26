@@ -53,7 +53,15 @@ const BuyerDashboard = ({
     <>
     <section>
     <div class="bg-[url('/public/buyerDashboard.png')] w-full h-screen">
-      <div className="flex flex-row justify-between font-medium text-white mt-3 pl-10 ">
+    <div className="w-full relative">
+        <div className=" fixed  z-10 w-full bg-white md:hidden">
+          <NavigationMobile />
+        </div>
+      </div>
+      <div className="hidden md:flex flex-row w-full">
+        <NavigationWebPage />
+      </div>
+      {/* <div className="flex flex-row justify-between font-medium text-white mt-3 pl-10 ">
         <div className=" w-[20%]  pt-4 flex flex-row justify-start">
           <div className="w-full flex flex-row justify-center pr-8 lg:pr-16 xl:pr-32">
             <img className="  " src="../logo.png" alt="logo" />
@@ -86,33 +94,38 @@ const BuyerDashboard = ({
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
+    
       <div className="flex flex-row justify-start font-bold text-black pl-16 pt-20 text-6xl">
         Find and listen in your
       </div>
       <div className="flex flex-row justify-start font-bold text-black pl-16 pt-6 text-6xl">
         favourite podcasts!
       </div>
-      <div className="flex flex-row justify-start  text-black pl-16 pt-20 text-l">
+      <div className="sm:flex flex-row sm:justify-start lg:hidden">
+      <button className="sm:rounded-none sm:bg-black  sm:mt-20 sm:ml-20 sm:font-small sm:text-white sm:p-3">
+        Browse podcasts  -{">"}</button>
+      </div>
+      <div className="flex flex-row justify-start  text-black pl-16 pt-20 text-l sm:invisible md:visible lg:visible">
         Lorem Ipsum is simply dummy text of the printing and typesetting industry.
       </div>
-      <div className="flex flex-row justify-start  text-black pl-16  text-l">
+      <div className="flex flex-row justify-start  text-black pl-16  text-l sm:invisible md:visible lg:visible">
         Lorem Ipsum has been the industry's standard dummy text ever that has
       </div>
       <div className="flex flex-row justify-start  text-black pl-16  text-l">
 
       </div>
-      <div className="flex flex-row justify-start text-black pl-16  text-l">
+      <div className="flex flex-row justify-start text-black pl-16  text-l sm:invisible md:visible lg:visible">
         since the 1500s, when an unknown printer took a galley of type and scrambled
       </div>
-      <div className="flex flex-row justify-start text-black pl-16  text-l">
+      <div className="flex flex-row justify-start text-black pl-16  text-l sm:invisible md:visible lg:visible">
         it to make a type specimen book. It has survived not only five centuries,
       </div>
-      <div className="flex flex-row justify-start text-black pl-16  text-l">
+      <div className="flex flex-row justify-start text-black pl-16  text-l sm:invisible md:visible lg:visible">
         but also the leap into electronic typesetting, remaining essentially unchanged
       </div>
-      <div className="flex flex-row justify-start">
-      <button className="rounded-none bg-black ml-16 mt-20 font-small text-white p-3 ">
+      <div className="sm:hidden lg:visible lg:flex lg:flex-row lg:justify-start">
+      <button className="lg:rounded-none lg:bg-black lg:ml-16 lg:mt-20 lg:font-small lg:text-white lg:p-3">
         Browse podcasts  -{">"}</button>
       </div>
    
@@ -120,50 +133,60 @@ const BuyerDashboard = ({
         </section>
 
     <section>
-      <div class="bg-[url('/public/section21.jpg')] bg-right bg-no-repeat bg-[#dadbd9] h-80 w-full ">
-        <div className="flex flex-row justify-start font-bold text-black pl-16 pt-5 text-4xl">
+    <div className="bg-[#dadbd9]">
+      <div class="bg-[url('/public/section21.jpg')] bg-right bg-no-repeat bg-[#dadbd9] h-80 w-full sm:invisible md:invisible lg:visible">
+        <div className="flex flex-row justify-start font-bold text-black pl-16 pt-5 text-4xl visible">
         #1 Trending
         </div>
-        <div className="flex flex-row justify-start font-semibold text-black pl-16 pt-4 text-3xl">
+        <div className="flex flex-row justify-start font-semibold text-black pl-16 pt-4 text-3xl visible">
         Parental as Anything
         </div>
-        <div className="flex flex-row justify-start  text-black pl-16 pt-8 text-l">
+        <div className="flex flex-row justify-start  text-black pl-16 pt-8 text-l visible">
         Lorem Ipsum is simply dummy text of the printing and typesetting industry.
       </div>
-      <div className="flex flex-row justify-start  text-black pl-16  text-l">
+      <div className="flex flex-row justify-start  text-black pl-16  text-l visible">
         Lorem Ipsum has been the industry's standard dummy text ever that has
       </div>
-      <div className="flex flex-row justify-start text-black pl-16  text-l">
+      <div className="flex flex-row justify-start text-black pl-16  text-l visible">
         since the 1500s, when an unknown printer took a galley of type and scrambled
       </div>
-      <div className="flex flex-row justify-start">
+      <div className="flex flex-row justify-start ">
       <button className="rounded-none bg-black ml-16 mt-8 text-white p-2">
         See more -{">"}</button>
       </div>
      </div> 
+     </div>
   </section>
   <section>
   <div className="flex flex-row font-semibold justify-start text-black pl-16 pt-7 text-xl">
         Top picks of the day!
       </div>
       <div className="flex flex-row">
-  <div className="w-full flex flex-col m-2 p-10">
-            <img className="  " src="../podcast1.png" alt="logo" />
+      <div className="w-full flex flex-col lg:m-2 lg:p-10 visible sm:pt-2 sm:m-3">
+            <img className="  " src="../podcast1.png" alt="logo"/>
           </div>
-          <div className="w-full flex flex-col  m-2 p-10">
-            <img className="  " src="../podcast2.png" alt="logo" />
+          <div className="w-full flex flex-col lg:m-2 lg:p-10 visible sm:pt-2 sm:m-3 ">
+            <img className="  " src="../podcast2.png" alt="logo"/>
           </div>
-          <div className="w-full flex flex-col m-2 p-10">
-            <img className="  " src="../podcast3.png" alt="logo" />
+          <div className="w-full flex flex-col m-2 p-10 sm:hidden md:visible lg:visible">
+            <img className="  " src="../podcast3.png" alt="logo"/>
           </div>
-          <div className="w-full flex flex-col m-2 p-10">
-            <img className="  " src="../podcast4.png" alt="logo" />
+          <div className="w-full flex flex-col m-2 p-10 sm:invisible md:visible lg:visible">
+            <img className="  " src="../podcast4.png" alt="logo"/>
           </div>
-          </div>
+
+      </div>
     
   </section>
   <section>
-  <div className="p-[2%] bg-black text-white flex flex-row   justify-evenly items-center md:visible">
+  <div className="hidden md:block">
+        <FooterWebPage/>
+      </div>
+      <div className="block md:hidden">
+          <FooterMobile/>
+        </div>
+
+  {/* <div className="p-[2%] bg-black text-white flex flex-row   justify-evenly items-center md:visible">
       <div>About</div>
       <div>Request Access</div>
       <div>Contact</div>
@@ -171,7 +194,7 @@ const BuyerDashboard = ({
       <div>Links</div>
       <div>T&C</div>
       <div>Other Links</div>
-    </div>
+    </div> */}
   </section>
 
 

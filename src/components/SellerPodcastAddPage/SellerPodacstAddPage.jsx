@@ -630,14 +630,14 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
             </button>
           </div>
         </div>
-      </div >
+      </div>
       <div className="md:hidden">
         <FooterMobile />
       </div>
       <div className="hidden md:block">
         <FooterWebPage />
       </div>
-    </div >
+    </div>
   );
 };
 

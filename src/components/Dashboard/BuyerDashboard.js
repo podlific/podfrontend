@@ -1,5 +1,54 @@
-import React, { useState } from "react";
-const App = ()=>{
+import React, { useEffect } from "react";
+import FooterWebPage from "../shared/WebPage/FooterWebPage";
+import PodcastWidget from "../shared/WebPage/PodcastWidget";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import FooterMobile from "../shared/Mobile/FooterMobile";
+import api from "../../config/axios";
+import {
+  MdOutlineForwardToInbox,
+  MdOutlineMoveToInbox,
+  MdOutlineSpaceDashboard,
+} from "react-icons/md";
+import NavigationMobile from "../shared/Mobile/NavigationMobile";
+import NavigationWebPage from "../shared/WebPage/NavigationWebPage";
+const BuyerDashboard = ({
+  contacts,
+  setContacts,
+  userPodcast,
+  adminInfo,
+  userInfo,
+}) => {
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.activate.unique_id);
+  const usertype = useSelector((state) => state.activate.usertype);
+  useEffect(() => {
+    if (user.unique_id === "" || user.unique_id === undefined) {
+      navigate("/login");
+    }
+    if (usertype.usertype === "admin") {
+      navigate("/admindashboard");
+    }
+  }, []);
+
+  const data = {
+    currUserId: user.unique_id,
+  };
+  useEffect(() => {
+    async function getcontacts() {
+      const cont = await api.post("/api/getconnected", data);
+      if (cont) {
+        if (cont !== contacts) {
+          setContacts(cont.data);
+        }
+      }
+    }
+
+    if (user.unique_id !== "" || user.unique_id !== undefined) {
+      getcontacts();
+    }
+  }, []);
   return(
     <>
     <section>
@@ -135,4 +184,4 @@ const App = ()=>{
 }
 
 
-export default App;
+export default BuyerDashboard;

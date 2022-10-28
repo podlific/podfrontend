@@ -6,11 +6,12 @@ import LoginPage from "./components/LoginPage/LoginPage";
 import CampaignWebPage from "./components/CampaignPage/CampaignWebPage";
 import RequestWebPage from "./components/RequestPage/RequestWebPage";
 import SellerDashboard from "./components/Dashboard/SellerDashboard";
+import BuyerDashboard from "./components/Dashboard/BuyerDashboard";
 import Chat from "./components/Chat/Chat";
 import { useSelector } from "react-redux";
 import SignUpPage from "./components/SignUpPage/SignUpPage";
 import { useLoadingWithRefresh } from "./hooks/useLoadingWithRefresh";
-import Buyerfrontpage from "./components/Dashboard/Buyerfrontpage.js";
+// import Buyerfrontpage from "./components/Dashboard/Buyerfrontpage.js";
 import {
   BrowserRouter,
   Routes,
@@ -199,7 +200,7 @@ function App() {
       <Toaster position="top-center" reverseOrder={false} duration={3000} />
       <BrowserRouter>
         <Routes>
-          <Route path="/u" element={<Buyerfrontpage />} />
+          {/* <Route path="/u" element={<Buyerfrontpage />} /> */}
           <Route path="/" element={<SignUpPage />} />
           <Route
             path="/login"
@@ -287,6 +288,21 @@ function App() {
           />
           <Route
             path="/buyerdashboard"
+            element={
+              <BuyerDashboard
+                contacts={contacts}
+                setContacts={setContacts}
+                ListofPodcast={ListofPodcast}
+                adminInfo={adminInfo}
+                userInfo={userInfo}
+                setListofPodcast={setListofPodcast}
+                overAllPodcastList={overAllPodcastList}
+                setOverAllPodcastList={setOverAllPodcastList}
+              />
+            }
+          />
+          <Route
+            path="/buyermaindashboard"
             element={
               <Dashboard
                 contacts={contacts}

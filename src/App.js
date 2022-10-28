@@ -10,6 +10,7 @@ import Chat from "./components/Chat/Chat";
 import { useSelector } from "react-redux";
 import SignUpPage from "./components/SignUpPage/SignUpPage";
 import { useLoadingWithRefresh } from "./hooks/useLoadingWithRefresh";
+import Buyerfrontpage from "./components/Dashboard/Buyerfrontpage.js";
 import {
   BrowserRouter,
   Routes,
@@ -198,6 +199,7 @@ function App() {
       <Toaster position="top-center" reverseOrder={false} duration={3000} />
       <BrowserRouter>
         <Routes>
+          <Route path="/u" element={<Buyerfrontpage />} />
           <Route path="/" element={<SignUpPage />} />
           <Route
             path="/login"

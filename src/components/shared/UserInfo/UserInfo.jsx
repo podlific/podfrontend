@@ -43,7 +43,7 @@ const UserInfo = ({ userInfo }) => {
       <div className="md:h-full  ">
             
           <div className="grid grid-rows-5 text-[18px] md:text-[25px] font-bold space-y-2 mt-2 ">
-            <div className="">
+            <div >
               Name : {userInfo?.name}
             </div>
             <div>

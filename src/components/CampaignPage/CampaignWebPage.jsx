@@ -159,7 +159,7 @@ const CampaignWebPage = ({
                   </span>
                 </div>
               </div>
-              <div className="hidden md:flex flex-col justify-center items-center md:p-6 md:pl-4 md:pr-4 lg:p-6  absolute right-0 rounded-md bg-[#FFFFFF] shadow-md shadow-zinc-800">
+              {/* <div className="hidden md:flex flex-col justify-center items-center md:p-6 md:pl-4 md:pr-4 lg:p-6  absolute right-0 rounded-md bg-[#FFFFFF] shadow-md shadow-zinc-800">
                 <div className="mb-1">
                   <img
                     className="w-6 bg-white "
@@ -170,7 +170,7 @@ const CampaignWebPage = ({
                 <span className="p- font-medium text-[#8e4dd0]">
                   Ad Product
                 </span>
-              </div>
+              </div> */}
             </div>
           </div>
 

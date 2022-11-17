@@ -5,7 +5,8 @@ import FooterWebPage from "../WebPage/FooterWebPage";
 import NavigationWebPage from "../WebPage/NavigationWebPage";
 import { FaUserTie } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
-
+import { EditText, EditTextarea } from 'react-edit-text';
+import 'react-edit-text/dist/index.css';
 
 
 const UserInfo = ({ userInfo }) => {
@@ -19,7 +20,7 @@ const UserInfo = ({ userInfo }) => {
       <div className="md:hidden">
         <NavigationMobile />
       </div>
-    <div className="ml-[10%] w-[80%] md:grid grid-cols-2 mt-[-5%]">
+    <div className="ml-[10%] w-[80%] md:grid grid-cols-2 mt-[1%]">
       <div className=" ">
         <img
               className=" rounded-full w-[45%] ml-[25%] "
@@ -40,9 +41,9 @@ const UserInfo = ({ userInfo }) => {
               </div>
            
       </div>
-      <div className="md:h-full  ">
+      <div className="md:h-full mb-[1%] ">
             
-          <div className="grid grid-rows-5 text-[18px] md:text-[25px] font-bold space-y-2 mt-2 ">
+          <div className="grid grid-rows-5 text-[18px] md:text-[23px] font-bold space-y-2 mt-2 ">
             <div >
               Name : {userInfo?.name}
             </div>
@@ -55,9 +56,18 @@ const UserInfo = ({ userInfo }) => {
             <div>
               Company Name : {userInfo?.companyname}
             </div>
-            <div>
+            {/* <div>
               Phone No. : {userInfo?.phoneno}
-            </div>
+            </div> */}
+              <div className="grid grid-cols-3 align-middle ">
+                <div className="mt-2 mb-1">Phone No. : </div>
+                <div className="grid col-span-2 w-fit ">
+                  <EditText showEditButton defaultValue={userInfo?.phoneno}/>
+                </div>
+      
+     
+    </div>
+
            
 
           </div>

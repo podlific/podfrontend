@@ -27,6 +27,7 @@
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-big-calendar": "^1.5.0",
+    "react-blink-text": "^1.0.5",
     "react-bootstrap": "^2.5.0",
     "react-calendar": "^3.7.0",
     "react-chartjs-2": "^4.3.1",

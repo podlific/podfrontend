@@ -11,6 +11,7 @@ import Chat from "./components/Chat/Chat";
 import { useSelector } from "react-redux";
 import SignUpPage from "./components/SignUpPage/SignUpPage";
 import { useLoadingWithRefresh } from "./hooks/useLoadingWithRefresh";
+import EditPodcast from "./components/FilterPage/EditPodcast";
 // import Buyerfrontpage from "./components/Dashboard/Buyerfrontpage.js";
 import {
   BrowserRouter,
@@ -335,6 +336,16 @@ function App() {
             path="/addnewpodcast"
             element={
               <SellerPodcastAddPage
+                userInfo={userInfo}
+                adminInfo={adminInfo}
+                overAllPodcastList={overAllPodcastList}
+              />
+            }
+          />
+          <Route
+            path="/editpodcast"
+            element={
+              <EditPodcast
                 userInfo={userInfo}
                 adminInfo={adminInfo}
                 overAllPodcastList={overAllPodcastList}

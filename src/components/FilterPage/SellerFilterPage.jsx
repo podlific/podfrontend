@@ -3,7 +3,7 @@ import FooterMobile from "../shared/Mobile/FooterMobile";
 import NavigationMobile from "../shared/Mobile/NavigationMobile";
 import FooterWebPage from "../shared/WebPage/FooterWebPage";
 import NavigationWebPage from "../shared/WebPage/NavigationWebPage";
-import PodcastWidget from "../shared/WebPage/PodcastWidget";
+import PodcastWidget from "./PodcastWidgets";
 import "react-multi-carousel/lib/styles.css";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -361,6 +361,9 @@ const SellerFilterPage = ({ userPodcast, adminInfo }) => {
                         podcastname={pod.podcastName}
                         image={pod.image}
                         tags={pod.tags}
+                        userPodcast={userPodcast}
+                        
+                        adminInfo={ adminInfo}
                       />
                     )
                   );
@@ -399,6 +402,8 @@ const SellerFilterPage = ({ userPodcast, adminInfo }) => {
                         podcastname={pod.podcastName}
                         image={pod.image}
                         tags={pod.tags}
+                        userPodcast={userPodcast}
+                        adminInfo={ adminInfo}
                       />
                     )
                   );

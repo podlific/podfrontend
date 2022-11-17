@@ -8517,6 +8517,11 @@ react-big-calendar@^1.5.0:
     react-overlays "^5.2.0"
     uncontrollable "^7.2.1"
 
+react-blink-text@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/react-blink-text/-/react-blink-text-1.0.5.tgz#8e7af0701d998ced0c0aafcbfa7f8e171b08ceb7"
+  integrity sha512-mcexEyw3lvIqONpW4Z17sENXuR0Zydv/kWaCSyM0wA2yyxjSzAnlfiljYNAS3CGN7JH849GCKDvJn1rFaIvzqQ==
+
 react-bootstrap@^2.5.0:
   version "2.5.0"
   resolved "https://registry.npmjs.org/react-bootstrap/-/react-bootstrap-2.5.0.tgz"

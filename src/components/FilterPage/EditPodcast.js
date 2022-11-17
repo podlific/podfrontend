@@ -15,9 +15,12 @@ import api from "../../config/axios";
 import toast from "react-hot-toast";
 import storage from "../../firebaseConfig";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { myTimeout } from "./addPodcastFunctions";
-import Blink from 'react-blink-text';
-const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
+// import { myTimeout } from "./addPodcastFunctions";
+import Blink from "react-blink-text";
+const EditPodcast = ({ userInfo, adminInfo, overAllPodcastList }) => {
+  // console.log(overAllPodcastList, "userinfo ok");
+  // console.log(userInfo, "userinfo ok1");
+
   let navigate = useNavigate();
   const user = useSelector((state) => state.activate.unique_id);
   const usertype = useSelector((state) => state.activate.usertype);
@@ -45,41 +48,12 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
   const [searchTag, setSearchTag] = useState("");
   const [tagSuggestionArray, setTagSuggestionArray] = useState([]);
   const [adminTags, setAdminTags] = useState([]);
-  const episodes = [
-    {
-      id: 1,
-      epi_no: "EP 01",
-      epi_name: "OVERCAST Name of Episode",
-      epi_duration: "23:45",
-    },
-    {
-      id: 2,
-      epi_no: "EP 01",
-      epi_name: "OVERCAST Name of Episode",
-      epi_duration: "23:45",
-    },
-    {
-      id: 3,
-      epi_no: "EP 01",
-      epi_name: "OVERCAST Name of Episode",
-      epi_duration: "23:45",
-    },
-    {
-      id: 4,
-      epi_no: "EP 01",
-      epi_name: "OVERCAST Name of Episode",
-      epi_duration: "23:45",
-    },
-    {
-      id: 5,
-      epi_no: "EP 01",
-      epi_name: "OVERCAST Name of Episode",
-      epi_duration: "23:45",
-    },
-  ];
-
+  const [Podcast, setPodcast] = useState([]);
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedpodcastdata, setselectedpodcastdata] = useState();
+  const [oldid, setOldid] = useState(null);
   const data = {
-    oldid:null,
+    oldid: oldid,
     image: link,
     sellerId: user.unique_id,
     sellerUserName: userName.username,
@@ -94,20 +68,21 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
     averageLTR: averageLTR,
     releaseFrequency: releaseFrequency,
   };
+
   const handleSubmit = async () => {
-    if (
-      podcastThumbnail === null ||
-      podcastName === "" ||
-      // episodeName === "" ||
-      description === ""
-      // averageListener === "NA" ||
-      // setAverageEpisodeLength === "NA" ||
-      // averageLTR === "NA" ||
-      // releaseFrequency === "NA"
-    ) {
-      toast.error("Fill all fields");
-      return;
-    }
+    // if (
+    //   podcastThumbnail === null ||
+    //   // podcastName === "" ||
+    //   // episodeName === "" ||
+    //   description === ""
+    //   // averageListener === "NA" ||
+    //   // setAverageEpisodeLength === "NA" ||
+    //   // averageLTR === "NA" ||
+    //   // releaseFrequency === "NA"
+    // ) {
+    //   toast.error("Fill all fields");
+    //   return;
+    // }
     const storageRef = ref(storage, `/files/${podcastThumbnail.name}`);
     const uploadTask = uploadBytesResumable(storageRef, podcastThumbnail);
     await uploadTask.on(
@@ -172,6 +147,28 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
       return () => URL.revokeObjectURL(objectUrl);
     }
   }, [podcastThumbnail]);
+  console.log(overAllPodcastList, "overAllPodcastList");
+  useEffect(() => {
+    let podcastname = [];
+    // console.log(adminInfo);
+    if (adminInfo !== null) {
+      for (let i = 0; i < overAllPodcastList.length; i++) {
+        if (overAllPodcastList[i].sellerId == userInfo.unique_id) {
+          podcastname.push({
+            value: overAllPodcastList[i].podcastName,
+            label: overAllPodcastList[i].podcastName,
+            id: overAllPodcastList[i].id,
+          });
+        }
+      }
+      // console.log(adminTag);
+      // setTags(adminTags);
+      setPodcast(podcastname);
+    }
+    // }, [adminInfo]);
+    // useEffect(() => {
+  }, [searchTag, adminInfo]);
+  // console.log(Podcast, "podcastName");
   useEffect(() => {
     let adminTag = [];
     // console.log(adminInfo);
@@ -179,7 +176,7 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
       for (let i = 0; i < adminInfo.tags.length; i++) {
         adminTag.push(adminInfo.tags[i].tagname);
       }
-      console.log(adminTag);
+      // console.log(adminTag);
       // setTags(adminTags);
       setAdminTags(adminTag);
     }
@@ -187,22 +184,36 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
     // useEffect(() => {
     if (searchTag === "") {
       setTagSuggestionArray(adminTag);
-      console.log(adminTags + "hello");
+      // console.log(adminTags + "hello");
     }
-    // var tempSuggestions = [];
-    // adminTag.forEach((element) => {
-    //   let x = element.toLowerCase();
-    //   x = x.search(searchTag.toLowerCase());
-    //   if (x !== -1) {
-    //     tempSuggestions = [...tempSuggestions, element];
-    //   }
-    // });
-    // console.log(tempSuggestions + "temp")
-    console.log(adminInfo + "abcde")
-    // setTagSuggestionArray(tempSuggestions);
   }, [searchTag, adminInfo]);
-  // console.log(tagSuggestionArray)
-  // console.log(adminTags)
+  useEffect(() => {
+    if (selectedOption !== null) {
+      for (var i = 0; i < overAllPodcastList.length; i++) {
+        if (selectedOption.id === overAllPodcastList[i].id) {
+          setOldid(overAllPodcastList[i].id);
+          setselectedpodcastdata(overAllPodcastList[i]);
+          setEpisdeName(overAllPodcastList[i].episodeName);
+          setDescription(overAllPodcastList[i].description);
+          // setDescription(overAllPodcastList[i]);
+          setTags(overAllPodcastList[i].tags);
+          setGroups(overAllPodcastList[i].groups);
+          setAverageListener(overAllPodcastList[i].averageListener);
+          setAverageEpisodeLength(overAllPodcastList[i].averageEpisodeLength);
+          setAverageLTR(overAllPodcastList[i].averageLTR);
+          setReleaseFrequency(overAllPodcastList[i].releaseFrequency);
+          setPodcastPreview(overAllPodcastList[i].image);
+          setShowImage(true);
+
+          setPodcastName(overAllPodcastList[i].podcastName);
+          break;
+          // console.log(overAllPodcastList[i], "selected podcast s");
+        }
+      }
+    }
+    console.log(selectedpodcastdata, "selected podcast detauls");
+  }, [selectedOption]);
+
   return (
     <div className="h-screen flex flex-col justify-between">
       <div className="hidden md:block">
@@ -221,13 +232,19 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
                 </span>
               </div>
               <div className="py-1 w-full">
-                <input
+                {/* <input
                   className=" w-full md:w-4/6 rounded-md bg-[#FBFBFB] border-[1px] border-[#D6E4EC] pl-3 p-1"
                   placeholder="Type Name "
                   value={podcastName}
                   onChange={(e) => setPodcastName(e.target.value)}
-                ></input>
+                ></input> */}
+                <Select
+                  defaultValue={selectedOption}
+                  onChange={setSelectedOption}
+                  options={Podcast}
+                />
               </div>
+              {console.log(selectedOption, "selectedoption")}
               <div className="py-1">
                 <span className="font-semibold text-[#343C44]">
                   Episode Name
@@ -319,7 +336,6 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
                   placeholder="Type Theme tag"
                   value={themeVal}
                   onChange={(e) => setThemeVal(e.target.value)}
-
                 />
               </div>
               <AiFillPlusSquare
@@ -359,7 +375,6 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
                 </div>
               </div>
             </div>
-
 
             <div className="w-full  pt-2 flex flex-row items-center md:justify-center">
               {/* <input
@@ -403,8 +418,6 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
                     })} */}
 
               <div className="overflow-hidden">
-
-
                 <div className="pt-1 pl-3 flex flex-row items-center md:justify-end ml-30">
                   {/* <in
                     className="rounded-md bg-[#FBFBFB] border-[1px] border-[#D6E4EC]  p-1 "
@@ -419,10 +432,8 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
                       setSearchTag("");
                     }}
                   /> */}
-
                 </div>
                 <div className="pt-1 pl-3 flex flex-row items-center md:justify-end ml-30">
-
                   <select
                     className="rounded-md bg-[#FBFBFB] border-[1px] border-[#D6E4EC]  p-1 "
                     // className={
@@ -433,28 +444,22 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
                       setSearchTag(e.target.value);
                       e.preventDefault();
                     }}
-
-
                   >
-                    <option >
-                      Select theme tag
-
-                    </option>
+                    <option>Select theme tag</option>
                     {tagSuggestionArray &&
                       tagSuggestionArray.map((item, index) => {
-
-                        return (<>
-
-                          <option
-                            onClick={() => {
-                              setTagVal(item);
-                              setShowTagSuggestions(false);
-                            }}
-                            key={index}
-                          >
-                            {item}
-                          </option>
-                        </>
+                        return (
+                          <>
+                            <option
+                              onClick={() => {
+                                setTagVal(item);
+                                setShowTagSuggestions(false);
+                              }}
+                              key={index}
+                            >
+                              {item}
+                            </option>
+                          </>
                         );
                       })}
                   </select>
@@ -469,15 +474,7 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
                     }}
                   />
                 </div>
-                <div>
-
-
-
-                </div>
-
-
-
-
+                <div></div>
               </div>
             </div>
           </div>
@@ -506,7 +503,6 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
               </div>
             </div>
             <div className=" pt-2 flex flex-row items-center md:justify-end">
-
               <div className="pt-1">
                 <input
                   className="rounded-md bg-[#FBFBFB] border-[1px] border-[#D6E4EC] pl-3 p-1"
@@ -533,20 +529,27 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
           <div className="flex flex-col md:flex-row justify-between w-full">
             <div className="flex flex-col p-3  ">
               <span className="md:text-sm font-semibold">
-                <div className="grid grid-cols-4"><div className="col-span-3 w-fit">Average Listeners</div><Blink color='red' text='*' fontSize='20' className="w-fit"></Blink></div>
-                 </span>
+                <div className="grid grid-cols-4">
+                  <div className="col-span-3 w-fit">Average Listeners</div>
+                  <Blink
+                    color="red"
+                    text="*"
+                    fontSize="20"
+                    className="w-fit"
+                  ></Blink>
+                </div>
+              </span>
               {/* <span className="md:text-2xl font-semibold">156,890</span> */}
-              
-               
-          <input
+
+              <input
                 className="w-32 h-8 p-2 mt-1 md:text-2xl text-center font-semibold outline-none border-b-2 border-gray-600"
                 type="text"
                 value={averageListener}
                 onChange={(e) => setAverageListener(e.target.value)}
                 name="average"
                 id="av"
-              /> 
-        
+              />
+
               <div className="flex flex-row md:text-sm items-center font-semibold">
                 <span>
                   <img className="" src="./icons/g4.png" alt="g4" />
@@ -563,8 +566,16 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
                 
               </span> */}
               <span className="md:text-sm font-semibold">
-                <div className="grid grid-cols-4"><div className="col-span-3 w-fit">Average Episode Length</div><Blink color='red' text='*' fontSize='30' className="w-fit"></Blink></div>
-                 </span>
+                <div className="grid grid-cols-4">
+                  <div className="col-span-3 w-fit">Average Episode Length</div>
+                  <Blink
+                    color="red"
+                    text="*"
+                    fontSize="30"
+                    className="w-fit"
+                  ></Blink>
+                </div>
+              </span>
               <input
                 className="w-36 h-8 p-2 mt-1 md:text-2xl text-center font-semibold outline-none border-b-2 border-gray-600"
                 type="text"
@@ -579,9 +590,17 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
             </div>
             <div className="flex flex-col p-3 xl:pr-7 xl:mr-6 lg:px-10">
               {/* <span className="md:text-sm font-semibold">Average LTR</span> */}
-             <span className="md:text-sm font-semibold">
-                <div className="grid grid-cols-2"><div>Average LTR</div><Blink color='red' text='*' fontSize='30' className="w-fit"></Blink></div>
-                 </span>
+              <span className="md:text-sm font-semibold">
+                <div className="grid grid-cols-2">
+                  <div>Average LTR</div>
+                  <Blink
+                    color="red"
+                    text="*"
+                    fontSize="30"
+                    className="w-fit"
+                  ></Blink>
+                </div>
+              </span>
               <input
                 className="w-36 h-8 p-2 mt-1 md:text-2xl text-center font-semibold outline-none border-b-2 border-gray-600"
                 type="text"
@@ -596,8 +615,16 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
             </div>
             <div className="flex flex-col p-3 xl:pr-16 lg:px-10">
               <span className="md:text-sm font-semibold">
-                <div className="grid grid-cols-2"><div>Release Frequency</div><Blink color='red' text='*' fontSize='30' className="w-fit"></Blink></div>
-                 </span>
+                <div className="grid grid-cols-2">
+                  <div>Release Frequency</div>
+                  <Blink
+                    color="red"
+                    text="*"
+                    fontSize="30"
+                    className="w-fit"
+                  ></Blink>
+                </div>
+              </span>
               {/* <span className="md:text-sm font-semibold ">
                 Release Frequency
               </span> */}
@@ -657,4 +684,4 @@ const SellerPodcastAddPage = ({ userInfo, adminInfo }) => {
   );
 };
 
-export default SellerPodcastAddPage;
+export default EditPodcast;

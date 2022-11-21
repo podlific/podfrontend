@@ -176,7 +176,7 @@ const CampaignWebPage = ({
 
           <div className="flex flex-col md:flex-row justify-center mt-5 ">
             <div className="flex flex-col md:flex-row  p-2 md:w-[95%] lg:w-[75%] xl:w-[70%] relative">
-              <div className="w-full md:w-2/3  p-2 shadow-md shadow-zinc-900 rounded-lg">
+              {/* <div className="w-full md:w-2/3  p-2 shadow-md shadow-zinc-900 rounded-lg">
                 <div className="flex flex-row p-2">
                   <MdGroups size={22} />
                   <span className="ml-2 font-semibold text-[#343C44]">
@@ -196,8 +196,8 @@ const CampaignWebPage = ({
                       );
                     })}
                 </div>
-              </div>
-              <div className="w-full md:w-2/4 md:mx-3 p-2 shadow-md shadow-zinc-900 rounded-lg">
+              </div> */}
+              {/* <div className="w-full md:w-2/4 md:mx-3 p-2 shadow-md shadow-zinc-900 rounded-lg">
                 <div className="flex flex-row p-2">
                   <HiPhotograph size={22} />
                   <span className="ml-2 font-semibold text-[#343C44]">
@@ -217,8 +217,8 @@ const CampaignWebPage = ({
                       );
                     })}
                 </div>
-              </div>
-              <div className="w-full md:w-1/3 p-2 shadow-md shadow-zinc-900 rounded-lg">
+              </div> */}
+              <div className="w-full  p-2 shadow-md shadow-zinc-900 rounded-lg">
                 <div className="flex flex-row p-2">
                   <ImPriceTags size={22} />
                   <span className="ml-2 font-semibold text-[#343C44]">
@@ -244,7 +244,7 @@ const CampaignWebPage = ({
         </div>
       </div>
 
-      <div className="hidden md:flex md:flex-col md:visible  justify-end  ">
+      <div className="hidden md:flex md:flex-col md:visible  justify-end   bottom-0 ">
         <FooterWebPage />
       </div>
       <div className="  md:hidden  ">

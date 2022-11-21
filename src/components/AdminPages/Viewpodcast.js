@@ -119,7 +119,7 @@ export default function Viewpodcast({ data }) {
 
           <div className=" flex flex-col md:flex-row justify-center mt-5  ">
             <div className="flex flex-col md:flex-row  p-2 md:w-[95%] relative">
-              <div className="hidden w-full md:w-2/3  p-2 shadow-md shadow-zinc-900 rounded-lg">
+              {/* <div className="hidden w-full md:w-2/3  p-2 shadow-md shadow-zinc-900 rounded-lg">
                 <div className="flex flex-row p-2">
                   <MdGroups size={22} />
                   <span className="ml-2 font-semibold text-[#343C44]">
@@ -138,9 +138,9 @@ export default function Viewpodcast({ data }) {
                         </span>
                       );
                     })}
-                </div>
-              </div>
-              <div className="w-full md:w-2/4 md:mx-3 p-2 shadow-md shadow-zinc-900  hidden rounded-lg">
+                </div> */}
+              {/* </div> */}
+              {/* <div className="w-full md:w-2/4 md:mx-3 p-2 shadow-md shadow-zinc-900  hidden rounded-lg">
                 <div className="flex flex-row p-2">
                   <HiPhotograph size={22} />
                   <span className="ml-2 font-semibold text-[#343C44]">
@@ -160,7 +160,7 @@ export default function Viewpodcast({ data }) {
                       );
                     })}
                 </div>
-              </div>
+              </div> */}
               <div className="w-full  p-2 shadow-md shadow-zinc-900 rounded-lg">
                 <div className="flex flex-row p-2">
                   <ImPriceTags size={22} />
